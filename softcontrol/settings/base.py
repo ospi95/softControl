@@ -23,18 +23,24 @@ BASE_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+
+
 ]
 
 LOCAL_APPS = [
-    'apps.alarma',
-]
 
+    'apps.Alarma',
+
+]
 THIRD_APPS = [
 
+
+
+
 ]
 
-
-INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
+INSTALLED_APPS = BASE_APPS+LOCAL_APPS+THIRD_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,8 +76,6 @@ WSGI_APPLICATION = 'softcontrol.wsgi.application'
 # Database
 
 
-
-
 # Password validation
 
 
@@ -92,7 +96,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/4.0/topics/i18n/
+
 
 LANGUAGE_CODE = 'en-us'
 
