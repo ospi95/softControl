@@ -6,5 +6,5 @@ from.views import *
 app_name = "alarma"
 
 urlpatterns = [
-    
+    path('/home', home.as_view(), name='home'),
 ]
