@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/styles2.css' %}" type="text/css"/>
+</head>
+
+<body>
+<!-- Cabecera -->
+<div class="back">
+    <nav class="menu">
+        <ul class="menu-horizontal">
+            <li><a href="">Configurar</a>
+                <ul>
+                    <li><a href="">Conectar/Desconectar</a></li>
+                    <li><a href="">Tipo de Control</a></li>
+                </ul>
+            </li>
+
+            <li><a href="">Datos</a>
+                <ul>
+                    <li><a href="">Exportar a Excel</a></li>
+                </ul>
+            </li>
+
+            <li><a href="">Ver</a>
+                <ul>
+                    <li><a href="">Reporte Mantenimiento</a></li>
+                    <li><a href="">Manual Controlador MC5X38</a></li>
+                </ul>
+            </li>
+
+            <li><a href="">Ayuda</a>
+                <ul>
+                    <li><a href="">Manual de Usuario</a></li>
+                    <li><a href="../Ayuda/Acercade">Acerca De</a></li>
+                </ul>
+            </li>
+
+        </ul>
+    </nav>
+</div>
+
+
+<!-- Contenido cambiante -->
+<div class="configuracion">
+{% block content %} {% endblock %}
+</div>
+
+<!-- Pie -->
+<div class="pie">
+    <div class="pie-box">
+        <form name="frmPie">
+            <tr>
+                <button class="send">MONITOR</button></td>
+                <button class="send">GRAFICA</button></td>
+                <button class="send">ALARMA</button></td>
+                <button class="send">PROCESO</button></td>
+            </tr>
+        </form>
+    </div>
+</div>
+</body>
+</html>
