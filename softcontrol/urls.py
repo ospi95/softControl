@@ -23,9 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Home.as_view(), name='home'),
     path('Alarma/', include('apps.Alarma.urls'), name='alarma'),
-    #path('Archivo/', include('apps.Archivo.urls'), name='archivo'),
+    path('Archivo/', include('apps.Archivo.urls'), name='archivo'),
     path('Ayuda/', include('apps.Ayuda.urls'), name='ayuda'),
-    #path('Comunicacion/', include('apps.Comunicacion.urls'), name='comunicacion'),
-    #path('Controlador/', include('apps.Controlador.urls'), name='controlador'),
+    path('Comunicacion/', include('apps.Comunicacion.urls'), name='comunicacion'),
+    path('Controlador/', include('apps.Controlador.urls'), name='controlador'),
     path('Monitor/', include('apps.Monitor.urls'), name='monitor'),
 ]
