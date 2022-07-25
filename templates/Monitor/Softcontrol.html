@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %} SoftControl 2.0 {% endblock %}
+
+{% block content %}
+    <form name="frmConfigurar" method="POST" action="">
+        <h1>Configurar comunicación SoftControl</h1>
+        <h3>Favor ajustar los siguientes parámetro de comunicación</h3>
+
+        <h4>Controladores</h4>
+            <table class="controlador">
+              <td><input type="radio" name="opcControl" value="C1"/>Control 1</td>
+              <td><label><input type="radio" name="opcControl" value="C2"/>Control 2</label></td>
+              <td><label><input type="radio" name="opcControl" value="C3" checked/>Ambos</label></td>
+            </table>
+
+
+        <h4>Puerto</h4>
+            <table class="controlador">
+              <input list="puerto" name="myBrowser" /></label>
+                <datalist id="puerto">
+                  <option value="COM">
+                  <option value="ETHERNET">
+                </datalist>
+            </table>
+
+
+        <h4>Velocidad</h4>
+            <table class="velocidad">
+              <td><input type="radio" name="opcVelocidad" value="2400"/>2400</td>
+              <td><input type="radio" name="opcVelocidad" value="4800"/>4800</td>
+              <td><input type="radio" name="opcVelocidad" value="9600" checked/>9600</td>
+              <td><input type="radio" name="opcVelocidad" value="19200"/>19200</td>
+              <td><input type="radio" name="opcVelocidad" value="38400"/>38400</td>
+             </table>
+
+        <p>&nbsp;</p>
+
+        <button class="send" type="submit">Conectar</button>
+    </form>
+{% endblock %}
