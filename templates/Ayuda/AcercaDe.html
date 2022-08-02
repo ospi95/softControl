@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Acerca de</h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %} SoftControl 2.0 - Acerca de{% endblock %}
+
+{% block content %}
+
+    <h1>
+        SOFTWARE DE ADQUISICIÓN, REGISTRO, ALARMA Y REDISTRIBUCIÓNDE DATOS PARA
+        <br>UN SISTEMA DE CONTROL EMPLEANDO CONTROLADORES MAXTHERMO CON
+        <br>MÓDULO DE COMUNICACIÓN RS-485 Y PROTOCOLO MODBUS RTU
+        <br>Version 2.0 - Septiembre 2022
+    </h1>
+
+    <h3>
+        Realizado por el alumno de Ingeniería Química de la Universidad de Antioquia:
+        <br>
+        <br>Mateo Ospina Cardona, mateo.ospinac@udea.edu.co
+        <br>
+        <br>Con la asesoría de los profesores:
+        <br>
+        <br>Milton Jhovany Mejía Ospina, milton.mejia@udea.edu.co
+        <br>Silvia Mercedes Ochoa Caceres, silvia.ochoa@udea.edu.co
+    </h3>
+
+{% endblock %}

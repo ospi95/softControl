@@ -5,5 +5,8 @@ from django.views.generic import TemplateView
 class Home(TemplateView):
     template_name='Home.html'
 
-class Monitor(TemplateView):
+class Principal(TemplateView):
     template_name='Softcontrol.html'
+
+class Monitor(TemplateView):
+    template_name = 'Monitor.html'

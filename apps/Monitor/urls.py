@@ -4,6 +4,7 @@ from apps.Monitor.views import *
 
 
 urlpatterns = [
-    path('', Monitor.as_view(), name='monitor'),
+    path('', Principal.as_view(), name='principal'),
+    path('Monitor/', Monitor.as_view(), name='monitor')
 
 ]

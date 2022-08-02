@@ -17,28 +17,28 @@
         <ul class="menu-horizontal">
             <li><a href="">Configurar</a>
                 <ul>
-                    <li><a href="">Conectar/Desconectar</a></li>
-                    <li><a href="">Tipo de Control</a></li>
+                    <li><a href="../../Monitor">Conectar/Desconectar</a></li>
+                    <li><a href="../../Controlador/TipoControl">Tipo de Control</a></li>
                 </ul>
             </li>
 
             <li><a href="">Datos</a>
                 <ul>
-                    <li><a href="">Exportar a Excel</a></li>
+                    <li><a href="../../Archivo/Exportar">Exportar a Excel</a></li>
                 </ul>
             </li>
 
             <li><a href="">Ver</a>
                 <ul>
                     <li><a href="">Reporte Mantenimiento</a></li>
-                    <li><a href="../Ayuda/Manual_Controlador">Manual Controlador MC5X38</a></li>
+                    <li><a href="../../Ayuda/Manual_Controlador">Manual Controlador MC5X38</a></li>
                 </ul>
             </li>
 
             <li><a href="">Ayuda</a>
                 <ul>
-                    <li><a href="../Ayuda/Manual_Usuario">Manual de Usuario</a></li>
-                    <li><a href="../Ayuda/Acercade">Acerca De</a></li>
+                    <li><a href="../../Ayuda/Manual_Usuario">Manual de Usuario</a></li>
+                    <li><a href="../../Ayuda/Acercade">Acerca De</a></li>
                 </ul>
             </li>
 
@@ -55,14 +55,12 @@
 <!-- Pie -->
 <div class="pie">
     <div class="pie-box">
-        <form name="frmPie">
-            <tr>
-                <button class="send">MONITOR</button></td>
-                <button class="send">GRAFICA</button></td>
-                <button class="send">ALARMA</button></td>
-                <button class="send">PROCESO</button></td>
-            </tr>
-        </form>
+        <tr>
+            <button class="send" onclick="location.href='../../Monitor/Monitor'">MONITOR</button></td>
+            <button class="send" onclick="location.href='../../Monitor'">GRAFICA</button></td>
+            <button class="send" onclick="location.href='../../Alarma/Evento'">ALARMA</button></td>
+            <button class="send" onclick="location.href='../../Controlador/Proceso'">PROCESO</button></td>
+        </tr>
     </div>
 </div>
 </body>

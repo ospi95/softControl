@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>No Conectado</h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %} SoftControl 2.0 - No Conectado{% endblock %}
+
+{% block content %}
+
+    <h1>No Conectado</h1>
+    <h3>Acepte para ir a la pantalla principal y volver a intentarlo</h3>
+
+    <button class="send" onclick="location.href='../../Monitor'">Aceptar</button>
+
+{% endblock %}
