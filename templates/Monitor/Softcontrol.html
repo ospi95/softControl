@@ -3,7 +3,10 @@
 {% block title %} SoftControl 2.0 {% endblock %}
 
 {% block content %}
-    <form name="frmConfigurar" method="POST" action="">
+
+
+    <form name="frmConfigurar" method="POST">
+        {% csrf_token %}
         <h1>Configurar comunicación SoftControl</h1>
         <h3>Favor ajustar los siguientes parámetro de comunicación</h3>
 

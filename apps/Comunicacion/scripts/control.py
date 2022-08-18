@@ -1,10 +1,10 @@
 from apps.Controlador.scripts.registro import *
 from apps.Alarma.scripts.alarma import *
 import threading, json
+import sys
 
 
 class Control:
-
     datoF = Registro()
     #lc = LeerControlado()
     # hay que crear la clase en Controlador, esta parte seria el script que se necesita de comunicacion
@@ -33,12 +33,7 @@ class Control:
     @staticmethod
     def read(puerto, vel, id1, id2, request):
         sesion = request.session
-        while int(sesion['hiloParado']) == 0:
-            Control.stopthreads(sesion)
-
         sesion['threadRead'] = 1
-        sesion['hiloParado'] = 0
-        thread = threading.Thread(target=Control.read().run())
 
         def run():
             while int(sesion['threadRead']) == 1:
@@ -76,18 +71,18 @@ class Control:
                 if int(sesion['threadRead']) == 1:
                     sesion['salvando'] = 'En lectura...'
 
+                sesion['threadRead'] = 0
             sesion['hiloParado'] = 1
 
-        thread.setName('reader')
-        thread.start()
+        run()
 
     @staticmethod
     def write(puerto, vel, id1, id2, request):
         sesion = request.session
-        while int(sesion['hiloParado']) == 0:
+        if int(sesion['hiloParado']) == 0:
             Control.stopthreads(sesion)
 
-        sesion['threadRead'] = 1
+        sesion['threadWrite'] = 1
         sesion['hiloParado'] = 0
         thread = threading.Thread(target=Control.write().run())
 
@@ -236,24 +231,3 @@ class Control:
 
             thread.setName('events')
             thread.start()
-
-    @staticmethod
-    def stopthread(threadname, sesion):
-        if threadname == 'reader':
-            sesion['threadRead'] = 0
-        elif threadname == 'writer':
-            sesion['threadWrite'] = 0
-        elif threadname == 'events':
-            sesion['threadEvents'] = 0
-            sesion['salvando'] = ''
-
-    @staticmethod
-    def stopthreads(sesion):
-        Control.stopthread('writer', sesion)
-        Control.stopthread('reader', sesion)
-
-    @staticmethod
-    def stopallthreads(sesion):
-        Control.stopthread('writer', sesion)
-        Control.stopthread('reader', sesion)
-        Control.stopthread('events', sesion)
