@@ -1,18 +1,21 @@
 from apps.Comunicacion.scripts.control import *
 from apps.Alarma.scripts.alarma import *
-import sys
+from apps.Comunicacion.scripts.administrarpuerto import *
+from apps.Controlador.scripts.leercontrolador import *
+
 
 def conectar(request):
     sesion = request.session
-    sys.setrecursionlimit(5000)
     ctr = Control()
     alarma = Alarma()
+    adminpuertos = AdministrarPuerto()
+    leercontrol = Leercontrolador()
 
     controlador = sesion['controlador']
     puerto = str(sesion['puerto'])
     vel = int(sesion['velocidad'])
-    #linea para administar puerto
-    numeroControles = 99
+    adminpuertos.abrirPuerto(puerto, vel, request)
+    numeroControles = 0
     sesion['controlador1'] = 999
     sesion['controlador2'] = 999
     id1 = 999
@@ -20,7 +23,7 @@ def conectar(request):
 
     if int(sesion['controlarLecturaPuerto']) == 1:
         sesion['controlarLecturaPuerto'] = 0
-        #linea de leer controaldores
+        leercontrol.leerControladores(puerto, vel, id1, id2, request)
 
         if controlador == 'C1' or controlador == 'C3':
             if int(sesion['controlador1']) == 1:
@@ -46,4 +49,5 @@ def conectar(request):
 
     sesion['numeroControles'] = numeroControles
 
+    return()
 

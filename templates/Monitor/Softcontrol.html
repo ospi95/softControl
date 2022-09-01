@@ -19,12 +19,12 @@
 
 
         <h4>Puerto</h4>
-            <table class="controlador">
-              <input list="puerto" name="myBrowser" /></label>
-                <datalist id="puerto">
-                  <option value="COM">
-                  <option value="ETHERNET">
-                </datalist>
+            <table class="controlador"><select name="opcPuerto" style="width:70px">
+                    {% for val in puertos %}
+                        <option value={{ val }}>{{ val }}</option>
+                    {% endfor %}
+                </select>
+
             </table>
 
 

@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configurar Usuario</title>
+    <link rel="stylesheet" href="{% static 'css/menu2.css' %}" type="text/css"/>
+</head>
+<body>
+    <form  name="frmUsuario" method="POST" action="">
+        <div class="back">
+            <nav class="menu">
+                <ul class="menu-horizontal">
+                    <li><a class="active" href="../../Monitor/Usuario">Usuario</a></li>
+                    <li><a href="../../Monitor/Usuario">Control</a></li>
+                    <li><a href="../../Monitor/Usuario">Salida</a></li>
+                    <li><a href="../../Monitor/Usuario">Entrada</a></li>
+                    <li><a href="../../Monitor/Usuario">Comunicacion</a></li>
+                    <li><a href="../../Monitor/Usuario">Programa</a></li>
+                    <li><a href="../../Monitor/Usuario">Hide</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="datos">
+            <h4>Controlador {{ controlador }}</h4>
+            <div class="param">
+                <label class="labelparam">Parámetro:</label>
+                <select class="parametro" name="parametro">
+                    <option value=2>SV</option>
+                    <option value=256>PV</option>
+                    <option value=3>OutL</option>
+                    <option value=4>At</option>
+                    <option value=5>mAn</option>
+                    <option value=6>AL1S</option>
+                    <option value=7>AL1L</option>
+                    <option value=8>AL1U</option>
+                    <option value=9>AL2S</option>
+                    <option value=10>AL2L</option>
+                    <option value=11>AL2U</option>
+                    <option value=12>AL3S</option>
+                    <option value=13>AL3L</option>
+                    <option value=14>AL3U</option>
+                    <option value=15>SOAK</option>
+                    <option value=16>rAmP</option>
+                    <option value=17>PvoF</option>
+                    <option value=18>Pvrr</option>
+                    <option value=19>SvoF</option>
+                    <option value=24>rPtm</option>
+                </select>
+
+                <label class="labelvalor">Valor:</label>
+                <input type="text" class="valor" name="valor" value="">
+            </div>
+
+            <div class="info">
+                <textarea class="textdesc" name="textDescription" id="textDescription"readonly></textarea>
+            </div>
+
+            <div class="botons">
+                <button class="send" type="submit">Escribir</button>
+                <button class="send" onClick="javascript:window.close();">Salir</button>
+                <input name="LoSP" type="hidden" id="LoSP" value="<%=losp%>">
+                <input name="HiSP" type="hidden" id="HiSP" value="<%=hisp%>">
+            </div>
+
+        </div>
+    </form>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script type="application/javascript">
+        var $ = jQuery.noConflict()
+        var losp = document.getElementById("LoSP").getAttribute("value")
+        var hisp = document.getElementById("HiSP").getAttribute("value")
+        let textoArea = document.querySelector(".textdesc");
+        let opciones = document.querySelector(".parametro");
+        const descripcion = [];
+
+        descripcion[0] = "";
+        descripcion[2] = "Descripción: Punto de consigna. \nRango: "+ losp + "~" + hisp;
+        descripcion[256] = "Descripción: Variable de entrada.\nRango: solo de lectura";
+        descripcion[3] = "Descripción: Porcentaje de salida.\nRango: 0.0 - 100.0 %";
+        descripcion[4] = "Descripción: Auto sintonía.\nRango: no / yes.\nNota: Para enviar el dato al controlador escriba 0 si va a desactivar la auto sintonía ó 1 si la va a activar"
+        descripcion[5] = "Descripción: Manual.\nRango: No = Automático, Man1 = Con memoria en falla de energía,      Man2 = Sin memoria.\nNota: Para enviar el dato al controlador escriba 0 si va a trabajar en automático, 1 si va a trabajar en modo manual Man1 ó 2 si va a trabajar en modo manual Man2."
+        descripcion[6] = "Descripción: Valor ajustado para la alarma 1.\nRango: si AL1F está en 1 ó 2 rango= -200~200, si AL1F está en 3 ó 4 rango= LOSP~HISP si AL1F está en 10 rang0= 1-8 fin de segmento\nRango Actual:" + losp + "~" + hisp;
+        descripcion[7] = "Descripción: Valor más bajo ajustado para la alarma 1.\nRango: 0.0 - 200.0"
+        descripcion[8] = "Descripción: Valor más alto ajustado para la alarma 1.\nRango: 0.0 - 200.0"
+        descripcion[9] = "Descripción: Valor ajustado para la alarma 2.\nRango: si AL2F está en 1 ó 2 rango= -200.0~200.0, si AL2F está en 3 ó 4 rango= LOSP~HISP, si AL2F está en 10 rang0= 1-8 fin de segmento.\nRango Actual:" + losp + "~" + hisp;
+        descripcion[10] = "Descripción: Valor más bajo ajustado para la alarma 2.\nRango: 0.0 - 200.0"
+        descripcion[11] = "Descripción: Valor más alto ajustado para la alarma 2.\nRango: 0.0 - 200.0";
+        descripcion[12] = "Descripción: Valor ajustado para la alarma 3.\nRango: si AL3F está en 1 ó 2 rango= -200.0~200.0, si AL3F está en 3 ó 4 rango= LOSP~HISP, si AL3F está en 10 rang0= 1-8 fin de segmento\nRango Actual:" + losp + "~" + hisp;
+        descripcion[13] = "Descripción: Valor más bajo ajustado para la alarma 3.\nRango: 0.0 - 200.0"
+        descripcion[14] = "Descripción: Valor más alto ajustado para la alarma 3.\nRango: 0.0 - 200.0"
+        descripcion[15] = "Descripción: Sostenido, opera solo cuando AL1M está en 8 ó 9, y el controlador no tiene función de programa; si AL1M está en 8, entonces AL1 cambia a función de sostenido y la salida será normalmente abierta; si AL1M está en 9, entonces AL1 cambia a función de sostenido y la salida será normalmente cerrada.\nRango: 0.00~99.59 (h.m)"
+        descripcion[16] = "Descripción: Rampa. Ajusta el valor de los incrementos o decrementos deseados para el PV si el controlador opera sin  función de programa. Por ejemplo: si rAmP se ajusta en 10, entonces el PV se incrementara en 10 por minuto, pero si el PV es mayor que el SV, entonces el PV caerá 10 por minuto.\nRango: 0.0~200.0/m";
+        descripcion[17] = "Descripción: Desviación del PV, Esto es para ajustar cuando PV no corrige al SV, Entonces puede ajustarlo con (+) ó (-).\nRango: -200.0~200"
+        descripcion[18] = "Descripción: Pv Ratio, Este es para ajustar a que el PV sea más preciso. La formula es PV (actual) = PV (previo) X Pvrr + PVOF.\nRango: 0.001~9.999  PV*Pvrr"
+        descripcion[19] = "Descripción: Desviación del SV, Esto es para ajustar cuando SV no corrige al PV, Entonces puede ajustarlo con (+) ó (-).\nRango: -200.0~200.0"
+        descripcion[24] = "Descripción: Muestra el número de veces que se ha repetido un programa, solo cuando el controlador esta en rampas y sostenido.\nRango: 1~1000"
+
+        document.getElementById("textDescription").value = descripcion[2];
+        opciones.addEventListener("change", (event) => {
+            let opcion = event.target.value
+            document.getElementById("textDescription").value = descripcion[opcion];
+
+            function datos() {
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                    'opcion': opcion
+                    },
+                    dataType: 'json',
+                    success: function (response){
+                        $(".valor").val(response['valor']);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                }).done(function (data) {
+
+                });
+            }
+            $(document).ready(function (){
+                 datos();
+            });
+        });
+
+    </script>
+
+
+</body>
+</html>

@@ -3,6 +3,10 @@ from apps.Comunicacion.scripts.controlencoder import *
 from apps.Alarma.scripts.alarma import *
 from apps.Controlador.scripts.registro import *
 from apps.Controlador.scripts.registroenconder import *
+from apps.Controlador.scripts.controladores import *
+from apps.Controlador.scripts.controladoresencoder import *
+from apps.Comunicacion.scripts.administrarpuerto import *
+from apps.Controlador.scripts.leercontrolador import *
 import json
 
 
@@ -11,29 +15,24 @@ def configurar(request):
     sesion['controlarLectura'] = 1
 
     if sesion['salvando'] != '':
-        while int(sesion['hiloParado']) == 0:
-            Control().stopallthreads(sesion)
-
-        # administrarpuerto codigo para cerrar el puerto
+        AdministrarPuerto.cerrarPuerto(request)
 
         datof = Registro()
         alarma = Alarma()
         alarma.setAlarma(0, datof.getFechaHora(), 0, 'Fin', 'Desconectado', 0, 0)
         alarma.ingresarRegistro()
 
-    # adminpuerto = AdministrarPuerto
     ctr = Control()
     dato = Registro()
-    # controles = Controladores()
-    # lc = LeerControlador()
+    controles = Controladores()
+    lc = Leercontrolador()
 
     sesion['threadRead'] = 0
     sesion['threadWrite'] = 0
     sesion['threadEvents'] = 0
-    # sesion['administrarPuerto'] = adminpuerto
     sesion['control'] = json.dumps(ctr, default=controlEncoder)
     sesion['registro'] = json.dumps(dato, default=registroEncoder)
-    # sesion['controles'] = controles
+    sesion['controles'] = json.dumps(controles, default=controladoresEncoder)
     # sesion['leer'] = lc
     sesion['curvas'] = ''
     sesion['cont'] = ''

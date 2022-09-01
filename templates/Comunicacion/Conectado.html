@@ -4,9 +4,13 @@
 
 {% block content %}
 
-    <h1>Conectado</h1>
-    <h3>Acepte para ir a la pantalla principal</h3>
+    <form name="frmConectado" method="POST">
+        {% csrf_token %}
+        <h1>Conectado</h1>
+        <h3>Se han conectado a los controladores</h3>
+        <h3>Acepte para ir a la pantalla principal</h3>
 
-    <button class="send" onclick="location.href='../../Monitor'">Aceptar</button>
+        <button class="send" type="submit">Aceptar</button>
+    </form>
 
 {% endblock %}

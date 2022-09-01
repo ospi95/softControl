@@ -1,9 +1,14 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from apps.Monitor.scripts.configurar import *
 from apps.Comunicacion.views import *
+from apps.Comunicacion.scripts.buscarpuertos import *
+from apps.Monitor.scripts.usuario import *
+from apps.Monitor.scripts.escribircontrol import *
 
 
 import jsonpickle
@@ -48,16 +53,79 @@ class Principal(TemplateView):
             configurar(request)
             sesion['sesion'] = 1
 
-        return render(request, self.template_name)
+        puertos = buscarPuertos()
+
+        data = {
+            'puertos': puertos
+        }
+
+        return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
         sesion = request.session
-        sesion['puerto'] = request.POST['myBrowser']
+        sesion['puerto'] = request.POST['opcPuerto']
         sesion['velocidad'] = request.POST['opcVelocidad']
         sesion['controlador'] = request.POST['opcControl']
 
         return HttpResponseRedirect(self.success_url)
 
-
+#Vista de los controladores donde se ve el SV y PV, y asi mismo se puede entrar a la configuracion de ellos
 class Monitor(TemplateView):
     template_name = 'Monitor.html'
+
+    def get(self, request, *args, **kwargs):
+        sesion = request.session
+
+        data = {
+            'controlador1': 1,
+            'controlador2': 2
+        }
+
+        return render(request, self.template_name, data)
+
+    def post(self, request, *args, **kwargs):
+        sesion = request.session
+
+        if 'configcon1' in request.POST:
+            sesion['configcon'] = 1
+        elif 'configcon2' in request.POST:
+            sesion['configcon'] = 2
+
+        return render(request, self.template_name)
+
+#Vista del nivel del controlador de usuarios para configurar los parametros de este nivel
+class Usuario(TemplateView):
+    template_name = 'Usuario.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        sesion = request.session
+        data = {
+            'controlador': sesion['configcon']
+        }
+
+        return render(request, self.template_name, data)
+
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            dir1 = int(request.POST['opcion'])
+            valor = validarUsuario(request, dir1)
+            lista = {
+                'valor': valor[0],
+                'losp': valor[1],
+                'hisp': valor[2]
+            }
+            data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        else:
+            direccion = int(request.POST['parametro'])
+            escribirControl(request, direccion)
+            return render(request, self.template_name)
+

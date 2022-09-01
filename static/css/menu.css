@@ -108,7 +108,6 @@
   position:fixed;
   top:120px;
   text-align:center;
-
 }
 
 .configuracion h1 {
@@ -116,7 +115,6 @@
   font-weight:600;
   text-transform:uppercase;
   text-decoration:none;
-  color: #128003;
   margin:0 15px;
   letter-spacing:1px;
   position:relative;
@@ -132,7 +130,7 @@
   text-transform:uppercase;
   text-decoration:none;
   margin-top: 25px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   color: #128003;
 }
 

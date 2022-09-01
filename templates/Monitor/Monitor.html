@@ -1,11 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h1>Monitor</h1>
-</body>
-</html>
+{% block title %} SoftControl 2.0 - Monitor{% endblock %}
+
+{% block content %}
+    <form name="frmMonitor" method="POST">
+        {% csrf_token %}
+        <div class="containermonitor">
+            <section class="columna1">
+                <h1>Controlador 1</h1>
+                <h4>PV</h4>
+                <input class="valores" name="PV1" value="4.29" size="10" maxlength="10" disabled>
+
+                <h4>SV</h4>
+                <input class="valores" name="SV1" value="16" size="10" maxlength="10" disabled>
+
+                <h4>OUT(%)</h4>
+                <input class="valores" name="OUT1" value="100" size="10" maxlength="10" disabled>
+
+                <section class="manual">
+                    <h1>MANUAL</h1>
+                    <button class="btnmanual" name="botonmanual" disabled></button>
+                </section>
+
+                <section class="alarma">
+                    <h1>ALARMA</h1>
+                    <button class="btnalarma" name="botonalarma" disabled></button>
+                </section>
+
+                <button class="configcon" type="submit" name="configcon1" onclick="javascript:window.open(location.href='../../Monitor/Usuario','','width=800,height=300,left=100,top=100,toolbar=yes');");">Configurar</button>
+            </section>
+
+
+            <section class="columna2">
+                <h1>Controlador 2</h1>
+                <h4>PV</h4>
+                <input class="valores" name="PV1" value="4.29" size="10" maxlength="10" disabled>
+
+                <h4>SV</h4>
+                <input class="valores" name="SV1" value="16" size="10" maxlength="10" disabled>
+
+                <h4>OUT(%)</h4>
+                <input class="valores" name="OUT1" value="100" size="10" maxlength="10" disabled>
+
+                <section class="manual">
+                    <h1>MANUAL</h1>
+                    <button class="btnmanual" name="botonmanual" disabled></button>
+                </section>
+
+                <section class="alarma">
+                    <h1>ALARMA</h1>
+                    <button class="btnalarma" name="botonalarma" disabled></button>
+                </section>
+
+                <button class="configcon" type="submit" name="configcon2" onclick="javascript:window.open(location.href='../../Monitor/Usuario','','width=800,height=300,left=50,top=50,toolbar=yes');">Configurar</button>
+            </section>
+        </div>
+    </form>
+
+{% endblock %}

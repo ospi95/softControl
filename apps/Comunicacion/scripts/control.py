@@ -1,7 +1,6 @@
 from apps.Controlador.scripts.registro import *
 from apps.Alarma.scripts.alarma import *
-import threading, json
-import sys
+import json
 
 
 class Control:
@@ -79,12 +78,9 @@ class Control:
     @staticmethod
     def write(puerto, vel, id1, id2, request):
         sesion = request.session
-        if int(sesion['hiloParado']) == 0:
-            Control.stopthreads(sesion)
 
         sesion['threadWrite'] = 1
         sesion['hiloParado'] = 0
-        thread = threading.Thread(target=Control.write().run())
 
         def run():
             while int(sesion['threadWrite']) == 1:
@@ -119,15 +115,12 @@ class Control:
 
             sesion['hiloParado'] = 1
 
-        thread.setName('writer')
-        thread.start()
+        run()
 
     @staticmethod
     def events(request):
         sesion = request.session
         sesion['threadEvents'] = 1
-
-        thread = threading.Thread(target=Control.events().run())
 
         def run():
             alarma = Alarma()
@@ -229,5 +222,4 @@ class Control:
                     finally:
                         pass
 
-            thread.setName('events')
-            thread.start()
+        run()

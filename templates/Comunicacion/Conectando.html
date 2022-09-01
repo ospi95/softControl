@@ -3,10 +3,13 @@
 {% block title %} SoftControl 2.0 - Conectado{% endblock %}
 
 {% block content %}
+    <form name="frmConectando" method="POST">
+        {% csrf_token %}
+        <h1>Conectando</h1>
+        <h3>Se han encontrado {{ controladores }} con los parametros de conexión establecidos</h3>
+        <h3>Acepte para ir a la pantalla principal</h3>
 
-    <h1>Conectando</h1>
-    <h3>Acepte para ir a la pantalla principal</h3>
-
-    <button class="send" onclick="location.href='../Monitor'">Aceptar</button>
+        <button class="send" type="submit">Aceptar</button>
+    </form>
 
 {% endblock %}
