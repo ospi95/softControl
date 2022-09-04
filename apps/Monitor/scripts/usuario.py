@@ -10,6 +10,8 @@ def validarUsuario(request, dir1):
     id1 = int(sesion['controlador1'])
     id2 = int(sesion['controlador2'])
     entero = False
+    ValorActual = -99999
+    decimales = 1
     valorActualString = ''
 
     ctr = Control()
@@ -17,16 +19,17 @@ def validarUsuario(request, dir1):
     salvando = sesion['salvando']
 
     valorActual = leercontrol.leerDireccion(puerto, vel, idx, dir1)
-    decimales = int(math.pow(10, leercontrol.leerDireccion(puerto, vel, idx, 0x53)))
+    decimales = int(math.pow(10, leercontrol.leerDireccion(puerto, vel, idx, 83)))
+    estado = ''
 
-    losp = float(leercontrol.leerDireccion(puerto, vel, idx, 0x4c))
+    losp = float(leercontrol.leerDireccion(puerto, vel, idx, 76))
     losp = losp/decimales
-    hisp = float(leercontrol.leerDireccion(puerto, vel, idx, 0x4d))
+    hisp = float(leercontrol.leerDireccion(puerto, vel, idx, 77))
     hisp = hisp/decimales
 
-    al1f = int(leercontrol.leerDireccion(puerto, vel, idx, 0x30))
-    al2f = int(leercontrol.leerDireccion(puerto, vel, idx, 0x34))
-    al3f = int(leercontrol.leerDireccion(puerto, vel, idx, 0x38))
+    al1f = int(leercontrol.leerDireccion(puerto, vel, idx, 48))
+    al2f = int(leercontrol.leerDireccion(puerto, vel, idx, 52))
+    al3f = int(leercontrol.leerDireccion(puerto, vel, idx, 56))
 
     if salvando == 'En lectura...':
         ctr.read(puerto, vel, id1, id2, request)

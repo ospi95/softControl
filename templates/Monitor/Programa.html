@@ -1,10 +1,151 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configurar Usuario</title>
+    <link rel="stylesheet" href="{% static 'css/menu2.css' %}" type="text/css"/>
 </head>
 <body>
+    <form  name="frmUsuario" method="POST" action="">
+        <div class="back">
+            <nav class="menu">
+                <ul class="menu-horizontal">
+                    <li><a href="../../Monitor/Usuario">Usuario</a></li>
+                    <li><a href="../../Monitor/Control">Control</a></li>
+                    <li><a href="../../Monitor/Salida">Salida</a></li>
+                    <li><a href="../../Monitor/Entrada">Entrada</a></li>
+                    <li><a href="../../Monitor/Comunicacion">Comunicacion</a></li>
+                    <li><a class="active" href="../../Monitor/Programa">Programa</a></li>
+                    <li><a href="../../Monitor/Hide">Hide</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="datos">
+            <h4>Controlador {{ controlador }}</h4>
+            <div class="param">
+                <label class="labelparam">Parámetro:</label>
+                <select class="parametro" name="parametro">
+                    <option Value=123>SEG</option>
+                    <option Value=124>TimE</option>
+                    <option Value=125>EndS</option>
+                    <option Value=126>Sv1</option>
+                    <option Value=127>tP1</option>
+                    <option Value=128>tS1</option>
+                    <option Value=129>Sv2</option>
+                    <option Value=130>tP2</option>
+                    <option Value=131>tS2</option>
+                    <option Value=132>Sv3</option>
+                    <option Value=133>tP3</option>
+                    <option Value=134>tS3</option>
+                    <option Value=135>Sv4</option>
+                    <option Value=136>tP4</option>
+                    <option Value=137>tS4</option>
+                    <option Value=138>Sv5</option>
+                    <option Value=139>tP5</option>
+                    <option Value=140>tS5</option>
+                    <option Value=141>Sv6</option>
+                    <option Value=142>tP6</option>
+                    <option Value=143>tS6</option>
+                    <option Value=144>Sv7</option>
+                    <option Value=145>tP7</option>
+                    <option Value=146>tS7</option>
+                    <option Value=147>Sv8</option>
+                    <option Value=148>tP8</option>
+                    <option Value=149>tS8</option>
+                </select>
+
+                <label class="labelvalor">Valor:</label>
+                <input type="text" class="valor" name="valor" value="">
+            </div>
+
+            <div class="info">
+                <textarea class="textdesc" name="textDescription" id="textDescription"readonly></textarea>
+            </div>
+
+            <div class="botons">
+                <button class="send" type="submit">Escribir</button>
+                <button class="send" onClick="javascript:window.close();">Salir</button>
+                <input class="LoSP" type="hidden" id="LoSP" value="">
+                <input class="HiSP" type="hidden" id="HiSP" value="">
+            </div>
+
+        </div>
+    </form>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script type="application/javascript">
+        var $ = jQuery.noConflict()
+        var losp = document.getElementById("LoSP").getAttribute("value")
+        var hisp = document.getElementById("HiSP").getAttribute("value")
+        let textoArea = document.querySelector(".textdesc");
+        let opciones = document.querySelector(".parametro");
+        const descripcion = [];
+
+        descripcion[0] = "";
+        descripcion[123] = "Descripción: Monitorea en que segmento va el programa.\nRango: 1~8.\nNota: Solo de lectura";
+   descripcion[124] = "Descripción: Monitorea el tiempo que le resta a la ejecución del programa.\nNota: Solo de lectura";
+   descripcion[125] = "Descripción: Ajuste del segmento en que se va a terminar el programa.\nRango: 1~8.\nNota: Valor ajustado de fábrica 1";
+   descripcion[126] = "Descripción: Punto de control para el segmento número 1 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[127] = "Descripción: Tiempo de subida para el segmento número 1; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[128] = "Descripción: Tiempo de sostenido para el segmento número 1; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[129] = "Descripción: Punto de control para el segmento número 2 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[130] = "Descripción: Tiempo de subida para el segmento número 2; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[131] = "Descripción: Tiempo de sostenido para el segmento número 2; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[132] = "Descripción: Punto de control para el segmento número 3 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[133] = "Descripción: Tiempo de subida para el segmento número 3; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[134] = "Descripción: Tiempo de sostenido para el segmento número 3; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[135] = "Descripción: Punto de control para el segmento número 4 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[136] = "Descripción: Tiempo de subida para el segmento número 4; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[137] = "Descripción: Tiempo de sostenido para el segmento número 4; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[138] = "Descripción: Punto de control para el segmento número 5 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[139] = "Descripción: Tiempo de subida para el segmento número 5; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[140] = "Descripción: Tiempo de sostenido para el segmento número 5; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[141] = "Descripción: Punto de control para el segmento número 6 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[142] = "Descripción: Tiempo de subida para el segmento número 6; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[143] = "Descripción: Tiempo de sostenido para el segmento número 6; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[144] = "Descripción: Punto de control para el segmento número 7 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[145] = "Descripción: Tiempo de subida para el segmento número 7; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[146] = "Descripción: Tiempo de sostenido para el segmento número 7; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[147] = "Descripción: Punto de control para el segmento número 8 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[148] = "Descripción: Tiempo de subida para el segmento número 8; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+   descripcion[149] = "Descripción: Tiempo de sostenido para el segmento número 8; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+        document.getElementById("textDescription").value = descripcion[123];
+        opciones.addEventListener("change", (event) => {
+            let opcion = event.target.value
+            document.getElementById("textDescription").value = descripcion[opcion];
+
+            function datos() {
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                    'opcion': opcion
+                    },
+                    dataType: 'json',
+                    success: function (response){
+                        $(".valor").val(response['valor']);
+                        $(".HiSP").val(response['hisp']);
+                        $(".LoSP").val(response['losp']);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                }).done(function (data) {
+
+                });
+            }
+            $(document).ready(function (){
+                 datos();
+            });
+        });
+
+    </script>
+
 
 </body>
 </html>

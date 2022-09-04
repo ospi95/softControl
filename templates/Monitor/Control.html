@@ -1,10 +1,126 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configurar Control</title>
+    <link rel="stylesheet" href="{% static 'css/menu2.css' %}" type="text/css"/>
 </head>
 <body>
+    <form  name="frmControl" method="POST" action="">
+        <div class="back">
+            <nav class="menu">
+                <ul class="menu-horizontal">
+                    <li><a href="../../Monitor/Usuario">Usuario</a></li>
+                    <li><a class="active" href="../../Monitor/Control">Control</a></li>
+                    <li><a href="../../Monitor/Salida">Salida</a></li>
+                    <li><a href="../../Monitor/Entrada">Entrada</a></li>
+                    <li><a href="../../Monitor/Comunicacion">Comunicacion</a></li>
+                    <li><a href="../../Monitor/Programa">Programa</a></li>
+                    <li><a href="../../Monitor/Hide">Hide</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="datos">
+            <h4>Controlador {{ controlador }}</h4>
+            <div class="param">
+                <label class="labelparam">Parámetro:</label>
+                <select class="parametro" name="parametro">
+                    <option value=25>p1</option>
+                    <option value=26>i1</option>
+                    <option value=27>d1</option>
+                    <option value=28>Ct1</option>
+                    <option value=29>HSt1</option>
+                    <option value=30>AotF</option>
+                    <option value=31>Ar</option>
+                    <option value=37>db</option>
+                    <option value=38>SSv</option>
+                    <option value=39>Sout</option>
+                    <option value=40>StmE</option>
+                    <option value=42>rPt</option>
+                    <option value=43>StAt</option>
+                    <option value=44>PvSt</option>
+                    <option value=45>wAit</option>
+                    <option value=46>Pid</option>
+                    <option value=47>EndP</option>
+                </select>
+
+                <label class="labelvalor">Valor:</label>
+                <input type="text" class="valor" name="valor" value="">
+            </div>
+
+            <div class="info">
+                <textarea class="textdesc" name="textDescription" id="textDescription"readonly></textarea>
+            </div>
+
+            <div class="botons">
+                <button class="send" type="submit">Escribir</button>
+                <button class="send" onClick="javascript:window.close();">Salir</button>
+            </div>
+
+        </div>
+    </form>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script type="application/javascript">
+        var $ = jQuery.noConflict()
+        let textoArea = document.querySelector(".textdesc");
+        let opciones = document.querySelector(".parametro");
+        const descripcion = [];
+
+        descripcion[0] = "";
+        descripcion[25] = "Descripción: Banda proporcional para la salida 1.\nRango: 0.0~3000";
+        descripcion[26] = "Descripción: Tiempo integral para la salida 1.\nRango: 0~3600 sec";
+        descripcion[27] = "Descripción: Tiempo derivativo para la salida 1.\nRango: 0~900 sec"
+        descripcion[28] = "Descripción: Tiempo de ciclo para la salida 1.\nRango: 0~150 sec "
+        descripcion[29] = "Descripción: Histéresis  para la salida 1 cuando esta On/Off es decir cuando Pi=0.\nRango: 0.0 ~ 200.0"
+        descripcion[30] = "Descripción: Desviación de la auto sintonía.\nRango: -200.0~200.0"
+        descripcion[31] = "Descripción: Anti reset, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
+        descripcion[37] = "Descripción: Banda muerta.\nRango: -200.0~200.0"
+        descripcion[38] = "Descripción: Valor ajustado para inicio suave, este ajusta un rango de inicio suave, cuando deseamos que el sistema no aumente la variable tan rápido como al principio, puede ajustar  SSV.\nRango: 0.0~200.0"
+        descripcion[39] = "Descripción: Este es para ajustar el porcentaje de salida para valores menores al SSV , Si desea el 50% de salida, debe ajustarlo a 50.\nRango: 0.0~100.0%"
+        descripcion[40] = "Descripción: Tiempo de falla del inicio suave. Cuando el control PID supera el tiempo StmE, pero el PV no supera el SSV, significa que falló el inicio suave, luego el controlador apagará la salida hasta que se llegue al SV.\nRango: 0~10 min."
+        descripcion[42] = "Descripción: Numero de veces que el programa se ejecutará.\nRango: 1~1000.";
+        descripcion[43] = "Descripción: Seleccion del modo de inicio para el modo rampas y sostenidos.\nRango: Cold= manual, rSET= inicio despues de encender, Hot= inicie desde el valor anterior del apagado del controlador\nNota:Para enviar el dato al controlador escriba 0 si desea Cold ó 1 si desea rSET ó 2 si desea Hot.";
+        descripcion[44] = "Descripción: Selección del S.V de inicio para el modo rampas y sostenidos.\nRango: RSEt= inicie desde 0, Pv= inicie desde el S.V actual.\nNota:Para enviar el dato al controlador escriba 0 si desea RSEt ó 1 si desea PV";
+        descripcion[45] = "Descripción: Cantidad de unidades que se quiere que espere el S.V al P.V para cambiar de segmento, solo para modo de rampas y sostenidos.\nRango: 0.0~200.0";
+        descripcion[46] = "Descripción: En este parámetro, Puede escoger el controlador con un PID ó level-PID (LPID), Si escoge LPID entonces puede ajustar 4 niveles con diferentes Pid.\nRango: Pid o LPid\nNota:Para enviar el dato al controlador escriba 0 si desea control Pid ó 1 si desea control pid por niveles o LPid.";
+        descripcion[47] = "Descripción: Selecciona que hacer cuando finaliza la ejecucion de un programa, solo para modo de rampas y sostenidos. \nRango: Cont= repita el programa StoP= ejecute el programa solo una vez\nNota:Para enviar el dato al controlador escriba 0 si desea Cont ó 1 si desea StoP.";
+
+        document.getElementById("textDescription").value = descripcion[25];
+        opciones.addEventListener("change", (event) => {
+            let opcion = event.target.value
+            document.getElementById("textDescription").value = descripcion[opcion];
+
+            function datos() {
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                    'opcion': opcion
+                    },
+                    dataType: 'json',
+                    success: function (response){
+                        $(".valor").val(response['valor']);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                }).done(function (data) {
+
+                });
+            }
+            $(document).ready(function (){
+                 datos();
+            });
+        });
+
+    </script>
+
 
 </body>
 </html>

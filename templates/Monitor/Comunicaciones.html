@@ -1,10 +1,142 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configurar Usuario</title>
+    <link rel="stylesheet" href="{% static 'css/menu2.css' %}" type="text/css"/>
 </head>
 <body>
+    <form  name="frmUsuario" method="POST" action="">
+        <div class="back">
+            <nav class="menu">
+                <ul class="menu-horizontal">
+                    <li><a href="../../Monitor/Usuario">Usuario</a></li>
+                    <li><a href="../../Monitor/Control">Control</a></li>
+                    <li><a href="../../Monitor/Salida">Salida</a></li>
+                    <li><a href="../../Monitor/Entrada">Entrada</a></li>
+                    <li><a class="active" href="../../Monitor/Comunicacion">Comunicacion</a></li>
+                    <li><a href="../../Monitor/Programa">Programa</a></li>
+                    <li><a href="../../Monitor/Hide">Hide</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="datos">
+            <h4>Controlador {{ controlador }}</h4>
+            <div class="param">
+                <label class="labelparam">Parámetro:</label>
+                <select class="parametro" name="parametro">
+                    <option value=89>bAud</option>
+                    <option value=90>Addr</option>
+                    <option value=91>LEv1</option>
+                    <option value=92>LEv2</option>
+                    <option value=93>LEv3</option>
+                    <option value=94>LvSL</option>
+                    <option value=95>L1P1</option>
+                    <option value=96>L1i1</option>
+                    <option value=97>L1d1</option>
+                    <option value=98>L1Ar</option>
+                    <option value=102>L2P1</option>
+                    <option value=103>L2i1</option>
+                    <option value=104>L2d1</option>
+                    <option value=105>L2Ar</option>
+                    <option value=109>L3P1</option>
+                    <option value=110>L3i1</option>
+                    <option value=111>L3d1</option>
+                    <option value=112>L3Ar</option>
+                    <option value=116>L4P1</option>
+                    <option value=117>L4i1</option>
+                    <option value=118>L4d1</option>
+                    <option value=119>L4Ar</option>
+                </select>
+
+                <label class="labelvalor">Valor:</label>
+                <input type="text" class="valor" name="valor" value="">
+            </div>
+
+            <div class="info">
+                <textarea class="textdesc" name="textDescription" id="textDescription"readonly></textarea>
+            </div>
+
+            <div class="botons">
+                <button class="send" type="submit">Escribir</button>
+                <button class="send" onClick="javascript:window.close();">Salir</button>
+                <input class="LoSP" type="hidden" id="LoSP" value="">
+                <input class="HiSP" type="hidden" id="HiSP" value="">
+            </div>
+
+        </div>
+    </form>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script type="application/javascript">
+        var $ = jQuery.noConflict()
+        var losp = document.getElementById("LoSP").getAttribute("value")
+        var hisp = document.getElementById("HiSP").getAttribute("value")
+        let textoArea = document.querySelector(".textdesc");
+        let opciones = document.querySelector(".parametro");
+        const descripcion = [];
+
+        descripcion[0] = "";
+        descripcion[89] = "Descripción: Velocidad de comunicación\nRango: 2.4K / 4.8K / 9.6K / 19.2K / 38.4K\nNota: Para enviar el dato al controlador escriba 0 para 2.4K, 1 para 4.8K, 2 para 9.6K, 3 para 19.2K ó 4 para 38.4K";
+        descripcion[90] = "Descripción: Dirección en la red\nRango: 0~31";
+        descripcion[91] = "Descripción: Ajusta el rango de operación para el pid 1.\nRango: " + losp + "~" + hisp;
+        descripcion[92] = "Descripción: Ajusta el rango de operación para el pid 2.\nRango: " + losp + "~" + hisp;
+        descripcion[93] = "Descripción: Ajusta el rango de operación para el pid 3.\nRango: " + losp + "~" + hisp;
+        descripcion[94] = "Descripción: Selección del pid que se quiere supervisar.\nRango: 1~4";
+        descripcion[95] = "Descripción: Banda proporcional para el pid del nivel 1.\nRango: 0.0~3000";
+        descripcion[96] = "Descripción: Tiempo integral para el pid del nivel 1.\nRango: 0~3600 sec";
+        descripcion[97] = "Descripción: Tiempo derivativo para el pid del nivel 1.\nRango: 0~900 sec";
+        descripcion[98] = "Descripción: Anti reset para el pid del nivel 1, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
+        descripcion[102] = "Descripción: Banda proporcional para el pid del nivel 2.\nRango: 0.0~3000";
+        descripcion[103] = "Descripción: Tiempo integral para el pid del nivel 2.\nRango: 0~3600 sec";
+        descripcion[104] = "Descripción: Tiempo derivativo para el pid del nivel 2.\nRango: 0~900 sec";
+        descripcion[105] = "Descripción: Anti reset para el pid del nivel 2, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
+        descripcion[109] = "Descripción: Banda proporcional para el pid del nivel 3.\nRango: 0.0~3000";
+        descripcion[110] = "Descripción: Tiempo integral para el pid del nivel 3.\nRango: 0~3600 sec";
+        descripcion[111] = "Descripción: Tiempo derivativo para el pid del nivel 3.\nRango: 0~900 sec";
+        descripcion[112] = "Descripción: Anti reset para el pid del nivel 3, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
+        descripcion[116] = "Descripción: Banda proporcional para el pid del nivel 4.\nRango: 0.0~3000";
+        descripcion[117] = "Descripción: Tiempo integral para el pid del nivel 4.\nRango: 0~3600 sec";
+        descripcion[118] = "Descripción: Tiempo derivativo para el pid del nivel 4.\nRango: 0~900 sec";
+        descripcion[119] = "Descripción: Anti reset para el pid del nivel 4, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
+
+        document.getElementById("textDescription").value = descripcion[89];
+        opciones.addEventListener("change", (event) => {
+            let opcion = event.target.value
+            document.getElementById("textDescription").value = descripcion[opcion];
+
+            function datos() {
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                    'opcion': opcion
+                    },
+                    dataType: 'json',
+                    success: function (response){
+                        $(".valor").val(response['valor']);
+                        $(".HiSP").val(response['hisp']);
+                        $(".LoSP").val(response['losp']);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                }).done(function (data) {
+
+                });
+            }
+            $(document).ready(function (){
+                 datos();
+            });
+        });
+
+    </script>
+
 
 </body>
 </html>

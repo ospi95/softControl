@@ -1,10 +1,129 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configurar Usuario</title>
+    <link rel="stylesheet" href="{% static 'css/menu2.css' %}" type="text/css"/>
 </head>
 <body>
+    <form  name="frmUsuario" method="POST" action="">
+        <div class="back">
+            <nav class="menu">
+                <ul class="menu-horizontal">
+                    <li><a class="active" href="../../Monitor/Usuario">Usuario</a></li>
+                    <li><a href="../../Monitor/Control">Control</a></li>
+                    <li><a href="../../Monitor/Salida">Salida</a></li>
+                    <li><a href="../../Monitor/Entrada">Entrada</a></li>
+                    <li><a href="../../Monitor/Comunicacion">Comunicacion</a></li>
+                    <li><a href="../../Monitor/Programa">Programa</a></li>
+                    <li><a href="../../Monitor/Hide">Hide</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="datos">
+            <h4>Controlador {{ controlador }}</h4>
+            <div class="param">
+                <label class="labelparam">Parámetro:</label>
+                <select class="parametro" name="parametro">
+                    <option Value=150>1-2</option>
+                    <option Value=151>1-3</option>
+                    <option Value=152>1-4</option>
+                    <option Value=153>1-5</option>
+                    <option Value=154>1-6</option>
+                    <option Value=155>1-7</option>
+                    <option Value=156>1-8</option>
+                    <option Value=157>1-9</option>
+                    <option Value=158>1-10</option>
+                    <option Value=159>1-11</option>
+                    <option Value=160>1-12</option>
+                    <option Value=161>1-13</option>
+                    <option Value=162>1-14</option>
+                    <option Value=163>1-15</option>
+                    <option Value=164>1-16</option>
+                    <option Value=165>1-17</option>
+                    <option Value=166>1-18</option>
+                    <option Value=167>1-19</option>
+                    <option Value=168>1-20</option>
+                    <option Value=169>1-21</option>
+                    <option Value=170>1-22</option>
+                    <option Value=171>2-14</option>
+                    <option Value=172>2-15</option>
+                    <option Value=173>2-16</option>
+                    <option Value=174>2-17</option>
+                    <option Value=175>3-20</option>
+                    <option Value=176>3-21</option>
+                    <option Value=177>3-22</option>
+                    <option Value=178>3-23</option>
+                    <option Value=179>3-24</option>
+                    <option Value=180>3-25</option>
+                    <option Value=181>3-26</option>
+                    <option Value=182>3-27</option>
+                </select>
+
+                <label class="labelvalor">Valor:</label>
+                <input type="text" class="valor" name="valor" value="">
+            </div>
+
+            <div class="info">
+                <textarea class="textdesc" name="textDescription" id="textDescription"readonly></textarea>
+            </div>
+
+            <div class="botons">
+                <button class="send" type="submit">Escribir</button>
+                <button class="send" onClick="javascript:window.close();">Salir</button>
+                <input class="LoSP" type="hidden" id="LoSP" value="">
+                <input class="HiSP" type="hidden" id="HiSP" value="">
+            </div>
+
+        </div>
+    </form>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script type="application/javascript">
+        var $ = jQuery.noConflict()
+        var losp = document.getElementById("LoSP").getAttribute("value")
+        var hisp = document.getElementById("HiSP").getAttribute("value")
+        let textoArea = document.querySelector(".textdesc");
+        let opciones = document.querySelector(".parametro");
+        const descripcion = [];
+
+        descripcion[150] = "Descripción: Muestra el parámetro con respecto a esta posición.\nRango: non~t2of.\nNota: no puede estar el mismo parámeto en diferentes posiciones, para cambiar el valor actual tenga en cuenta:\n0 = non; 1 = OutL; 2 = At; 3 = mAn; 4 = AL1S; 5 = AL1L; 6 = AL1U;\n7 = AL2S; 8 = AL2L; 9 = AL2U; 10 = AL3S; 11 = AL3L; 12 = AL3U;\n13 = SoAk; 14 = rAmp; 15 = PvoF; 16 = Pvrr; 17 = SvoF; 18 = Ct;\n19 = HbA; 20 = LbA; 21 = Lbd; 22 = SSY; 23 = SOut; 24 = StmE;\n25 = ruCY; 26 = t1SS; 27 = t1on; 28 = t1ES; 29 = t1oF; 30 = t2SS;\n31 = t2on; 32 = t2ES; 33 = t2oF;.";
+        document.getElementById("textDescription").value = descripcion[150];
+        opciones.addEventListener("change", (event) => {
+            let opcion = event.target.value
+            document.getElementById("textDescription").value = descripcion[150];
+
+            function datos() {
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                    'opcion': opcion
+                    },
+                    dataType: 'json',
+                    success: function (response){
+                        $(".HiSP").val(response['hisp']);
+                        $(".LoSP").val(response['losp']);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                }).done(function (data) {
+
+                });
+            }
+            $(document).ready(function (){
+                 datos();
+            });
+        });
+
+    </script>
+
 
 </body>
 </html>

@@ -1,10 +1,140 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configurar Salida</title>
+    <link rel="stylesheet" href="{% static 'css/menu2.css' %}" type="text/css"/>
 </head>
 <body>
+    <form  name="frmSalida" method="POST" action="">
+        <div class="back">
+            <nav class="menu">
+                <ul class="menu-horizontal">
+                    <li><a href="../../Monitor/Usuario">Usuario</a></li>
+                    <li><a href="../../Monitor/Control">Control</a></li>
+                    <li><a class="active" href="../../Monitor/Salida">Salida</a></li>
+                    <li><a href="../../Monitor/Entrada">Entrada</a></li>
+                    <li><a href="../../Monitor/Comunicacion">Comunicacion</a></li>
+                    <li><a href="../../Monitor/Programa">Programa</a></li>
+                    <li><a href="../../Monitor/Hide">Hide</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="datos">
+            <h4>Controlador {{ controlador }}</h4>
+            <div class="param">
+                <label class="labelparam">Parámetro:</label>
+                <select class="parametro" name="parametro">
+                    <option Value=48>Al1F</option>
+                    <option Value=49>AL1H</option>
+                    <option Value=50>AL1t</option>
+                    <option Value=51>AL1m</option>
+                    <option Value=52>AL2F</option>
+                    <option Value=53>AL2H</option>
+                    <option Value=54>AL2t</option>
+                    <option Value=55>AL2m</option>
+                    <option Value=56>AL3F</option>
+                    <option Value=57>AL3H</option>
+                    <option Value=58>AL3t</option>
+                    <option Value=59>AL3m</option>
+                    <option Value=60>Act</option>
+                    <option Value=62>O1LS</option>
+                    <option Value=63>O1HS</option>
+                    <option Value=64>AO</option>
+                    <option Value=67>t1SS</option>
+                    <option Value=68>t1On</option>
+                    <option Value=69>t1ES</option>
+                    <option Value=70>t1oF</option>
+                    <option Value=71>t2SS</option>
+                    <option Value=72>t2On</option>
+                    <option Value=73>t2Es</option>
+                    <option Value=74>t2oF</option>
+                </select>
+
+                <label class="labelvalor">Valor:</label>
+                <input type="text" class="valor" name="valor" value="">
+            </div>
+
+            <div class="info">
+                <textarea class="textdesc" name="textDescription" id="textDescription"readonly></textarea>
+            </div>
+
+            <div class="botons">
+                <button class="send" type="submit">Escribir</button>
+                <button class="send" onClick="javascript:window.close();">Salir</button>
+            </div>
+
+        </div>
+    </form>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script type="application/javascript">
+        var $ = jQuery.noConflict()
+        let textoArea = document.querySelector(".textdesc");
+        let opciones = document.querySelector(".parametro");
+        const descripcion = [];
+
+        descripcion[0] = "";
+        descripcion[48] = "Descripción: Tipo de alarma 1.\nRango: 0~13, ver tabla 1 del manual de usuario del controlador";
+        descripcion[49] = "Descripción: Histéresis para la alarma 1.\nRango: 0.0~200.0";
+        descripcion[50] = "Descripción: Tiempo encendido en modo programa 1.\nRango: 0.00~99.59(h m)"
+        descripcion[51] = "Descripción: Selección de modo especial para la alarma 1.\nRango: 0~11, ver tabla 2 del manual de usuario del controlador"
+        descripcion[52] = "Descripción: Tipo de alarma 2.\nRango: 0~13, ver tabla 1 del manual de usuario del controlador"
+        descripcion[53] = "Descripción: Histéresis  para la alarma 2.\nRango: 0.0~200.0"
+        descripcion[54] = "Descripción: Tiempo encendido en modo programa 2.\nRango: 0.00~99.59(h m)";
+        descripcion[55] = "Descripción: Selección de modo especial para la alarma 2.\nRango:0~7, ver tabla 2 del manual de usuario del controlador"
+        descripcion[56] = "Descripción: Tipo de alarma 3.\nRango: 0~11, ver tabla 1 del manual de usuario del controlador"
+        descripcion[57] = "Descripción: Histéresis  para la alarma 3.\nRango: 0.0~200.0"
+        descripcion[58] = "Descripción: Tiempo encendido en modo programa 3.\nRango: 0.00~99.59(h m)"
+        descripcion[59] = "Descripción: Selección de modo especial para la alarma 3.\nRango: 0~7, ver tabla 2 del manual de usuario del controlador";
+        descripcion[60] = "Descripción: Selecciona el tipo de acción, cool o heat.\nRango: CooL / HEAt.\nNota: Para enviar el dato al controlador escriba 0 si es operación Cool ó 1 si es Heat."
+        descripcion[62] = "Descripción: Escala baja para la salida 1.\nRango: 0.0~100.0"
+        descripcion[63] = "Descripción: Escala alta para la salida 1.\nRango: 0.0~100.0%"
+        descripcion[64] = "Descripción: Selecciona que va a retransmitir por la salida análoga.\nRango: Pv = transmite PV, Sv = transmite SV, dEv = transmite(PV-SV), Mv = transmite porcentaje de salida.\nNota: Para enviar el dato al controlador escriba 0 si se usa la función de transmisión de la variable de proceso PV, 1 si es transmisión del Set point SV ó 2 si es para transmitir el error ó desviación (PV-SV) "
+        descripcion[67] = "Descripción: Seleccione el segmento en que se quiere iniciar la alarma, opera cuando AL1F=12 y para control en modo de rampas y sostenidos.\nRango: 1~8";
+        descripcion[68] = "Descripción: Seleccione el tiempo para el inicio de la alarma después de iniciado el segmento programado en T1SS 2, opera cuando AL1F=12 y para control en modo de rampas y sostenidos..\nRango: 0.0~99.59 (h.m)";
+        descripcion[69] = "Descripción: Seleccione el segmento en que se quiere terminar la alarma, opera cuando AL1F=12 y para control en modo de rampas y sostenidos.\nRango: 1~8";
+        descripcion[70] = "Descripción: Seleccione el tiempo para el apagado de la alarma después de iniciado el segmento programado en T1ES 2, opera cuando AL1F=12 y para control en modo de rampas y sostenidos..\nRango: 0.0~99.59 (h.m)";
+        descripcion[71] = "Descripción: Seleccione el segmento en que se quiere iniciar la alarma, opera cuando AL2F=12 y para control en modo de rampas y sostenidos.\nRango: 1~8";
+        descripcion[72] = "Descripción: Seleccione el tiempo para el inicio de la alarma despues de iniciado el segmento programado en T2SS 2, opera cuando AL2F=12 y para control en modo de rampas y sostenidos..\nRango: 0.0~99.59 (h.m)";
+        descripcion[73] = "Descripción: Seleccione el segmento en que se quiere terminar la alarma, opera cuando AL2F=12 y para control en modo de rampas y sostenidos.\nRango: 1~8";
+        descripcion[74] = "Descripción: Seleccione el tiempo para el apagado de la alarma despues de iniciado el segmento programado en T2ES 2, opera cuando AL2F=12 y para control en modo de rampas y sostenidos..\nRango: 0.0~99.59 (h.m)";
+
+        document.getElementById("textDescription").value = descripcion[48];
+        opciones.addEventListener("change", (event) => {
+            let opcion = event.target.value
+            document.getElementById("textDescription").value = descripcion[opcion];
+
+            function datos() {
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                    'opcion': opcion
+                    },
+                    dataType: 'json',
+                    success: function (response){
+                        $(".valor").val(response['valor']);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                }).done(function (data) {
+
+                });
+            }
+            $(document).ready(function (){
+                 datos();
+            });
+        });
+
+    </script>
+
 
 </body>
 </html>

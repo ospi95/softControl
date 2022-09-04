@@ -8,6 +8,7 @@ from apps.Monitor.scripts.configurar import *
 from apps.Comunicacion.views import *
 from apps.Comunicacion.scripts.buscarpuertos import *
 from apps.Monitor.scripts.usuario import *
+from apps.Monitor.scripts.control import *
 from apps.Monitor.scripts.escribircontrol import *
 
 
@@ -104,7 +105,7 @@ class Usuario(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': sesion['configcon']
+            'controlador': 1 #sesion['configcon']
         }
 
         return render(request, self.template_name, data)
@@ -115,11 +116,11 @@ class Usuario(TemplateView):
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
-            valor = validarUsuario(request, dir1)
+            #valor = validarUsuario(request, dir1)
             lista = {
-                'valor': valor[0],
-                'losp': valor[1],
-                'hisp': valor[2]
+                'valor': 2, #valor[0],
+                'losp': 4, #valor[1],
+                'hisp': 20, #valor[2]
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')
@@ -129,3 +130,200 @@ class Usuario(TemplateView):
             escribirControl(request, direccion)
             return render(request, self.template_name)
 
+#Vista del nivel del controlador de control para configurar los parametros de este nivel
+class Control(TemplateView):
+    template_name = 'Control.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        sesion = request.session
+        data = {
+            'controlador': 1 #sesion['configcon']
+        }
+
+        return render(request, self.template_name, data)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            dir1 = int(request.POST['opcion'])
+            #valor = validarControl(request, dir1)
+            lista = {
+                'valor': 'funciona', #valor[0],
+            }
+            data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        else:
+            direccion = int(request.POST['parametro'])
+            escribirControl(request, direccion)
+            return render(request, self.template_name)
+
+#Vista del nivel del controlador de salida para configurar los parametros de este nivel
+class Salida(TemplateView):
+    template_name = 'Salida.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        sesion = request.session
+        data = {
+            'controlador': 1 #sesion['configcon']
+        }
+
+        return render(request, self.template_name, data)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            dir1 = int(request.POST['opcion'])
+            #valor = validarControl(request, dir1)
+            lista = {
+                'valor': 'funciona', #valor[0],
+            }
+            data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        else:
+            direccion = int(request.POST['parametro'])
+            escribirControl(request, direccion)
+            return render(request, self.template_name)
+
+#Vista del nivel del controlador de entrada para configurar los parametros de este nivel
+class Entrada(TemplateView):
+    template_name = 'Entrada.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        sesion = request.session
+        data = {
+            'controlador': 1 #sesion['configcon']
+        }
+
+        return render(request, self.template_name, data)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            dir1 = int(request.POST['opcion'])
+            #valor = validarControl(request, dir1)
+            lista = {
+                'valor': 'funciona', #valor[0],
+            }
+            data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        else:
+            direccion = int(request.POST['parametro'])
+            escribirControl(request, direccion)
+            return render(request, self.template_name)
+
+#Vista del nivel del controlador de comunicacion para configurar los parametros de este nivel
+class Comunicacion(TemplateView):
+    template_name = 'Comunicaciones.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        sesion = request.session
+        data = {
+            'controlador': 1 #sesion['configcon']
+        }
+
+        return render(request, self.template_name, data)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            dir1 = int(request.POST['opcion'])
+            #valor = validarControl(request, dir1)
+            lista = {
+                'valor': 'funciona', #valor[0],
+            }
+            data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        else:
+            direccion = int(request.POST['parametro'])
+            escribirControl(request, direccion)
+            return render(request, self.template_name)
+
+#Vista del nivel del controlador de programa para configurar los parametros de este nivel
+class Programa(TemplateView):
+    template_name = 'Programa.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        sesion = request.session
+        data = {
+            'controlador': 1 #sesion['configcon']
+        }
+
+        return render(request, self.template_name, data)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            dir1 = int(request.POST['opcion'])
+            #valor = validarControl(request, dir1)
+            lista = {
+                'valor': 'funciona', #valor[0],
+            }
+            data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        else:
+            direccion = int(request.POST['parametro'])
+            escribirControl(request, direccion)
+            return render(request, self.template_name)
+
+#Vista del nivel del controlador de hide para configurar los parametros de este nivel
+class Hide(TemplateView):
+    template_name = 'Hide.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        sesion = request.session
+        data = {
+            'controlador': 1 #sesion['configcon']
+        }
+
+        return render(request, self.template_name, data)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            dir1 = int(request.POST['opcion'])
+            #valor = validarControl(request, dir1)
+            lista = {
+                'valor': 'funciona', #valor[0],
+            }
+            data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        else:
+            direccion = int(request.POST['parametro'])
+            escribirControl(request, direccion)
+            return render(request, self.template_name)
