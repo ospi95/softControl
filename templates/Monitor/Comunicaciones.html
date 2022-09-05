@@ -75,40 +75,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script type="application/javascript">
         var $ = jQuery.noConflict()
-        var losp = document.getElementById("LoSP").getAttribute("value")
-        var hisp = document.getElementById("HiSP").getAttribute("value")
         let textoArea = document.querySelector(".textdesc");
         let opciones = document.querySelector(".parametro");
         const descripcion = [];
 
         descripcion[0] = "";
-        descripcion[89] = "Descripción: Velocidad de comunicación\nRango: 2.4K / 4.8K / 9.6K / 19.2K / 38.4K\nNota: Para enviar el dato al controlador escriba 0 para 2.4K, 1 para 4.8K, 2 para 9.6K, 3 para 19.2K ó 4 para 38.4K";
-        descripcion[90] = "Descripción: Dirección en la red\nRango: 0~31";
-        descripcion[91] = "Descripción: Ajusta el rango de operación para el pid 1.\nRango: " + losp + "~" + hisp;
-        descripcion[92] = "Descripción: Ajusta el rango de operación para el pid 2.\nRango: " + losp + "~" + hisp;
-        descripcion[93] = "Descripción: Ajusta el rango de operación para el pid 3.\nRango: " + losp + "~" + hisp;
-        descripcion[94] = "Descripción: Selección del pid que se quiere supervisar.\nRango: 1~4";
-        descripcion[95] = "Descripción: Banda proporcional para el pid del nivel 1.\nRango: 0.0~3000";
-        descripcion[96] = "Descripción: Tiempo integral para el pid del nivel 1.\nRango: 0~3600 sec";
-        descripcion[97] = "Descripción: Tiempo derivativo para el pid del nivel 1.\nRango: 0~900 sec";
-        descripcion[98] = "Descripción: Anti reset para el pid del nivel 1, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
-        descripcion[102] = "Descripción: Banda proporcional para el pid del nivel 2.\nRango: 0.0~3000";
-        descripcion[103] = "Descripción: Tiempo integral para el pid del nivel 2.\nRango: 0~3600 sec";
-        descripcion[104] = "Descripción: Tiempo derivativo para el pid del nivel 2.\nRango: 0~900 sec";
-        descripcion[105] = "Descripción: Anti reset para el pid del nivel 2, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
-        descripcion[109] = "Descripción: Banda proporcional para el pid del nivel 3.\nRango: 0.0~3000";
-        descripcion[110] = "Descripción: Tiempo integral para el pid del nivel 3.\nRango: 0~3600 sec";
-        descripcion[111] = "Descripción: Tiempo derivativo para el pid del nivel 3.\nRango: 0~900 sec";
-        descripcion[112] = "Descripción: Anti reset para el pid del nivel 3, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
-        descripcion[116] = "Descripción: Banda proporcional para el pid del nivel 4.\nRango: 0.0~3000";
-        descripcion[117] = "Descripción: Tiempo integral para el pid del nivel 4.\nRango: 0~3600 sec";
-        descripcion[118] = "Descripción: Tiempo derivativo para el pid del nivel 4.\nRango: 0~900 sec";
-        descripcion[119] = "Descripción: Anti reset para el pid del nivel 4, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
 
-        document.getElementById("textDescription").value = descripcion[89];
         opciones.addEventListener("change", (event) => {
             let opcion = event.target.value
-            document.getElementById("textDescription").value = descripcion[opcion];
 
             function datos() {
                 $.ajax({
@@ -133,7 +107,36 @@
             $(document).ready(function (){
                  datos();
             });
+
+            var losp = document.getElementById("LoSP").getAttribute("value")
+            var hisp = document.getElementById("HiSP").getAttribute("value")
+
+            descripcion[89] = "Descripción: Velocidad de comunicación\nRango: 2.4K / 4.8K / 9.6K / 19.2K / 38.4K\nNota: Para enviar el dato al controlador escriba 0 para 2.4K, 1 para 4.8K, 2 para 9.6K, 3 para 19.2K ó 4 para 38.4K";
+            descripcion[90] = "Descripción: Dirección en la red\nRango: 0~31";
+            descripcion[91] = "Descripción: Ajusta el rango de operación para el pid 1.\nRango: " + losp + "~" + hisp;
+            descripcion[92] = "Descripción: Ajusta el rango de operación para el pid 2.\nRango: " + losp + "~" + hisp;
+            descripcion[93] = "Descripción: Ajusta el rango de operación para el pid 3.\nRango: " + losp + "~" + hisp;
+            descripcion[94] = "Descripción: Selección del pid que se quiere supervisar.\nRango: 1~4";
+            descripcion[95] = "Descripción: Banda proporcional para el pid del nivel 1.\nRango: 0.0~3000";
+            descripcion[96] = "Descripción: Tiempo integral para el pid del nivel 1.\nRango: 0~3600 sec";
+            descripcion[97] = "Descripción: Tiempo derivativo para el pid del nivel 1.\nRango: 0~900 sec";
+            descripcion[98] = "Descripción: Anti reset para el pid del nivel 1, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
+            descripcion[102] = "Descripción: Banda proporcional para el pid del nivel 2.\nRango: 0.0~3000";
+            descripcion[103] = "Descripción: Tiempo integral para el pid del nivel 2.\nRango: 0~3600 sec";
+            descripcion[104] = "Descripción: Tiempo derivativo para el pid del nivel 2.\nRango: 0~900 sec";
+            descripcion[105] = "Descripción: Anti reset para el pid del nivel 2, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
+            descripcion[109] = "Descripción: Banda proporcional para el pid del nivel 3.\nRango: 0.0~3000";
+            descripcion[110] = "Descripción: Tiempo integral para el pid del nivel 3.\nRango: 0~3600 sec";
+            descripcion[111] = "Descripción: Tiempo derivativo para el pid del nivel 3.\nRango: 0~900 sec";
+            descripcion[112] = "Descripción: Anti reset para el pid del nivel 3, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
+            descripcion[116] = "Descripción: Banda proporcional para el pid del nivel 4.\nRango: 0.0~3000";
+            descripcion[117] = "Descripción: Tiempo integral para el pid del nivel 4.\nRango: 0~3600 sec";
+            descripcion[118] = "Descripción: Tiempo derivativo para el pid del nivel 4.\nRango: 0~900 sec";
+            descripcion[119] = "Descripción: Anti reset para el pid del nivel 4, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
+
+            document.getElementById("textDescription").value = descripcion[opcion];
         });
+        document.getElementById("textDescription").value = descripcion[0];
 
     </script>
 

@@ -52,10 +52,10 @@
             <div class="botons">
                 <button class="send" type="submit">Escribir</button>
                 <button class="send" onClick="javascript:window.close();">Salir</button>
-                <input name="LoSP" type="hidden" id="LoSP" value="">
-                <input name="HiSP" type="hidden" id="HiSP" value="">
-                <input name="LimLoSP" type="hidden" id="LimLoSP" value="">
-                <input name="LimHiSP" type="hidden" id="LimHiSP" value="">
+                <input class="LoSP" type="hidden" id="LoSP" value="">
+                <input class="HiSP" type="hidden" id="HiSP" value="">
+                <input class="LimLoSP" type="hidden" id="LimLoSP" value="">
+                <input class="LimHiSP" type="hidden" id="LimHiSP" value="">
             </div>
 
         </div>
@@ -65,28 +65,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script type="application/javascript">
         var $ = jQuery.noConflict()
-        var losp = document.getElementById("LoSP").getAttribute("value")
-        var hisp = document.getElementById("HiSP").getAttribute("value")
         let textoArea = document.querySelector(".textdesc");
         let opciones = document.querySelector(".parametro");
         const descripcion = [];
 
         descripcion[0] = "";
-        descripcion[75] = "Descripción: Selecciona el tipo de entrada 1.\nRango: ver manual, tabla 4 del manual de usuario del controlador.\nNota: Para enviar el dato al controlador escriba 0 si la entrada es termocupla tipo K en el rango 1 (K1), 1 si la entrada es termocupla tipo K en el rango 2 y así sucesivamente según el orden en que aparece en la tabla 4 del manual de usuario del controlador, donde el valor para Lin es 24.";
-        descripcion[76] = "Descripción: Limite mínimo para el S.V.\nRango: ";
-        descripcion[77] = "Descripción: Limite máximo para el S.V.\nRango: ";
-        descripcion[78] = "Descripción: Valor bajo para la entrada analógica  1.\nRango: -1999~9999"
-        descripcion[79] = "Descripción: Valor alto para la entrada analógica  1.\nRango: -1999~9999"
-        descripcion[80] = "Descripción: Ajuste del valor bajo para la entrada analógica  1.\nRango: 0~FFFF, 0~65535.\nNota: Para enviar el dato al controlador escriba el dato en representación decimal equivalente es decir entre 0 y 65535."
-        descripcion[81] = "Descripción: Ajuste del valor alto para la entrada analógica  1.\nRango: 0~FFFF, 0~65535.\nNota: Para enviar el dato al controlador escriba el dato en representación decimal equivalente es decir entre 0 y 65535.";
-        descripcion[82] = "Descripción: Selección de unidades.\nRango: ºC/ºF/non.\nNota: Para enviar el dato al controlador escriba 0 si las unidades son ºC, 1 si son ºF ó 2 si es una entrada análogica diferente a temperatura."
-        descripcion[83] = "Descripción: Selección del punto decimal.\nRango: 0/0.0/0.00/0.000\nNota: Para enviar el dato al controlador escriba el número de decimales deseado (0, 1, 2 ó 3)"
-        descripcion[84] = "Descripción: Filtro digital para la entrada.\nRango: 0.001~1.000";
 
-        document.getElementById("textDescription").value = descripcion[75];
         opciones.addEventListener("change", (event) => {
             let opcion = event.target.value
-            document.getElementById("textDescription").value = descripcion[opcion];
 
             function datos() {
                 $.ajax({
@@ -98,6 +84,10 @@
                     dataType: 'json',
                     success: function (response){
                         $(".valor").val(response['valor']);
+                        $(".HiSP").val(response['hisp']);
+                        $(".LoSP").val(response['losp']);
+                        $(".LimLoSP").val(response['limlosp']);
+                        $(".LimHiSP").val(response['limhisp']);
                     },
                     error: function(error){
                         console.log(error);
@@ -109,7 +99,26 @@
             $(document).ready(function (){
                  datos();
             });
+
+            var losp = document.getElementById("LoSP").value
+            var hisp = document.getElementById("HiSP").value
+            var limLoSp = document.getElementById("LimLoSP").value
+            var limHiSp = document.getElementById("LimHiSP").value
+
+            descripcion[75] = "Descripción: Selecciona el tipo de entrada 1.\nRango: ver manual, tabla 4 del manual de usuario del controlador.\nNota: Para enviar el dato al controlador escriba 0 si la entrada es termocupla tipo K en el rango 1 (K1), 1 si la entrada es termocupla tipo K en el rango 2 y así sucesivamente según el orden en que aparece en la tabla 4 del manual de usuario del controlador, donde el valor para Lin es 24.";
+            descripcion[76] = "Descripción: Limite mínimo para el S.V.\nRango: "+ limLoSp + "~" + hisp;
+            descripcion[77] = "Descripción: Limite máximo para el S.V.\nRango: "+ losp + "~" + limHiSp;
+            descripcion[78] = "Descripción: Valor bajo para la entrada analógica  1.\nRango: -1999~9999"
+            descripcion[79] = "Descripción: Valor alto para la entrada analógica  1.\nRango: -1999~9999"
+            descripcion[80] = "Descripción: Ajuste del valor bajo para la entrada analógica  1.\nRango: 0~FFFF, 0~65535.\nNota: Para enviar el dato al controlador escriba el dato en representación decimal equivalente es decir entre 0 y 65535."
+            descripcion[81] = "Descripción: Ajuste del valor alto para la entrada analógica  1.\nRango: 0~FFFF, 0~65535.\nNota: Para enviar el dato al controlador escriba el dato en representación decimal equivalente es decir entre 0 y 65535.";
+            descripcion[82] = "Descripción: Selección de unidades.\nRango: ºC/ºF/non.\nNota: Para enviar el dato al controlador escriba 0 si las unidades son ºC, 1 si son ºF ó 2 si es una entrada análogica diferente a temperatura."
+            descripcion[83] = "Descripción: Selección del punto decimal.\nRango: 0/0.0/0.00/0.000\nNota: Para enviar el dato al controlador escriba el número de decimales deseado (0, 1, 2 ó 3)"
+            descripcion[84] = "Descripción: Filtro digital para la entrada.\nRango: 0.001~1.000";
+
+            document.getElementById("textDescription").value = descripcion[opcion];
         });
+        document.getElementById("textDescription").value = descripcion[0];
 
     </script>
 

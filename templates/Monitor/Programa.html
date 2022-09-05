@@ -80,44 +80,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script type="application/javascript">
         var $ = jQuery.noConflict()
-        var losp = document.getElementById("LoSP").getAttribute("value")
-        var hisp = document.getElementById("HiSP").getAttribute("value")
         let textoArea = document.querySelector(".textdesc");
         let opciones = document.querySelector(".parametro");
         const descripcion = [];
 
         descripcion[0] = "";
-        descripcion[123] = "Descripción: Monitorea en que segmento va el programa.\nRango: 1~8.\nNota: Solo de lectura";
-   descripcion[124] = "Descripción: Monitorea el tiempo que le resta a la ejecución del programa.\nNota: Solo de lectura";
-   descripcion[125] = "Descripción: Ajuste del segmento en que se va a terminar el programa.\nRango: 1~8.\nNota: Valor ajustado de fábrica 1";
-   descripcion[126] = "Descripción: Punto de control para el segmento número 1 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[127] = "Descripción: Tiempo de subida para el segmento número 1; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[128] = "Descripción: Tiempo de sostenido para el segmento número 1; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[129] = "Descripción: Punto de control para el segmento número 2 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[130] = "Descripción: Tiempo de subida para el segmento número 2; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[131] = "Descripción: Tiempo de sostenido para el segmento número 2; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[132] = "Descripción: Punto de control para el segmento número 3 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[133] = "Descripción: Tiempo de subida para el segmento número 3; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[134] = "Descripción: Tiempo de sostenido para el segmento número 3; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[135] = "Descripción: Punto de control para el segmento número 4 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[136] = "Descripción: Tiempo de subida para el segmento número 4; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[137] = "Descripción: Tiempo de sostenido para el segmento número 4; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[138] = "Descripción: Punto de control para el segmento número 5 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[139] = "Descripción: Tiempo de subida para el segmento número 5; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[140] = "Descripción: Tiempo de sostenido para el segmento número 5; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[141] = "Descripción: Punto de control para el segmento número 6 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[142] = "Descripción: Tiempo de subida para el segmento número 6; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[143] = "Descripción: Tiempo de sostenido para el segmento número 6; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[144] = "Descripción: Punto de control para el segmento número 7 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[145] = "Descripción: Tiempo de subida para el segmento número 7; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[146] = "Descripción: Tiempo de sostenido para el segmento número 7; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[147] = "Descripción: Punto de control para el segmento número 8 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[148] = "Descripción: Tiempo de subida para el segmento número 8; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-   descripcion[149] = "Descripción: Tiempo de sostenido para el segmento número 8; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
-        document.getElementById("textDescription").value = descripcion[123];
+
         opciones.addEventListener("change", (event) => {
             let opcion = event.target.value
-            document.getElementById("textDescription").value = descripcion[opcion];
 
             function datos() {
                 $.ajax({
@@ -142,7 +112,41 @@
             $(document).ready(function (){
                  datos();
             });
+
+            var losp = document.getElementById("LoSP").getAttribute("value")
+            var hisp = document.getElementById("HiSP").getAttribute("value")
+
+            descripcion[123] = "Descripción: Monitorea en que segmento va el programa.\nRango: 1~8.\nNota: Solo de lectura";
+            descripcion[124] = "Descripción: Monitorea el tiempo que le resta a la ejecución del programa.\nNota: Solo de lectura";
+            descripcion[125] = "Descripción: Ajuste del segmento en que se va a terminar el programa.\nRango: 1~8.\nNota: Valor ajustado de fábrica 1";
+            descripcion[126] = "Descripción: Punto de control para el segmento número 1 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[127] = "Descripción: Tiempo de subida para el segmento número 1; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[128] = "Descripción: Tiempo de sostenido para el segmento número 1; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[129] = "Descripción: Punto de control para el segmento número 2 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[130] = "Descripción: Tiempo de subida para el segmento número 2; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[131] = "Descripción: Tiempo de sostenido para el segmento número 2; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[132] = "Descripción: Punto de control para el segmento número 3 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[133] = "Descripción: Tiempo de subida para el segmento número 3; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[134] = "Descripción: Tiempo de sostenido para el segmento número 3; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[135] = "Descripción: Punto de control para el segmento número 4 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[136] = "Descripción: Tiempo de subida para el segmento número 4; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[137] = "Descripción: Tiempo de sostenido para el segmento número 4; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[138] = "Descripción: Punto de control para el segmento número 5 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[139] = "Descripción: Tiempo de subida para el segmento número 5; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[140] = "Descripción: Tiempo de sostenido para el segmento número 5; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[141] = "Descripción: Punto de control para el segmento número 6 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[142] = "Descripción: Tiempo de subida para el segmento número 6; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[143] = "Descripción: Tiempo de sostenido para el segmento número 6; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[144] = "Descripción: Punto de control para el segmento número 7 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[145] = "Descripción: Tiempo de subida para el segmento número 7; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[146] = "Descripción: Tiempo de sostenido para el segmento número 7; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[147] = "Descripción: Punto de control para el segmento número 8 del programa.\nRango:  " + losp + "~" + hisp +".\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[148] = "Descripción: Tiempo de subida para el segmento número 8; esto genera la rata de subida de la variable la cual queda definida por (Sv(X+1)-SvX)/tPX. donde X es el número de segmento.\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+            descripcion[149] = "Descripción: Tiempo de sostenido para el segmento número 8; es decir el tiempo que se quedará el Sv en SvX. donde X es el número de segmento\nRango: 0.00~99.59(h:m)\nNota: ver figura 7 del manual de usuario del controlador para mejor explicación";
+
+            document.getElementById("textDescription").value = descripcion[opcion];
         });
+        document.getElementById("textDescription").value = descripcion[0];
 
     </script>
 

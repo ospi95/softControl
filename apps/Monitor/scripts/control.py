@@ -9,7 +9,7 @@ def validarControl(request, dir1):
     vel = int(sesion['velocidad'])
     id1 = int(sesion['controlador1'])
     id2 = int(sesion['controlador2'])
-    entero = False
+    entero = True
     ValorActual = -99999
     decimales = 1
     valorActualString = ''
@@ -19,8 +19,8 @@ def validarControl(request, dir1):
     salvando = sesion['salvando']
 
     valorActual = leercontrol.leerDireccion(puerto, vel, idx, dir1)
-    decimales = int(math.pow(10, leercontrol.leerDireccion(puerto, vel, idx, 0x53)))
-    estado = ''
+    losp = 0
+    hisp = 0
 
 
     if salvando == 'En lectura...':

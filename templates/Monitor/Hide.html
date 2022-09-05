@@ -107,8 +107,7 @@
                     },
                     dataType: 'json',
                     success: function (response){
-                        $(".HiSP").val(response['hisp']);
-                        $(".LoSP").val(response['losp']);
+                        $(".valor").val(response['valor']);
                     },
                     error: function(error){
                         console.log(error);

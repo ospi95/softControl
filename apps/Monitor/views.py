@@ -9,6 +9,7 @@ from apps.Comunicacion.views import *
 from apps.Comunicacion.scripts.buscarpuertos import *
 from apps.Monitor.scripts.usuario import *
 from apps.Monitor.scripts.control import *
+from apps.Monitor.scripts.salida import *
 from apps.Monitor.scripts.escribircontrol import *
 
 
@@ -105,7 +106,7 @@ class Usuario(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': 1 #sesion['configcon']
+            'controlador': sesion['configcon']
         }
 
         return render(request, self.template_name, data)
@@ -116,11 +117,11 @@ class Usuario(TemplateView):
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
-            #valor = validarUsuario(request, dir1)
+            valor = validarUsuario(request, dir1)
             lista = {
-                'valor': 2, #valor[0],
-                'losp': 4, #valor[1],
-                'hisp': 20, #valor[2]
+                'valor': valor[0],
+                'losp': valor[1],
+                'hisp': valor[2]
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')
@@ -141,7 +142,7 @@ class Control(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': 1 #sesion['configcon']
+            'controlador': sesion['configcon']
         }
 
         return render(request, self.template_name, data)
@@ -151,9 +152,9 @@ class Control(TemplateView):
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
-            #valor = validarControl(request, dir1)
+            valor = validarControl(request, dir1)
             lista = {
-                'valor': 'funciona', #valor[0],
+                'valor': valor[0]
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')
@@ -174,7 +175,7 @@ class Salida(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': 1 #sesion['configcon']
+            'controlador': sesion['configcon']
         }
 
         return render(request, self.template_name, data)
@@ -184,9 +185,9 @@ class Salida(TemplateView):
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
-            #valor = validarControl(request, dir1)
+            valor = validarSalida(request, dir1)
             lista = {
-                'valor': 'funciona', #valor[0],
+                'valor': valor[0]
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')
@@ -220,6 +221,10 @@ class Entrada(TemplateView):
             #valor = validarControl(request, dir1)
             lista = {
                 'valor': 'funciona', #valor[0],
+                'losp': 4,  # valor[1],
+                'hisp': 20,  # valor[2]
+                'limlosp': 50,  # valor[3]
+                'limhisp': 30  # valor[4]
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')
@@ -253,6 +258,8 @@ class Comunicacion(TemplateView):
             #valor = validarControl(request, dir1)
             lista = {
                 'valor': 'funciona', #valor[0],
+                'losp': 4,  # valor[1],
+                'hisp': 20,  # valor[2]
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')
@@ -286,6 +293,8 @@ class Programa(TemplateView):
             #valor = validarControl(request, dir1)
             lista = {
                 'valor': 'funciona', #valor[0],
+                'losp': 4,  # valor[1],
+                'hisp': 20,  # valor[2]
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')

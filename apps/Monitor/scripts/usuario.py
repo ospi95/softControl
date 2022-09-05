@@ -38,7 +38,7 @@ def validarUsuario(request, dir1):
 
     if dir1 == 16:
         valorActual = valorActual / 10
-        decimales = 1000
+        decimales = 10
         losp = 0
         hisp = 200
     elif dir1 == 18:
@@ -224,6 +224,7 @@ def validarUsuario(request, dir1):
             valorActual = -99999
             entero = True
             estado = "disabled"
+
     if (valorActual == 0) and (dir1 == 4):
         entero = True
         valorActualString = "no"
