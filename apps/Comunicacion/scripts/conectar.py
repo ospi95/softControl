@@ -23,7 +23,7 @@ def conectar(request):
 
     if int(sesion['controlarLecturaPuerto']) == 1:
         sesion['controlarLecturaPuerto'] = 0
-        leercontrol.leerControladores(puerto, vel, id1, id2, request)
+        leercontrol.leerControladores(puerto, vel, 1, 2, request)
 
         if controlador == 'C1' or controlador == 'C3':
             if int(sesion['controlador1']) == 1:

@@ -11,9 +11,8 @@ from apps.Monitor.scripts.usuario import *
 from apps.Monitor.scripts.control import *
 from apps.Monitor.scripts.salida import *
 from apps.Monitor.scripts.escribircontrol import *
-
-
 import jsonpickle
+
 # Create your views here.
 
 #Vista de inicio de pagina donde se inicializan algunas varibles en la sesion
@@ -80,7 +79,11 @@ class Monitor(TemplateView):
 
         data = {
             'controlador1': 1,
-            'controlador2': 2
+            'controlador2': 2,
+            'manual1': str(sesion['manual1']),
+            'manual2': str(sesion['manual2']),
+            'alarma1': str(sesion['alarma1']),
+            'alarma2': str(sesion['alarma2'])
         }
 
         return render(request, self.template_name, data)
@@ -128,7 +131,8 @@ class Usuario(TemplateView):
 
         else:
             direccion = int(request.POST['parametro'])
-            escribirControl(request, direccion)
+            valor = int(request.POST['valor'])
+            escribirControl(request, direccion, valor)
             return render(request, self.template_name)
 
 #Vista del nivel del controlador de control para configurar los parametros de este nivel

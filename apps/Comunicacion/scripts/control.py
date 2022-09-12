@@ -1,19 +1,19 @@
+from apps.Controlador.scripts.escribircontrolador import *
 from apps.Controlador.scripts.registro import *
 from apps.Alarma.scripts.alarma import *
+from apps.Controlador.scripts.leercontrolador import *
+from apps.Controlador.scripts.registroenconder import *
 import json
 
 
 class Control:
     datoF = Registro()
-    #lc = LeerControlado()
-    # hay que crear la clase en Controlador, esta parte seria el script que se necesita de comunicacion
-    # con el controlador
+    lc = Leercontrolador()
     escribir = False
     c1 = 0
     c2 = 0
     aac1 = 0
     ac1 = 0
-    bbc1 = 0
     aac2 = 0
     ac2 = 0
     bbc2 = 0
@@ -36,9 +36,10 @@ class Control:
 
         def run():
             while int(sesion['threadRead']) == 1:
+                lc = Leercontrolador()
                 if id1 != 999:
-                    #aux1 = lc.LeerDireccion(puerto, vel, id1, 0x05, sesion)
-                    print('falta configurar Leer Direccion')
+                    aux1 = lc.LeerDireccion(puerto, vel, id1, 5, sesion)
+
                     if id1 == 99999:
                         sesion['manual1'] = 'botonBlack'
                     elif id1 == 0:
@@ -49,8 +50,7 @@ class Control:
                         sesion['manual1'] = 'botonYellow'
 
                 if id2 != 999:
-                    #aux1 = lc.LeerDireccion(puerto, vel, id1, 0x05, sesion)
-                    print('falta configurar Leer Direccion del controlador')
+                    aux1 = lc.LeerDireccion(puerto, vel, id1, 5, sesion)
                     if id2 == 99999:\
                         sesion['manual2'] = 'botonBlack'
                     elif id2 == 0:
@@ -60,12 +60,15 @@ class Control:
                     elif id2 == 2:
                         sesion['manual2'] = 'botonYellow'
 
-                #datoF = lc.Leer(puerto, vel, id1, id2, sesion)
-                #falta configurar Leer del controlador'
-                #sesion['dato'] = datoF
+                datoF = lc.Leer(puerto, vel, id1, id2, sesion)
+                sesion['dato'] = json.dumps(datoF, default=registroEncoder)
 
                 if sesion['cascada'] == 'botonOrange':
-                    pass
+                    aux1 = lc.leerDireccion(puerto, vel, id2, 76)
+                    aux2 = lc.leerDireccion(puerto, vel, id2, 77)
+                    aux2 = (((aux2-aux1)*datoF.getOUT1())/100)+aux1
+                    ec = Escribircontrolador()
+                    ec.escribir(puerto, vel, id2, 2, int(aux2))
 
                 if int(sesion['threadRead']) == 1:
                     sesion['salvando'] = 'En lectura...'
@@ -84,8 +87,9 @@ class Control:
 
         def run():
             while int(sesion['threadWrite']) == 1:
+                lc = Leercontrolador()
                 if id1 != 999:
-                    # aux1 = lc.LeerDireccion(puerto, vel, id1, 0x05, sesion)
+                    aux1 = lc.LeerDireccion(puerto, vel, id1, 5, sesion)
                     print('falta configurar Leer Direccion')
                     if aux1 == 0:
                         sesion['manual1'] = 'botonBlack'
@@ -93,19 +97,23 @@ class Control:
                         sesion['manual1'] = 'botonYellow'
 
                 if id2 != 999:
-                    # aux1 = lc.LeerDireccion(puerto, vel, id1, 0x05, sesion)
+                    aux1 = lc.LeerDireccion(puerto, vel, id1, 5, sesion)
                     print('falta configurar Leer Direccion')
                     if aux1 == 0:
                         sesion['manual2'] = 'botonBlack'
                     else:
                         sesion['manual2'] = 'botonYellow'
 
-                # datoF = lc.Leer(puerto, vel, id1, id2, sesion)
-                print('falta configurar Leer del controlador')
-                # sesion['dato'] = datoF
+                datoF = lc.Leer(puerto, vel, id1, id2, sesion)
+                sesion['dato'] = json.dumps(datoF, default=registroEncoder)
+                sesion['dato'] = datoF
 
                 if sesion['cascada'] == 'botonOrange':
-                    pass
+                    aux1 = lc.leerDireccion(puerto, vel, id2, 76)
+                    aux2 = lc.leerDireccion(puerto, vel, id2, 77)
+                    aux2 = (((aux2 - aux1) * datoF.getOUT1()) / 100) + aux1
+                    ec = Escribircontrolador()
+                    ec.escribir(puerto, vel , id2, 2 , int(aux2))
 
                 if int(sesion['threadWrite']) == 1:
                     sesion['salvando'] = 'En lectura...'
@@ -221,5 +229,4 @@ class Control:
                             pass
                     finally:
                         pass
-
         run()

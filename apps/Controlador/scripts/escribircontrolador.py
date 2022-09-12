@@ -1,7 +1,8 @@
 from pymodbus.client.sync import ModbusSerialClient
 
 class Escribircontrolador:
-    def escribir(self, port, vel, id, dir, request):
+
+    def escribir(self, port, vel, id, dir, valor):
         client = ModbusSerialClient(
             method="rtu",
             port=port,
@@ -10,4 +11,4 @@ class Escribircontrolador:
             parity='N',
             baudrate=vel
         )
-        client.write_register(address=dir, value=1, unit=id)
+        client.write_register(address=dir, value=valor, unit=id)
