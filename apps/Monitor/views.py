@@ -23,7 +23,7 @@ class Home(TemplateView):
         sesion = request.session
 
         sesion['controlarLecturaPuerto'] = 1
-        sesion['sesion'] = 0
+        sesion['sesion'] = 1
         sesion['salvando'] = ''
         sesion['LeeDireccion'] = 1
         sesion['hiloParado'] = 1
@@ -74,8 +74,27 @@ class Principal(TemplateView):
 class Monitor(TemplateView):
     template_name = 'Monitor.html'
 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+        
     def get(self, request, *args, **kwargs):
         sesion = request.session
+
+        if str(sesion['manual1']) == '':
+            sesion['manual1'] = 'botonNormal'
+        
+        if str(sesion['alarma1']) == '':
+            sesion['alarma1'] = 'botonNormal'
+
+        if str(sesion['manual2']) == '':
+            sesion['manual2'] = 'botonNormal'
+        
+        if str(sesion['alarma2']) == '':
+            sesion['alarma2'] = 'botonNormal'
+
+        if str(sesion['cascada']) == '':
+            sesion['cascada'] = 'botonNormal'
 
         data = {
             'controlador1': 1,
@@ -83,20 +102,33 @@ class Monitor(TemplateView):
             'manual1': str(sesion['manual1']),
             'manual2': str(sesion['manual2']),
             'alarma1': str(sesion['alarma1']),
-            'alarma2': str(sesion['alarma2'])
+            'alarma2': str(sesion['alarma2']),
+            'cascada': str(sesion['cascada']),
+            'lectura': '...En lectura' #str(sesion['salvando'])
         }
 
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
         sesion = request.session
-
+        
         if 'configcon1' in request.POST:
             sesion['configcon'] = 1
         elif 'configcon2' in request.POST:
             sesion['configcon'] = 2
+        
+        data = {
+            'controlador1': 1,
+            'controlador2': 2,
+            'manual1': str(sesion['manual1']),
+            'manual2': str(sesion['manual2']),
+            'alarma1': str(sesion['alarma1']),
+            'alarma2': str(sesion['alarma2']),
+            'cascada': str(sesion['cascada']),
+            'lectura': '...En lectura' #str(sesion['salvando'])
+        }
 
-        return render(request, self.template_name)
+        return render(request, self.template_name, data)
 
 #Vista del nivel del controlador de usuarios para configurar los parametros de este nivel
 class Usuario(TemplateView):
@@ -116,7 +148,6 @@ class Usuario(TemplateView):
 
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
@@ -152,7 +183,6 @@ class Control(TemplateView):
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
@@ -218,7 +248,6 @@ class Entrada(TemplateView):
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])

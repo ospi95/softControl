@@ -10,7 +10,7 @@ def conectar(request):
     alarma = Alarma()
     adminpuertos = AdministrarPuerto()
     leercontrol = Leercontrolador()
-
+    
     controlador = sesion['controlador']
     puerto = str(sesion['puerto'])
     vel = int(sesion['velocidad'])

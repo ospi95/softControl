@@ -158,13 +158,12 @@
 }
 
 .pie .pie-box {
-    position:relative;
+    position:absolute;
     float: none;
     width: 100%;
-    max-width: 1039px;
     padding: 0 10px;
-    top:40px;
-    left:260px;
+    top:90px;
+    left:300px;
 
 }
 
@@ -185,4 +184,24 @@
     border: #ff7e1d solid 1px;
     color: #fff;
     transition: all 0.3s ease-in;
+}
+
+.grafica {
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  border: #428713 solid 1px;
+  background-color: #428713;
+  color: #fff;
+  padding: 10px 20px;
+  float: none;
+  transition: all 0.3s ease-in;
+  border-radius: 25px;
+}
+
+.grafica:hover {
+ background-color: #ff7e1d;
+ border: #ff7e1d solid 1px;
+ color: #fff;
+ transition: all 0.3s ease-in;
 }

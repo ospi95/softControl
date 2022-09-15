@@ -1,7 +1,8 @@
 .containermonitor{
+    position: center;
     display: flex;
     flex-direction: row;
-    width: 100px;
+    width: 100%;
     justify-content: space-evenly;
 }
 
@@ -9,7 +10,7 @@
     width: 300px;
     height: 380px;
     position:fixed;
-    left: 15%;
+    left: 18%;
     top:25%;
     text-align:center;
     border: 2px solid #428713;
@@ -19,10 +20,19 @@
     width: 300px;
     height: 380px;
     position:fixed;
-    left: 64%;
+    left: 65%;
     top:25%;
     text-align:center;
     border: 2px solid #428713;
+}
+
+.columna3 {
+    width: 200px;
+    height: 200px;
+    position:fixed;
+    left: 45%;
+    top:35%;
+    text-align:center;
 }
 
 .valores{
@@ -43,12 +53,34 @@
     text-align:center;
 }
 
-.btnmanual{
+.botonNormal{
     padding: 11px 11px;
+    background-color: gray;
 }
 
-.btnalarma{
+.botonOrange{
     padding: 11px 11px;
+    background-color: orange;
+}
+
+.botonYellow{
+    padding: 11px 11px;
+    background-color: yellow;
+}
+
+.botonBlack{
+    padding: 11px 11px;
+    background-color: black;
+}
+
+.botonRed{
+    padding: 11px 11px;
+    background-color: red;
+}
+
+.botonWhite{
+    padding: 11px 11px;
+    background-color: white;
 }
 
 .configcon {
@@ -70,3 +102,12 @@
     color: #fff;
     transition: all 0.3s ease-in;
 }
+
+.graficaval {
+    font-family: 'Oswald', sans-serif;
+    text-decoration:none;
+    margin-top: 25px;
+    margin-bottom: 0;
+    color: #128003;
+  }
+

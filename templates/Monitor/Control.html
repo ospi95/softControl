@@ -73,29 +73,10 @@
         const descripcion = [];
 
         descripcion[0] = "";
-        descripcion[25] = "Descripción: Banda proporcional para la salida 1.\nRango: 0.0~3000";
-        descripcion[26] = "Descripción: Tiempo integral para la salida 1.\nRango: 0~3600 sec";
-        descripcion[27] = "Descripción: Tiempo derivativo para la salida 1.\nRango: 0~900 sec"
-        descripcion[28] = "Descripción: Tiempo de ciclo para la salida 1.\nRango: 0~150 sec "
-        descripcion[29] = "Descripción: Histéresis  para la salida 1 cuando esta On/Off es decir cuando Pi=0.\nRango: 0.0 ~ 200.0"
-        descripcion[30] = "Descripción: Desviación de la auto sintonía.\nRango: -200.0~200.0"
-        descripcion[31] = "Descripción: Anti reset, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
-        descripcion[37] = "Descripción: Banda muerta.\nRango: -200.0~200.0"
-        descripcion[38] = "Descripción: Valor ajustado para inicio suave, este ajusta un rango de inicio suave, cuando deseamos que el sistema no aumente la variable tan rápido como al principio, puede ajustar  SSV.\nRango: 0.0~200.0"
-        descripcion[39] = "Descripción: Este es para ajustar el porcentaje de salida para valores menores al SSV , Si desea el 50% de salida, debe ajustarlo a 50.\nRango: 0.0~100.0%"
-        descripcion[40] = "Descripción: Tiempo de falla del inicio suave. Cuando el control PID supera el tiempo StmE, pero el PV no supera el SSV, significa que falló el inicio suave, luego el controlador apagará la salida hasta que se llegue al SV.\nRango: 0~10 min."
-        descripcion[42] = "Descripción: Numero de veces que el programa se ejecutará.\nRango: 1~1000.";
-        descripcion[43] = "Descripción: Seleccion del modo de inicio para el modo rampas y sostenidos.\nRango: Cold= manual, rSET= inicio despues de encender, Hot= inicie desde el valor anterior del apagado del controlador\nNota:Para enviar el dato al controlador escriba 0 si desea Cold ó 1 si desea rSET ó 2 si desea Hot.";
-        descripcion[44] = "Descripción: Selección del S.V de inicio para el modo rampas y sostenidos.\nRango: RSEt= inicie desde 0, Pv= inicie desde el S.V actual.\nNota:Para enviar el dato al controlador escriba 0 si desea RSEt ó 1 si desea PV";
-        descripcion[45] = "Descripción: Cantidad de unidades que se quiere que espere el S.V al P.V para cambiar de segmento, solo para modo de rampas y sostenidos.\nRango: 0.0~200.0";
-        descripcion[46] = "Descripción: En este parámetro, Puede escoger el controlador con un PID ó level-PID (LPID), Si escoge LPID entonces puede ajustar 4 niveles con diferentes Pid.\nRango: Pid o LPid\nNota:Para enviar el dato al controlador escriba 0 si desea control Pid ó 1 si desea control pid por niveles o LPid.";
-        descripcion[47] = "Descripción: Selecciona que hacer cuando finaliza la ejecucion de un programa, solo para modo de rampas y sostenidos. \nRango: Cont= repita el programa StoP= ejecute el programa solo una vez\nNota:Para enviar el dato al controlador escriba 0 si desea Cont ó 1 si desea StoP.";
-
-        document.getElementById("textDescription").value = descripcion[25];
+        
         opciones.addEventListener("change", (event) => {
             let opcion = event.target.value
-            document.getElementById("textDescription").value = descripcion[opcion];
-
+            
             function datos() {
                 $.ajax({
                     url: window.location.pathname,
@@ -117,7 +98,28 @@
             $(document).ready(function (){
                  datos();
             });
+            
+            descripcion[25] = "Descripción: Banda proporcional para la salida 1.\nRango: 0.0~3000";
+            descripcion[26] = "Descripción: Tiempo integral para la salida 1.\nRango: 0~3600 sec";
+            descripcion[27] = "Descripción: Tiempo derivativo para la salida 1.\nRango: 0~900 sec"
+            descripcion[28] = "Descripción: Tiempo de ciclo para la salida 1.\nRango: 0~150 sec "
+            descripcion[29] = "Descripción: Histéresis  para la salida 1 cuando esta On/Off es decir cuando Pi=0.\nRango: 0.0 ~ 200.0"
+            descripcion[30] = "Descripción: Desviación de la auto sintonía.\nRango: -200.0~200.0"
+            descripcion[31] = "Descripción: Anti reset, es una solución para prevenir el sobre elevamiento. Este parámetro realiza un retardo integral. Si lo ajustamos a 100% significa que el integral operará cuando el PV supera la banda proporcional, pero si se ajusta en 50%, significa que el integral operará cuando el PV supera 50% de la banda proporcional.\nRango: 0~100.0% SV-P1 x Ar";
+            descripcion[37] = "Descripción: Banda muerta.\nRango: -200.0~200.0"
+            descripcion[38] = "Descripción: Valor ajustado para inicio suave, este ajusta un rango de inicio suave, cuando deseamos que el sistema no aumente la variable tan rápido como al principio, puede ajustar  SSV.\nRango: 0.0~200.0"
+            descripcion[39] = "Descripción: Este es para ajustar el porcentaje de salida para valores menores al SSV , Si desea el 50% de salida, debe ajustarlo a 50.\nRango: 0.0~100.0%"
+            descripcion[40] = "Descripción: Tiempo de falla del inicio suave. Cuando el control PID supera el tiempo StmE, pero el PV no supera el SSV, significa que falló el inicio suave, luego el controlador apagará la salida hasta que se llegue al SV.\nRango: 0~10 min."
+            descripcion[42] = "Descripción: Numero de veces que el programa se ejecutará.\nRango: 1~1000.";
+            descripcion[43] = "Descripción: Seleccion del modo de inicio para el modo rampas y sostenidos.\nRango: Cold= manual, rSET= inicio despues de encender, Hot= inicie desde el valor anterior del apagado del controlador\nNota:Para enviar el dato al controlador escriba 0 si desea Cold ó 1 si desea rSET ó 2 si desea Hot.";
+            descripcion[44] = "Descripción: Selección del S.V de inicio para el modo rampas y sostenidos.\nRango: RSEt= inicie desde 0, Pv= inicie desde el S.V actual.\nNota:Para enviar el dato al controlador escriba 0 si desea RSEt ó 1 si desea PV";
+            descripcion[45] = "Descripción: Cantidad de unidades que se quiere que espere el S.V al P.V para cambiar de segmento, solo para modo de rampas y sostenidos.\nRango: 0.0~200.0";
+            descripcion[46] = "Descripción: En este parámetro, Puede escoger el controlador con un PID ó level-PID (LPID), Si escoge LPID entonces puede ajustar 4 niveles con diferentes Pid.\nRango: Pid o LPid\nNota:Para enviar el dato al controlador escriba 0 si desea control Pid ó 1 si desea control pid por niveles o LPid.";
+            descripcion[47] = "Descripción: Selecciona que hacer cuando finaliza la ejecucion de un programa, solo para modo de rampas y sostenidos. \nRango: Cont= repita el programa StoP= ejecute el programa solo una vez\nNota:Para enviar el dato al controlador escriba 0 si desea Cont ó 1 si desea StoP.";
+            
+            document.getElementById("textDescription").value = descripcion[opcion];
         });
+        document.getElementById("textDescription").value = descripcion[0];
 
     </script>
 

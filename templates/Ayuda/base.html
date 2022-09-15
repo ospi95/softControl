@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/menu.css' %}" type="text/css"/>
     <link rel="stylesheet" href="{% static 'css/styles2.css' %}" type="text/css"/>
     <link rel="stylesheet" href="{% static 'css/stylemonitor.css' %}" type="text/css"/>
+    
 </head>
 
 <body>
@@ -31,15 +32,15 @@
 
             <li><a href="">Ver</a>
                 <ul>
-                    <li><a href="">Mantenimiento (ADMINISTRADOR)</a></li>
-                    <li><a href="../../Ayuda/Manual_Controlador">Manual Controlador MC5X38</a></li>
+                    <li><a href="../../admin">Mantenimiento (ADMINISTRADOR)</a></li>
+                    <li><a href="javascript:Ventana('../../Ayuda/Manual_Controlador')">Manual Controlador MC5X38</a></li>
                 </ul>
             </li>
 
             <li><a href="">Ayuda</a>
                 <ul>
-                    <li><a href="../../Ayuda/Manual_Usuario">Manual de Usuario</a></li>
-                    <li><a href="../../Ayuda/Acercade">Acerca De</a></li>
+                    <li><a href="">Manual de Usuario</a></li>
+                    <li><a href="javascript:Ventana('../../Ayuda/Acercade')">Acerca De</a></li>
                 </ul>
             </li>
 
@@ -58,11 +59,18 @@
     <div class="pie-box">
         <tr>
             <button class="send" onclick="location.href='../../Monitor/Monitor'">MONITOR</button></td>
-            <button class="send" onclick="location.href='../../Monitor'">GRAFICA</button></td>
-            <button class="send" onclick="location.href='../../Alarma/Evento'">ALARMA</button></td>
+            <button class="send" onclick="location.href='../../Archivo/Grafica'">GRAFICA</button></td>
             <button class="send" onclick="location.href='../../Controlador/Proceso'">PROCESO</button></td>
         </tr>
     </div>
 </div>
+
+<script language=javascript>
+    function Ventana(url){
+    window.open(url, "Nueva Ventana", "width=1200, height=600")
+    }
+
+</script>
+
 </body>
 </html>

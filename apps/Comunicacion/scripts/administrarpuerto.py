@@ -16,9 +16,10 @@ class AdministrarPuerto:
             baudrate=vel
         )
 
-        client.connect()
-
-        sesion['estadoPuerto'] = 'Abierto'
+        if client.connect():
+            sesion['estadoPuerto'] = 'Abierto'
+        else:
+            sesion['estadoPuerto'] = 'Cerrado'
 
     def cerrarPuerto(self, request):
         sesion = request.session

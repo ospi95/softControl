@@ -22,7 +22,6 @@ def validarControl(request, dir1):
     losp = 0
     hisp = 0
 
-
     if salvando == 'En lectura...':
         ctr.read(puerto, vel, id1, id2, request)
     else:
