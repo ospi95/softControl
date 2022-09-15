@@ -1,25 +1,35 @@
-{% extends "base.html" %}
-
-{% block title %} SoftControl 2.0 - Acerca de{% endblock %}
-
-{% block content %}
-
-    <h1>
-        SOFTWARE DE ADQUISICIÓN, REGISTRO, ALARMA Y REDISTRIBUCIÓNDE DATOS PARA
-        <br>UN SISTEMA DE CONTROL EMPLEANDO CONTROLADORES MAXTHERMO CON
-        <br>MÓDULO DE COMUNICACIÓN RS-485 Y PROTOCOLO MODBUS RTU
-        <br>Version 2.0 - Septiembre 2022
-    </h1>
-
-    <h3>
-        Realizado por el alumno de Ingeniería Química de la Universidad de Antioquia:
-        <br>
-        <br>Mateo Ospina Cardona, mateo.ospinac@udea.edu.co
-        <br>
-        <br>Con la asesoría de los profesores:
-        <br>
-        <br>Milton Jhovany Mejía Ospina, milton.mejia@udea.edu.co
-        <br>Silvia Mercedes Ochoa Caceres, silvia.ochoa@udea.edu.co
-    </h3>
-
-{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Acerca De</title>
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/styles2.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/stylemonitor.css' %}" type="text/css"/>
+    
+</head>
+<body>
+    <div class="configuracion">
+        <h1>
+            SOFTWARE DE ADQUISICIÓN, REGISTRO, ALARMA Y REDISTRIBUCIÓNDE DATOS PARA
+            <br>UN SISTEMA DE CONTROL EMPLEANDO CONTROLADORES MAXTHERMO CON
+            <br>MÓDULO DE COMUNICACIÓN RS-485 Y PROTOCOLO MODBUS RTU
+            <br>Version 2.0 - Septiembre 2022
+        </h1>
+    
+        <h3>
+            Realizado por el alumno de Ingeniería Química de la Universidad de Antioquia:
+            <br>
+            <br>Mateo Ospina Cardona, mateo.ospinac@udea.edu.co
+            <br>
+            <br>Con la asesoría de los profesores:
+            <br>
+            <br>Milton Jhovany Mejía Ospina, milton.mejia@udea.edu.co
+            <br>Silvia Mercedes Ochoa Caceres, silvia.ochoa@udea.edu.co
+        </h3>
+    </div>
+</body>
+</html>

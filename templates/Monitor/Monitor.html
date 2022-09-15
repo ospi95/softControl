@@ -19,12 +19,12 @@
 
                 <section class="manual">
                     <h1>MANUAL</h1>
-                    <button class="btnmanual" name="botonmanual" disabled></button>
+                    <button class="{{manual1}}" name="botonmanual" disabled></button>
                 </section>
 
                 <section class="alarma">
                     <h1>ALARMA</h1>
-                    <button class="btnalarma" name="botonalarma" disabled></button>
+                    <button class="{{alarma1}}" name="botonalarma" disabled></button>
                 </section>
 
                 <button class="configcon" type="submit" name="configcon1" onclick="javascript:window.open(location.href='../../Monitor/Usuario','','width=800,height=300,left=100,top=100,toolbar=yes');");">Configurar</button>
@@ -37,22 +37,39 @@
                 <input class="valores" name="PV1" value="4.29" size="10" maxlength="10" disabled>
 
                 <h4>SV</h4>
-                <input class="valores" name="SV1" value="16" size="10" maxlength="10" disabled>
+                <input class="valores" name="SV1" value="20" size="10" maxlength="10" disabled>
 
                 <h4>OUT(%)</h4>
                 <input class="valores" name="OUT1" value="100" size="10" maxlength="10" disabled>
 
                 <section class="manual">
                     <h1>MANUAL</h1>
-                    <button class="btnmanual" name="botonmanual" disabled></button>
+                    <button class="{{manual2}}" name="botonmanual" disabled></button>
                 </section>
 
                 <section class="alarma">
                     <h1>ALARMA</h1>
-                    <button class="btnalarma" name="botonalarma" disabled></button>
+                    <button class="{{alarma2}}" name="botonalarma" disabled></button>
                 </section>
 
                 <button class="configcon" type="submit" name="configcon2" onclick="javascript:window.open(location.href='../../Monitor/Usuario','','width=800,height=300,left=50,top=50,toolbar=yes');">Configurar</button>
+            </section>
+
+            <section class="columna3">
+                <h1>{{lectura}}</h1>
+                <br>
+
+                <section class="cascada">
+                    <h1>CASCADA</h1>
+                    <button class="{{cascada}}" name="botonalarma" disabled></button>
+                </section>
+                <br>
+                <h4>Velocidad de Bomba (Hz)</h4>
+                <br>
+                <input class="valores" name="Bomba" value="16" size="10" maxlength="5">
+                <br><br>
+                <button class="grafica" type="submit" name="velBomba">Confirmar</button>
+                
             </section>
         </div>
     </form>

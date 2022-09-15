@@ -15,14 +15,16 @@ class AdministrarPuerto:
             parity='N',
             baudrate=vel
         )
+        connection=client.connect()
+        
+        if connection:
+            sesion['estadoPuerto'] = 'Abierto'
+        else:
+            sesion['estadoPuerto'] = 'Cerrado'
+        print("Entró - Abrir Puerto. ")
 
-        print(self.puerto)
-
-        client.connect()
-        result = client.read_holding_registers(address=90, count=1, unit=1)
-        print(result)
-        sesion['estadoPuerto'] = 'Abierto'
-
+        client.close()
+        
     def cerrarPuerto(self, request):
         sesion = request.session
         client = ModbusSerialClient(
@@ -33,5 +35,8 @@ class AdministrarPuerto:
             parity='N',
             baudrate=self.velocidad
         )
+               
+        client.connect()
         client.close()
+        print("Entró - Cerrar Puerto. ")
         sesion['estadoPuerto'] = 'Cerrado'

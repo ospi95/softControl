@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %} SoftControl 2.0 - Grafica{% endblock %}
+
+{% block content %}
+    <form name="frmGrafica" method="POST">
+        <div class="containergrafica">
+            <section class="columna1">
+                <h1>Controlador 1</h1>
+                <h4>Variables para graficar del controlador 1</h2>
+                <br>
+                <label class="graficaval"><input type="checkbox" name="PV1" value="activate" {{EstaPV1}}> Variable</label><br><br>
+                <label class="graficaval"><input type="checkbox" name="SV1" value="activate" {{EstaSV1}}> Set point</label><br><br>
+                <label class="graficaval"><input type="checkbox" name="OUT1" value="activate" {{EstaOUT1}}> Salida (%)</label><br><br>
+                <label class="graficaval"><input type="checkbox" name="P1" value="activate" {{EstaP1}}> Banda proporcional (%)</label><br><br>
+                <label class="graficaval"><input type="checkbox" name="I1" value="activate" {{EstaI1}}> Tiempo integral (s)</label><br><br>
+                <label class="graficaval"><input type="checkbox" name="D1" value="activate" {{Esta1}}> Tiempo derivativo (s)</label>
+            </section>
+
+            <section class="columna2">
+                <h1>Controlador 2</h1>
+                <h4>Variables para graficar del controlador 2</h2>
+                <br>
+                <label class="graficaval"><input type="checkbox" name="PV2" value="activate" {{EstaPV2}}> Variable</label><br><br>
+                <label class="graficaval"><input type="checkbox" name="SV2" value="activate" {{EstaSV2}}> Set point</label><br><br>
+                <label class="graficaval"><input type="checkbox" name="OUT2" value="activate" {{EstaOUT2}}> Salida (%)</label><br><br>
+                <label class="graficaval"><input type="checkbox" name="P2" value="activate" {{EstaP2}}> Banda proporcional (%)</label><br><br>
+                <label class="graficaval"><input type="checkbox" name="I2" value="activate" {{EstaI2}}> Tiempo integral (s)</label><br><br>
+                <label class="graficaval"><input type="checkbox" name="D2" value="activate" {{EstaD2}}> Tiempo derivativo (s)</label>
+            </section>
+
+            <section class="columna3">
+                <h1>{{lectura}}</h1>
+                <br>
+
+                <section class="cascada">
+                    <h1>CASCADA</h1>
+                    <button class="{{cascada}}" name="botonalarma" disabled></button>
+                </section>
+                
+                <br>
+                <input class="grafica" type="submit" value="Graficar" onclick="javascript:Ventana('../../Archivo/GraficaConfirmacion')"></input><br>
+                <br>
+                <input class="grafica" type="submit" value="Filtrar" onclick="javascript:Ventana('../../Ayuda/Acercade')"></input><br>
+                <br>
+            </section>
+        </div>
+    </form>
+
+    <script language=javascript>
+        function Ventana(url){
+        window.open(url, "Nueva Ventana", "width=1200, height=350")
+        }
+    
+    </script>
+    
+
+{% endblock %}

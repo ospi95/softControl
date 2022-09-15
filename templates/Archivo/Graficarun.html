@@ -1,0 +1,436 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grafica en tiempo real</title>
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/styles2.css' %}"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/stylemonitor.css' %}"
+      type="text/css"
+    />
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+  </head>
+  <body>
+    <figure class="highcharts-figure">
+      <div id="container"></div>
+      <input class="PV1" type="hidden" id="PV1" value={{valorPV1}} />
+      <input class="SV1" type="hidden" id="SV1" value={{valorSV1}} />
+      <input class="OUT1" type="hidden" id="OUT1" value={{valorOUT1}} />
+      <input class="P1" type="hidden" id="P1" value={{valorP1}} />
+      <input class="I1" type="hidden" id="I1" value={{valorI1}} />
+      <input class="D1" type="hidden" id="D1" value={{valorD1}} />
+      <input class="PV2" type="hidden" id="PV2" value={{valorPV2}} />
+      <input class="SV2" type="hidden" id="SV2" value={{valorSV2}} />
+      <input class="OUT2" type="hidden" id="OUT2" value={{valorOUT2}} />
+      <input class="P2" type="hidden" id="P2" value={{valorP2}} />
+      <input class="I2" type="hidden" id="I2" value={{valorI2}} />
+      <input class="D2" type="hidden" id="D2" value={{valorD2}} />
+    </figure>
+
+    <script type="application/javascript">
+        var $ = jQuery.noConflict()
+        var PV1 = document.getElementById("PV1").getAttribute("value");
+        var SV1 = document.getElementById("SV1").getAttribute("value");
+        var OUT1 = document.getElementById("OUT1").getAttribute("value");
+        var P1 = document.getElementById("P1").getAttribute("value");
+        var D1 = document.getElementById("I1").getAttribute("value");
+        var I1 = document.getElementById("D1").getAttribute("value");
+        var PV2 = document.getElementById("PV2").getAttribute("value");
+        var SV2 = document.getElementById("SV2").getAttribute("value");
+        var OUT2 = document.getElementById("OUT2").getAttribute("value");
+        var P2 = document.getElementById("P2").getAttribute("value");
+        var D2 = document.getElementById("I2").getAttribute("value");
+        var I2 = document.getElementById("D2").getAttribute("value");
+
+        Highcharts.chart('container', {
+            chart: {
+                type: 'spline',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                events: {
+                    load: function () {
+
+                        // set up the updating of the chart each second
+                        var seriesPV1 = this.series[0];
+                        var seriesSV1 = this.series[1];
+                        var seriesOUT1 = this.series[2];
+                        var seriesP1 = this.series[3];
+                        var seriesI1 = this.series[4];
+                        var seriesD1 = this.series[5];
+                        var seriesPV2 = this.series[6];
+                        var seriesSV2 = this.series[7];
+                        var seriesOUT2 = this.series[8];
+                        var seriesP2 = this.series[9];
+                        var seriesI2 = this.series[10];
+                        var seriesD2 = this.series[11];
+
+                        setInterval(function () {
+                            $.ajax({
+                                url: window.location.pathname,
+                                type: 'POST',
+                                data: {
+                                'opcion': 'Graficando'
+                                },
+                                dataType: 'json',
+                                success: function (response){
+
+                                },
+                                error: function(error){
+                                    console.log(error);
+                                }
+                            }).done(function (data) {
+                                var x = (new Date()).getTime(); // current time
+                                
+                                if (PV1 == 'checked') {
+                                    seriesPV1.addPoint([x, data.yPV1], true, true);
+                                }
+                                else {
+                                    seriesPV1.removePoint([x, data.yPV1], true, false);
+                                }
+
+                                if (SV1 == 'checked') {
+                                    seriesSV1.addPoint([x, data.ySV1], true, true);
+                                }
+                                else {
+                                    seriesSV1.removePoint([x, data.ySV1], true, true);
+                                }
+
+                                if (OUT1 == 'checked') {
+                                    seriesOUT1.addPoint([x, data.yOUT1], true, true);
+                                }
+                                else {
+                                    seriesOUT1.removePoint([x, data.yOUT1], true, true);
+                                }
+
+                                if (P1 == 'checked') {
+                                    seriesP1.addPoint([x, data.yP1], true, true);
+                                }
+                                else {
+                                    seriesP1.removePoint([x, data.yP1], true, true);
+                                }
+
+                                if (I1 == 'checked') {
+                                    seriesI1.addPoint([x, data.yI1], true, true);
+                                }
+                                else {
+                                    seriesI1.removePoint([x, data.yI1], true, true);
+                                }
+
+                                if (D1 == 'checked') {
+                                    seriesD1.addPoint([x, data.yD1], true, true);
+                                }
+                                else {
+                                    seriesD1.removePoint([x, data.yD1], true, true);
+                                }
+
+                                if (PV2 == 'checked') {
+                                    seriesPV2.addPoint([x, data.yPV2], true, true);
+                                }
+                                else {
+                                    seriesPV2.removePoint([x, data.yPV2], true, false);
+                                }
+
+                                if (SV2 == 'checked') {
+                                    seriesSV2.addPoint([x, data.ySV2], true, true);
+                                }
+                                else {
+                                    seriesSV2.removePoint([x, data.ySV2], true, true);
+                                }
+
+                                if (OUT2 == 'checked') {
+                                    seriesOUT2.addPoint([x, data.yOUT2], true, true);
+                                }
+                                else {
+                                    seriesOUT2.removePoint([x, data.yOUT2], true, true);
+                                }
+
+                                if (P2 == 'checked') {
+                                    seriesP2.addPoint([x, data.yP2], true, true);
+                                }
+                                else {
+                                    seriesP2.removePoint([x, data.yP2], true, true);
+                                }
+
+                                if (I2 == 'checked') {
+                                    seriesI2.addPoint([x, data.yI2], true, true);
+                                }
+                                else {
+                                    seriesI2.removePoint([x, data.yI2], true, true);
+                                }
+
+                                if (D2 == 'checked') {
+                                    seriesD2.addPoint([x, data.yD2], true, true);
+                                }
+                                else {
+                                    seriesD2.removePoint([x, data.yD2], true, true);
+                                }
+
+                            });
+                        }, 5000);
+                    }
+                }
+            },
+
+            time: {
+                useUTC: false
+            },
+
+            title: {
+                text: 'Grafica en tiempo real'
+            },
+
+            accessibility: {
+                announceNewData: {
+                    enabled: true,
+                    minAnnounceInterval: 15000,
+                    announcementFormatter: function (allSeries, newSeries, newPoint) {
+                        if (newPoint) {
+                            return 'New point added. Value: ' + newPoint.y;
+                        }
+                        return false;
+                    }
+                }
+            },
+
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Valores'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+
+            tooltip: {
+                headerFormat: '<b>{series.name}</b><br/>',
+                pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
+            },
+
+            legend: {
+                enabled: false
+            },
+
+            exporting: {
+                enabled: false
+            },
+
+            series: [{
+                name: 'PV1 (mA)',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'SV1 (mA)',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'OUT1 %',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'P1',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'I1',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'D1',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'PV2 (mA)',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'SV2 (mA)',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'OUT2 %',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'P2',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'I2',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'D2',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }
+            ]
+        });
+    </script>
+  </body>
+</html>

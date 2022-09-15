@@ -10,8 +10,7 @@ def conectar(request):
     alarma = Alarma()
     adminpuertos = AdministrarPuerto()
     leercontrol = Leercontrolador()
-    print("VALIDANDO.")
-
+    
     controlador = sesion['controlador']
     puerto = str(sesion['puerto'])
     vel = int(sesion['velocidad'])
@@ -24,23 +23,8 @@ def conectar(request):
 
     if int(sesion['controlarLecturaPuerto']) == 1:
         sesion['controlarLecturaPuerto'] = 0
-        #leercontrol.leerControladores(puerto, vel, 1, 2, request)
-        client = ModbusSerialClient(
-            method="rtu",
-            port="COM3",
-            stopbits=1,
-            bytesize=8,
-            parity='N',
-            baudrate=9600
-        )        
-        # LECTURA CONTROLADOR 1
-        # result = client.read_holding_registers(address=90, count=1, unit=1)
-        # sesion['controlador1'] = result.registers[0]
+        leercontrol.leerControladores(puerto, vel, 1, 2, request)
        
-        # # LECTURA CONTROLADOR 2
-        # result = client.read_holding_registers(address=90, count=1, unit=2)
-        # sesion['controlador2'] = result.registers[0]
-        print("CONECTADO",client.connect())
         if controlador == 'C1' or controlador == 'C3':
             if int(sesion['controlador1']) == 1:
                 sesion['controlador1'] = 1
