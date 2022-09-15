@@ -22,6 +22,18 @@ class Home(TemplateView):
 
     def get(self, request, *args, **kwargs):
         sesion = request.session
+        client = ModbusSerialClient(
+            method="rtu",
+            port="COM3",
+            stopbits=1,
+            bytesize=8,
+            parity='N',
+            baudrate=9600
+        )
+        result = client.read_holding_registers(address=90, count=1, unit=1)
+        print(result.registers[0])
+        print("CLIENTE :",client.connect())
+        print(client.is_socket_open())
 
         sesion['controlarLecturaPuerto'] = 1
         sesion['sesion'] = 0
@@ -51,6 +63,18 @@ class Principal(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         sesion['controlarLecturaPuerto'] = 1
+        
+        client = ModbusSerialClient(
+            method="rtu",
+            port="COM3",
+            stopbits=1,
+            bytesize=8,
+            parity='N',
+            baudrate=9600
+        )
+        print("CLIENTE :",client.connect())
+        print(client.is_socket_open())
+        
         if sesion['sesion'] == 0:
             configurar(request)
             sesion['sesion'] = 1
@@ -77,6 +101,17 @@ class Monitor(TemplateView):
 
     def get(self, request, *args, **kwargs):
         sesion = request.session
+
+        client = ModbusSerialClient(
+            method="rtu",
+            port="COM3",
+            stopbits=1,
+            bytesize=8,
+            parity='N',
+            baudrate=9600
+        )
+        print("CLIENTE :",client.connect())
+        print(client.is_socket_open())
 
         data = {
             'controlador1': 1,

@@ -130,20 +130,20 @@ class Leercontrolador:
         self.controladores.setRegistro(999, 999)
         client = ModbusSerialClient(
             method="rtu",
-            port=port,
+            port="COM3",
             stopbits=1,
             bytesize=8,
             parity='N',
-            baudrate=vel
+            baudrate=9600
         )
-
+        
         # LECTURA CONTROLADOR 1
-        result = client.read_holding_registers(address=0x5A, count=1, unit=id1)
-        self.controladores.setControlador1(result[0])
+        result = client.read_holding_registers(address=90, count=1, unit=1)
+        self.controladores.setControlador1(result.registers[0])
 
         # LECTURA CONTROLADOR 2
-        result = client.read_holding_registers(address=0x5A, count=1, unit=id2)
-        self.controladores.setControlador2(result[0])
+        result = client.read_holding_registers(address=90, count=1, unit=2)
+        self.controladores.setControlador2(result.registers[0])
 
         sesion['controlares'] = json.dumps(self.controladores, default=controladoresEncoder)
 

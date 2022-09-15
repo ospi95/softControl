@@ -19,6 +19,8 @@ class AdministrarPuerto:
         print(self.puerto)
 
         client.connect()
+        result = client.read_holding_registers(address=90, count=1, unit=1)
+        print(result)
         sesion['estadoPuerto'] = 'Abierto'
 
     def cerrarPuerto(self, request):
