@@ -22,9 +22,11 @@ def escribirControl(request, direccion, valor):
         parity='N',
         baudrate=vel
     )
-
+    client.connect()
+    
     result = client.read_holding_registers(address=83, count=1, unit=id1)
-    d = int(math.pow(10, result[0]))
+    d = int(math.pow(10, result.registers[0]))
+    client.close()
     valor = valor*d
     ec.escribir(puerto, vel, id, direccion, valor)
 

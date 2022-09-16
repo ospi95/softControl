@@ -90,7 +90,7 @@ class Control:
                 lc = Leercontrolador()
                 if id1 != 999:
                     aux1 = lc.leerDireccion(puerto, vel, id1, 5)
-                    print('falta configurar Leer Direccion')
+                    
                     if aux1 == 0:
                         sesion['manual1'] = 'botonBlack'
                     else:
@@ -98,7 +98,7 @@ class Control:
 
                 if id2 != 999:
                     aux1 = lc.leerDireccion(puerto, vel, id1, 5)
-                    print('falta configurar Leer Direccion')
+                    
                     if aux1 == 0:
                         sesion['manual2'] = 'botonBlack'
                     else:
@@ -120,6 +120,8 @@ class Control:
 
                 if int(sesion['threadWrite']) == 1:
                     sesion['salvando'] = 'Salvando...'
+                
+                sesion['threadWrite'] = 0
 
             sesion['hiloParado'] = 1
 

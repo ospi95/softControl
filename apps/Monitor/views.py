@@ -151,10 +151,11 @@ class Usuario(TemplateView):
 
 
     def post(self, request, *args, **kwargs):
-
+        sesion = request.session
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
             valor = validarUsuario(request, dir1)
+            print(valor)
             lista = {
                 'valor': valor[0],
                 'losp': valor[1],
@@ -167,7 +168,10 @@ class Usuario(TemplateView):
             direccion = int(request.POST['parametro'])
             valor = int(request.POST['valor'])
             escribirControl(request, direccion, valor)
-            return render(request, self.template_name)
+            data = {
+            'controlador': sesion['configcon']
+            }
+            return render(request, self.template_name, data)
 
 #Vista del nivel del controlador de control para configurar los parametros de este nivel
 class Control(TemplateView):

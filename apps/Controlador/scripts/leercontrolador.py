@@ -37,11 +37,11 @@ class Leercontrolador:
         client.connect()
         #LECTURA CONTROLADOR 1
         #Lectura del controlador (Numero decimales para PV y SV)
-        result = client.read_holding_registers(address=83, count=1, unit=id1)
+        result = client.read_holding_registers(address=83, count=1, unit=1)
         d = int(math.pow(10, result.registers[0]))
         
         #Lectura del controlador (SV, OUT)
-        result = client.read_holding_registers(address=2, count=2, unit=id1)
+        result = client.read_holding_registers(address=2, count=2, unit=1)
         sv1 = result.registers[0]
         out1 = result.registers[1]
         if sv1 > 63000:
@@ -50,14 +50,14 @@ class Leercontrolador:
         out1 = out1/10
         
         #Lectura del controlador (Banda proporcional (P), tiempo integral (I) y tiempo derivativo (D))
-        result = client.read_holding_registers(address=25, count=3, unit=id1)
+        result = client.read_holding_registers(address=25, count=3, unit=1)
         p1 = result.registers[0]
         p1 = p1/10
         i1 = result.registers[1]
         d1 = result.registers[2]
         
         #Lectura del controlador (PV)
-        result = client.read_holding_registers(address=256, count=1, unit=id1)
+        result = client.read_holding_registers(address=256, count=1, unit=1)
         pv1 = result.registers[0]
         if pv1 > 63000:
             pv1 = pv1 - 65536
@@ -67,11 +67,11 @@ class Leercontrolador:
         # LECTURA CONTROLADOR 2
         if id2 != 999:
             # Lectura del controlador (Numero decimales para PV y SV)
-            result = client.read_holding_registers(address=83, count=1, unit=id2)
+            result = client.read_holding_registers(address=83, count=1, unit=2)
             d = int(math.pow(10, result.registers[0]))
             print(d)
             # Lectura del controlador (SV, OUT)
-            result = client.read_holding_registers(address=2, count=2, unit=id2)
+            result = client.read_holding_registers(address=2, count=2, unit=2)
             sv2 = result.registers[0]
             out2 = result.registers[1]
             if sv2 > 63000:
@@ -80,14 +80,14 @@ class Leercontrolador:
             out2 = out2/10
 
             # Lectura del controlador (Banda proporcional (P), tiempo integral (I) y tiempo derivativo (D))
-            result = client.read_holding_registers(address=25, count=3, unit=id2)
+            result = client.read_holding_registers(address=25, count=3, unit=2)
             p2 = result.registers[0]
             p2 = p2 / 10
-            i2 = result[1]
-            d2 = result[2]
+            i2 = result.registers[1]
+            d2 = result.registers[2]
 
             # Lectura del controlador (PV)
-            result = client.read_holding_registers(address=256, count=1, unit=id2)
+            result = client.read_holding_registers(address=256, count=1, unit=2)
             pv2 = result.registers[0]
             if pv2 > 63000:
                 pv2 = pv2 - 65536
@@ -115,7 +115,8 @@ class Leercontrolador:
             parity='N',
             baudrate=vel
         )
-        client.connect()
+
+        conection = client.connect()
         result = client.read_holding_registers(address=dir1, count=1, unit=id1)
         d = 0
         k = 0
@@ -128,7 +129,7 @@ class Leercontrolador:
             finally:
                 pass
 
-            if client.connect():
+            if conection:
                 k = 3
         client.close()
         return d

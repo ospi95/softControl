@@ -11,4 +11,6 @@ class Escribircontrolador:
             parity='N',
             baudrate=vel
         )
+        client.connect()
         client.write_register(address=dir, value=valor, unit=id)
+        client.close()

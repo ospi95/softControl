@@ -11,6 +11,7 @@ def validarUsuario(request, dir1):
     id2 = int(sesion['controlador2'])
     entero = False
     ValorActual = -99999
+    
     decimales = 1
     valorActualString = ''
 
@@ -19,6 +20,7 @@ def validarUsuario(request, dir1):
     salvando = sesion['salvando']
 
     valorActual = leercontrol.leerDireccion(puerto, vel, idx, dir1)
+    print(valorActual)
     decimales = int(math.pow(10, leercontrol.leerDireccion(puerto, vel, idx, 83)))
     estado = ''
 
@@ -257,5 +259,7 @@ def validarUsuario(request, dir1):
                 valorActualString = str(int(valorActual))
             else:
                 valorActualString = str(valorActual)
+        else :
+            valorActualString = valorActual
 
     return [valorActualString, losp, hisp]
