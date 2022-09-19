@@ -8,9 +8,9 @@ from random import randint
 from django.urls import reverse_lazy
 from apps.Archivo.scripts.checked import *
 from apps.Archivo.scripts.rechecked import *
+from apps.Controlador.scripts.lecturagrafica import *
 
 # Create your views here.
-
 
 class Exportar(TemplateView):
 
@@ -65,21 +65,26 @@ class Graficarun(TemplateView):
 
 
     def post(self, request, *args, **kwargs):
+        sesion = request.session
+        port = str(sesion['puerto'])
+        vel = int(sesion['velocidad'])
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            graficando = lecturagrafica(port, vel)
+            
             lista = {
-                'yPV1': randint(0,10),
-                'ySV1': randint(0,15),
-                'yOUT1': randint(0,20),
-                'yP1': randint(0,30),
-                'yI1': randint(0,40),
-                'yD1': randint(0,50),
-                'yPV2': randint(0,10),
-                'ySV2': randint(0,15),
-                'yOUT2': randint(0,20),
-                'yP2': randint(0,30),
-                'yI2': randint(0,40),
-                'yD2': randint(0,50)
+                'yPV1': graficando[0],
+                'ySV1': graficando[1],
+                'yOUT1': graficando[2],
+                'yP1': graficando[3],
+                'yI1': graficando[4],
+                'yD1': graficando[5],
+                'yPV2': graficando[6],
+                'ySV2': graficando[7],
+                'yOUT2': graficando[8],
+                'yP2': graficando[9],
+                'yI2': graficando[10],
+                'yD2': graficando[11]
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')
