@@ -135,7 +135,7 @@ class Monitor(TemplateView):
         
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             infoMonitor = lecturamonitor(port, vel)
-            print(infoMonitor)
+            
             lista = {
             'controlador1': 1,
             'controlador2': 2,
@@ -156,7 +156,7 @@ class Monitor(TemplateView):
             }
 
             data = json.dumps(lista)
-            print (data)
+           
             return HttpResponse(data, 'application/json')
 
         else:
@@ -217,17 +217,19 @@ class Usuario(TemplateView):
                 'hisp': valor[2]
             }
             data = json.dumps(lista)
+            print("postajax")
             return HttpResponse(data, 'application/json')
 
-        else:
+        else:            
             direccion = int(request.POST['parametro'])
             valor = int(request.POST['valor'])
             escribirControl(request, direccion, valor)
             data = {
             'controlador': sesion['configcon']
             }
-            
-            return HttpResponseRedirect(self.success_url)
+            data = json.dumps(data)
+            print("postescribir")
+            return render(request,self.template_name)
 
 #Vista del nivel del controlador de control para configurar los parametros de este nivel
 class Control(TemplateView):
