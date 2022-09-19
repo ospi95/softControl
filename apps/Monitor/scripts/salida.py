@@ -84,5 +84,7 @@ def validarSalida(request, dir1):
                 valorActualString = str(int(valorActual))
             else:
                 valorActualString = str(valorActual)
+        else :
+            valorActualString = valorActual
 
     return [valorActualString, losp, hisp]

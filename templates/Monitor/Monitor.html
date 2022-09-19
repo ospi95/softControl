@@ -9,13 +9,13 @@
             <section class="columna1">
                 <h1>Controlador 1</h1>
                 <h4>PV</h4>
-                <input class="valores" name="PV1" value="4.29" size="10" maxlength="10" disabled>
+                <input class="valores PV1" name="PV1" value="{{pv1}}" size="10" maxlength="10" disabled>
 
                 <h4>SV</h4>
-                <input class="valores" name="SV1" value="16" size="10" maxlength="10" disabled>
+                <input class="valores SV1" name="SV1" value="{{sv1}}" size="10" maxlength="10" disabled>
 
                 <h4>OUT(%)</h4>
-                <input class="valores" name="OUT1" value="100" size="10" maxlength="10" disabled>
+                <input class="valores OUT1" name="OUT1" value="{{out1}}" size="10" maxlength="10" disabled>
 
                 <section class="manual">
                     <h1>MANUAL</h1>
@@ -34,13 +34,13 @@
             <section class="columna2">
                 <h1>Controlador 2</h1>
                 <h4>PV</h4>
-                <input class="valores" name="PV1" value="4.29" size="10" maxlength="10" disabled>
+                <input class="valores PV2" name="PV2" value="{{pv2}}" size="10" maxlength="10" disabled>
 
                 <h4>SV</h4>
-                <input class="valores" name="SV1" value="20" size="10" maxlength="10" disabled>
+                <input class="valores SV2" name="SV2" value="{{sv2}}" size="10" maxlength="10" disabled>
 
                 <h4>OUT(%)</h4>
-                <input class="valores" name="OUT1" value="100" size="10" maxlength="10" disabled>
+                <input class="valores OUT2" name="OUT2" value="{{out2}}" size="10" maxlength="10" disabled>
 
                 <section class="manual">
                     <h1>MANUAL</h1>
@@ -65,13 +65,45 @@
                 </section>
                 <br>
                 <h4>Velocidad de Bomba (Hz)</h4>
-                <br>
-                <input class="valores" name="Bomba" value="16" size="10" maxlength="5">
+                <label class="pump">SV </label><input class="valores BombaSV" name="Bomba" value="{{bombasv}}" size="10" maxlength="5">
+                <br><br>
+                <label class="pump">PV </label><input class="valores BombaPV" name="Bomba" value="{{bombapv}}" size="10" maxlength="5" disabled>
                 <br><br>
                 <button class="grafica" type="submit" name="velBomba">Confirmar</button>
                 
             </section>
         </div>
     </form>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script>
+        var $ = jQuery.noConflict()
+        setInterval(function () {
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: {
+                'opcion': 'Recargando'
+                },
+                dataType: 'json',
+                success: function (response){
+                    
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            }).done(function (response) {
+                $(".PV1").val(response['pv1']);
+                $(".SV1").val(response['sv1']);
+                $(".OUT1").val(response['out1']);
+                $(".PV2").val(response['pv2']);
+                $(".SV2").val(response['sv2']);
+                $(".OUT2").val(response['out2']);
+                $(".BombaPV").val(response['bombapv']);
+                $(".BombaSV").val(response['bombasv']);
+            });
+        }, 5000);
+    </script>
 
 {% endblock %}

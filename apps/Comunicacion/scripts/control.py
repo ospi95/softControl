@@ -113,7 +113,7 @@ class Control:
                     aux2 = lc.leerDireccion(puerto, vel, id2, 77)
                     aux2 = (((aux2 - aux1) * datoF.getOUT1()) / 100) + aux1
                     ec = Escribircontrolador()
-                    ec.escribir(puerto, vel , id2, 2 , int(aux2))
+                    ec.escribir(puerto, vel , id2, 2, int(aux2))
 
                 if int(sesion['threadWrite']) == 1:
                     sesion['salvando'] = 'En lectura...'

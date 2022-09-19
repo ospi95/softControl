@@ -21,8 +21,7 @@ class AdministrarPuerto:
             sesion['estadoPuerto'] = 'Abierto'
         else:
             sesion['estadoPuerto'] = 'Cerrado'
-        print("Entró - Abrir Puerto. ")
-
+        
         client.close()
         
     def cerrarPuerto(self, request):
@@ -38,5 +37,5 @@ class AdministrarPuerto:
                
         client.connect()
         client.close()
-        print("Entró - Cerrar Puerto. ")
+        
         sesion['estadoPuerto'] = 'Cerrado'

@@ -96,5 +96,7 @@ def validarControl(request, dir1):
             valorActual = valorActual - 65536
         if entero:
             valorActualString = str(valorActual)
+        else :
+            valorActualString = valorActual
 
     return [valorActualString, losp, hisp]

@@ -10,7 +10,11 @@ from apps.Comunicacion.scripts.buscarpuertos import *
 from apps.Monitor.scripts.usuario import *
 from apps.Monitor.scripts.control import *
 from apps.Monitor.scripts.salida import *
+from apps.Monitor.scripts.entrada import *
+from apps.Monitor.scripts.comunicaciones import *
+from apps.Monitor.scripts.programa import *
 from apps.Monitor.scripts.escribircontrol import *
+from apps.Controlador.scripts.lecturamonitor import *
 import jsonpickle
 
 # Create your views here.
@@ -83,6 +87,8 @@ class Monitor(TemplateView):
         
     def get(self, request, *args, **kwargs):
         sesion = request.session
+        port = sesion['puerto']
+        vel = sesion['velocidad']
 
         if str(sesion['manual1']) == '':
             sesion['manual1'] = 'botonNormal'
@@ -99,6 +105,8 @@ class Monitor(TemplateView):
         if str(sesion['cascada']) == '':
             sesion['cascada'] = 'botonNormal'
 
+        #infoMonitor = lecturamonitor(port, vel)
+
         data = {
             'controlador1': 1,
             'controlador2': 2,
@@ -107,20 +115,27 @@ class Monitor(TemplateView):
             'alarma1': str(sesion['alarma1']),
             'alarma2': str(sesion['alarma2']),
             'cascada': str(sesion['cascada']),
-            'lectura': str(sesion['salvando'])
+            'lectura': str(sesion['salvando']),
+            'pv1': 10, #infoMonitor[0],
+            'sv1': 5, #infoMonitor[1],
+            'out1': 50, #infoMonitor[2],
+            'pv2': 8, #infoMonitor[3],
+            'sv2': 6, #infoMonitor[4],
+            'out2': 70, #infoMonitor[5],
+            'bombapv': 10,
+            'bombasv': 5
         }
 
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
         sesion = request.session
+        port = sesion['puerto']
+        vel = sesion['velocidad']
         
-        if 'configcon1' in request.POST:
-            sesion['configcon'] = 1
-        elif 'configcon2' in request.POST:
-            sesion['configcon'] = 2
-        
-        data = {
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            #infoMonitor = lecturamonitor(port, vel)
+            lista = {
             'controlador1': 1,
             'controlador2': 2,
             'manual1': str(sesion['manual1']),
@@ -128,10 +143,47 @@ class Monitor(TemplateView):
             'alarma1': str(sesion['alarma1']),
             'alarma2': str(sesion['alarma2']),
             'cascada': str(sesion['cascada']),
-            'lectura': str(sesion['salvando'])
-        }
+            'lectura': str(sesion['salvando']),
+            'pv1': 8, #infoMonitor[0],
+            'sv1': 7, #infoMonitor[1],
+            'out1': 100, #infoMonitor[2],
+            'pv2': 3, #infoMonitor[3],
+            'sv2': 8, #infoMonitor[4],
+            'out2': 20, #infoMonitor[5],
+            'bombapv': 20,
+            'bombasv': 30
+            }
 
-        return render(request, self.template_name, data)
+            data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        else:
+            if 'configcon1' in request.POST:
+                sesion['configcon'] = 1
+            elif 'configcon2' in request.POST:
+                sesion['configcon'] = 2
+
+            #infoMonitor = lecturamonitor(port, vel)
+            data = {
+                'controlador1': 1,
+                'controlador2': 2,
+                'manual1': str(sesion['manual1']),
+                'manual2': str(sesion['manual2']),
+                'alarma1': str(sesion['alarma1']),
+                'alarma2': str(sesion['alarma2']),
+                'cascada': str(sesion['cascada']),
+                'lectura': str(sesion['salvando']),
+                'pv1': 8, #infoMonitor[0],
+                'sv1': 7, #infoMonitor[1],
+                'out1': 100, #infoMonitor[2],
+                'pv2': 3, #infoMonitor[3],
+                'sv2': 8, #infoMonitor[4],
+                'out2': 20, #infoMonitor[5],
+                'bombapv': 20,
+                'bombasv': 30
+            }
+
+            return render(request, self.template_name, data)
 
 #Vista del nivel del controlador de usuarios para configurar los parametros de este nivel
 class Usuario(TemplateView):
@@ -190,7 +242,7 @@ class Control(TemplateView):
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
-
+        sesion = request.session
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
             valor = validarControl(request, dir1)
@@ -203,7 +255,10 @@ class Control(TemplateView):
         else:
             direccion = int(request.POST['parametro'])
             escribirControl(request, direccion)
-            return render(request, self.template_name)
+            data = {
+            'controlador': sesion['configcon']
+            }
+            return render(request, self.template_name, data)
 
 #Vista del nivel del controlador de salida para configurar los parametros de este nivel
 class Salida(TemplateView):
@@ -222,7 +277,7 @@ class Salida(TemplateView):
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
+        sesion = request.session
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
@@ -236,7 +291,10 @@ class Salida(TemplateView):
         else:
             direccion = int(request.POST['parametro'])
             escribirControl(request, direccion)
-            return render(request, self.template_name)
+            data = {
+            'controlador': sesion['configcon']
+            }
+            return render(request, self.template_name, data)
 
 #Vista del nivel del controlador de entrada para configurar los parametros de este nivel
 class Entrada(TemplateView):
@@ -249,22 +307,22 @@ class Entrada(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': 1 #sesion['configcon']
+            'controlador': sesion['configcon']
         }
 
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
-
+        sesion = request.session
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
-            #valor = validarControl(request, dir1)
+            valor = validarEntrada(request, dir1)
             lista = {
-                'valor': 'funciona', #valor[0],
-                'losp': 4,  # valor[1],
-                'hisp': 20,  # valor[2]
-                'limlosp': 50,  # valor[3]
-                'limhisp': 30  # valor[4]
+                'valor': valor[0],
+                'losp': valor[1],
+                'hisp': valor[2],
+                'limlosp': valor[3],
+                'limhisp': valor[4]
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')
@@ -272,7 +330,10 @@ class Entrada(TemplateView):
         else:
             direccion = int(request.POST['parametro'])
             escribirControl(request, direccion)
-            return render(request, self.template_name)
+            data = {
+            'controlador': sesion['configcon']
+            }
+            return render(request, self.template_name, data)
 
 #Vista del nivel del controlador de comunicacion para configurar los parametros de este nivel
 class Comunicacion(TemplateView):
@@ -285,21 +346,21 @@ class Comunicacion(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': 1 #sesion['configcon']
+            'controlador': sesion['configcon']
         }
 
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
+        sesion = request.session
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
-            #valor = validarControl(request, dir1)
+            valor = validarComunicacion(request, dir1)
             lista = {
-                'valor': 'funciona', #valor[0],
-                'losp': 4,  # valor[1],
-                'hisp': 20,  # valor[2]
+                'valor': valor[0],
+                'losp': valor[1],
+                'hisp': valor[2]
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')
@@ -307,6 +368,9 @@ class Comunicacion(TemplateView):
         else:
             direccion = int(request.POST['parametro'])
             escribirControl(request, direccion)
+            data = {
+            'controlador': sesion['configcon']
+            }
             return render(request, self.template_name)
 
 #Vista del nivel del controlador de programa para configurar los parametros de este nivel
@@ -320,21 +384,21 @@ class Programa(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': 1 #sesion['configcon']
+            'controlador': sesion['configcon']
         }
 
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
+        sesion = request.session
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
-            #valor = validarControl(request, dir1)
+            valor = validarPrograma(request, dir1)
             lista = {
-                'valor': 'funciona', #valor[0],
-                'losp': 4,  # valor[1],
-                'hisp': 20,  # valor[2]
+                'valor': valor[0],
+                'losp': valor[1],
+                'hisp': valor[2]
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')
@@ -342,7 +406,10 @@ class Programa(TemplateView):
         else:
             direccion = int(request.POST['parametro'])
             escribirControl(request, direccion)
-            return render(request, self.template_name)
+            data = {
+            'controlador': sesion['configcon']
+            }
+            return render(request, self.template_name, data)
 
 #Vista del nivel del controlador de hide para configurar los parametros de este nivel
 class Hide(TemplateView):
@@ -355,7 +422,7 @@ class Hide(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': 1 #sesion['configcon']
+            'controlador': sesion['configcon']
         }
 
         return render(request, self.template_name, data)

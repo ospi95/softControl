@@ -20,7 +20,6 @@ def validarUsuario(request, dir1):
     salvando = sesion['salvando']
 
     valorActual = leercontrol.leerDireccion(puerto, vel, idx, dir1)
-    print(valorActual)
     decimales = int(math.pow(10, leercontrol.leerDireccion(puerto, vel, idx, 83)))
     estado = ''
 
