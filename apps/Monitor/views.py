@@ -87,8 +87,8 @@ class Monitor(TemplateView):
         
     def get(self, request, *args, **kwargs):
         sesion = request.session
-        port = sesion['puerto']
-        vel = sesion['velocidad']
+        port = str(sesion['puerto'])
+        vel = int(sesion['velocidad'])
 
         if str(sesion['manual1']) == '':
             sesion['manual1'] = 'botonNormal'
@@ -105,7 +105,7 @@ class Monitor(TemplateView):
         if str(sesion['cascada']) == '':
             sesion['cascada'] = 'botonNormal'
 
-        #infoMonitor = lecturamonitor(port, vel)
+        infoMonitor = lecturamonitor(port, vel)
 
         data = {
             'controlador1': 1,
@@ -116,12 +116,12 @@ class Monitor(TemplateView):
             'alarma2': str(sesion['alarma2']),
             'cascada': str(sesion['cascada']),
             'lectura': str(sesion['salvando']),
-            'pv1': 10, #infoMonitor[0],
-            'sv1': 5, #infoMonitor[1],
-            'out1': 50, #infoMonitor[2],
-            'pv2': 8, #infoMonitor[3],
-            'sv2': 6, #infoMonitor[4],
-            'out2': 70, #infoMonitor[5],
+            'pv1': infoMonitor[0],
+            'sv1': infoMonitor[1],
+            'out1': infoMonitor[2],
+            'pv2': infoMonitor[3],
+            'sv2': infoMonitor[4],
+            'out2': infoMonitor[5],
             'bombapv': 10,
             'bombasv': 5
         }
@@ -130,11 +130,12 @@ class Monitor(TemplateView):
 
     def post(self, request, *args, **kwargs):
         sesion = request.session
-        port = sesion['puerto']
-        vel = sesion['velocidad']
+        port = str(sesion['puerto'])
+        vel = int(sesion['velocidad'])
         
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            #infoMonitor = lecturamonitor(port, vel)
+            infoMonitor = lecturamonitor(port, vel)
+            print(infoMonitor)
             lista = {
             'controlador1': 1,
             'controlador2': 2,
@@ -144,17 +145,18 @@ class Monitor(TemplateView):
             'alarma2': str(sesion['alarma2']),
             'cascada': str(sesion['cascada']),
             'lectura': str(sesion['salvando']),
-            'pv1': 8, #infoMonitor[0],
-            'sv1': 7, #infoMonitor[1],
-            'out1': 100, #infoMonitor[2],
-            'pv2': 3, #infoMonitor[3],
-            'sv2': 8, #infoMonitor[4],
-            'out2': 20, #infoMonitor[5],
+            'pv1': infoMonitor[0],
+            'sv1': infoMonitor[1],
+            'out1': infoMonitor[2],
+            'pv2': infoMonitor[3],
+            'sv2': infoMonitor[4],
+            'out2': infoMonitor[5],
             'bombapv': 20,
             'bombasv': 30
             }
 
             data = json.dumps(lista)
+            print (data)
             return HttpResponse(data, 'application/json')
 
         else:
@@ -163,7 +165,7 @@ class Monitor(TemplateView):
             elif 'configcon2' in request.POST:
                 sesion['configcon'] = 2
 
-            #infoMonitor = lecturamonitor(port, vel)
+            infoMonitor = lecturamonitor(port, vel)
             data = {
                 'controlador1': 1,
                 'controlador2': 2,
@@ -173,12 +175,12 @@ class Monitor(TemplateView):
                 'alarma2': str(sesion['alarma2']),
                 'cascada': str(sesion['cascada']),
                 'lectura': str(sesion['salvando']),
-                'pv1': 8, #infoMonitor[0],
-                'sv1': 7, #infoMonitor[1],
-                'out1': 100, #infoMonitor[2],
-                'pv2': 3, #infoMonitor[3],
-                'sv2': 8, #infoMonitor[4],
-                'out2': 20, #infoMonitor[5],
+                'pv1': infoMonitor[0],
+                'sv1':  infoMonitor[1],
+                'out1':  infoMonitor[2],
+                'pv2': infoMonitor[3],
+                'sv2': infoMonitor[4],
+                'out2': infoMonitor[5],
                 'bombapv': 20,
                 'bombasv': 30
             }
@@ -188,6 +190,7 @@ class Monitor(TemplateView):
 #Vista del nivel del controlador de usuarios para configurar los parametros de este nivel
 class Usuario(TemplateView):
     template_name = 'Usuario.html'
+    success_url = reverse_lazy('usuario')
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -223,7 +226,8 @@ class Usuario(TemplateView):
             data = {
             'controlador': sesion['configcon']
             }
-            return render(request, self.template_name, data)
+            
+            return HttpResponseRedirect(self.success_url)
 
 #Vista del nivel del controlador de control para configurar los parametros de este nivel
 class Control(TemplateView):

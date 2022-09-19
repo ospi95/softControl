@@ -38,15 +38,14 @@ def lecturamonitor(port, vel):
     # Lectura del controlador (Numero decimales para PV y SV)
     result = client.read_holding_registers(address=83, count=1, unit=2)
     d = int(math.pow(10, result.registers[0]))
-    print(d)
-
+    
     # Lectura del controlador (SV, OUT)
     result = client.read_holding_registers(address=2, count=2, unit=2)
     sv2 = result.registers[0]
     out2 = result.registers[1]
     if sv2 > 63000:
         sv2 = sv2 - 65536
-    sv2 = sv1/d
+    sv2 = sv2/d
     out2 = out2/10
 
     # Lectura del controlador (PV)
@@ -58,4 +57,4 @@ def lecturamonitor(port, vel):
 
     client.close()
 
-    return (pv1, sv1, out1, pv2, sv2, out2)
+    return [pv1, sv1, out1, pv2, sv2, out2]
