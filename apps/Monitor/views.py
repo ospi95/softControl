@@ -27,7 +27,7 @@ class Home(TemplateView):
         sesion = request.session
           
         sesion['controlarLecturaPuerto'] = 1
-        sesion['sesion'] = 1
+        sesion['sesion'] = 0
         sesion['salvando'] = ''
         sesion['LeeDireccion'] = 1
         sesion['hiloParado'] = 1
@@ -42,7 +42,7 @@ class Home(TemplateView):
         sesion['manual2'] = ''
         sesion['alarma1'] = ''
         sesion['alarma2'] = ''
-        sesion['presion'] = ''
+        sesion['nivel'] = ''
 
         return render(request, self.template_name)
 

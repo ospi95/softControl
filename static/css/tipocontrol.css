@@ -1,0 +1,26 @@
+.containercontrol{
+    position: center;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.tipocontrol {
+    width: 300px;
+    height: 380px;
+    position:fixed;
+    left: 18%;
+    top:19%;
+    text-align:center;
+}
+
+.infocontrol {
+    width: 500px;
+    height: 380px;
+    position:fixed;
+    left: 45%;
+    top:19%;
+    text-align:center;
+    border: 2px solid #428713;
+}

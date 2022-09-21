@@ -1,8 +1,9 @@
 import math
 from pymodbus.client.sync import ModbusSerialClient
+from apps.Controlador.scripts.registro import *
 
 def lecturagrafica(port, vel):
-
+    datoF = Registro()
     client = ModbusSerialClient(
             method="rtu",
             port=port,
@@ -70,5 +71,9 @@ def lecturagrafica(port, vel):
     pv2 = pv2 / d
 
     client.close()
+
+    fecha = datetime.now().isoformat()
+    datoF.setRegistro(0, fecha, pv1, sv1, out1, p1, i1, d1, pv2, sv2, out2, p2, i2, d2)
+    datoF.ingresarRegistro()
 
     return [pv1, sv1, out1, p1, i1, d1, pv2, sv2, out2, p2, i2, d2]

@@ -88,5 +88,5 @@ def configurar(request):
     if sesion['alarma2'] == '':
         sesion['alarma2'] = 'botonBlack'
 
-    if sesion['presion'] == '':
-        sesion['presion'] = 'SI'
+    if sesion['nivel'] == '':
+        sesion['nivel'] = 'SI'

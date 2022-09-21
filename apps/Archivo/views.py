@@ -102,3 +102,16 @@ class GraficaConfirmacion(TemplateView):
         sesion = request.session
 
         return render(request, self.template_name)
+
+class GraficaFiltro(TemplateView):
+    template_name = 'GraficaFiltro.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+
+    def get(self, request, *args, **kwargs):
+        sesion = request.session
+
+        return render(request, self.template_name)

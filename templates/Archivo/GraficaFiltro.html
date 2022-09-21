@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Confirmacion de grafica</title>
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/styles2.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/stylemonitor.css' %}" type="text/css"/>
+    <script src="{% static 'lib/daterangepicker-master/daterangepicker.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/daterangepicker-master/daterangepicker.css' %}" type="text/css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+</head>
+<body>
+    <div class="configuracion">
+        <h1>
+            CONFIRMAR LOS DATOS A GRAFICAR
+        </h1>
+        <label>Rango de fechas:
+            <input type="text" name="daterange" value="" />
+        </label>
+        <button class="send" onclick="location.href='../../Archivo/GraficaRun'">ACEPTAR</button></td>
+    </div>
+</body>
+<script>
+    var $ = jQuery.noConflict()
+    $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left'
+        }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+    });
+</script>
+</html>

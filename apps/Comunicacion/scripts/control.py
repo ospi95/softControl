@@ -14,6 +14,7 @@ class Control:
     c2 = 0
     aac1 = 0
     ac1 = 0
+    bbc1 = 0
     aac2 = 0
     ac2 = 0
     bbc2 = 0

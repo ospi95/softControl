@@ -1,10 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Tipo Control</h1>
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} SoftControl 2.0 - Tipo Control {% endblock %}
+
+{% block content %}
+
+
+    <form name="frmTipoControl" method="POST">
+        <div class="containercontrol">
+            <section class="tipocontrol" id="tipocontrol">
+                <br><br><br><br><br>
+                <h4>Seleccione el tipo de control a usar</h4>
+                <br>
+                <select class="control" id="control" style="width:100px" onchange="cambiarinfo()">
+                    <option value="nivel" {{selectedNivel}}>Nivel</option>
+                    <option value="flujo" {{selectedFlujo}}>Flujo</option>
+                    {% if controladores == 2 %}
+                    <option value="cascada" {{selectedCascada}}>Cascada</option>
+                    {% endif %}
+                </select>
+                <br><br>
+                <button class="grafica" type="submit" {{estadoenviar}}>Enviar</button>
+            </section>
+
+
+            <section class="infocontrol">
+                <img src="" width="500" height="300" id="info">
+            </section>
+        </div>
+    </form>
+    <script>
+
+        function cambiarinfo(){           
+            var select = document.getElementById("control");
+            var options = document.getElementsByTagName("option");
+
+            if (select.value == 'flujo') {
+                document.getElementById('info').src="{% static 'img\banner.jpg' %}"
+            } else if (select.value == 'nivel'){
+                document.getElementById('info').src="{% static 'img\descarga.jpg' %}"
+            }
+            
+        }       
+
+    </script>
+
+{% endblock %}

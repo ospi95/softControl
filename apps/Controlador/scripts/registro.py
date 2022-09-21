@@ -1,4 +1,5 @@
 from datetime import datetime
+from apps.Controlador.models import Registros
 
 class Registro():
     secuencia = 0
@@ -31,6 +32,24 @@ class Registro():
         P2 = vp2
         I2 = vi2
         D2 = vd2
+
+    def ingresarRegistro(self):
+        Registros(
+            secuencia = self.sec,
+            fecha = self.fh,
+            PV1 = self.vpv1,
+            SV1 = self.vsv1,
+            OUT1 = self.vout1,
+            P1 = self.vp1,
+            I1 = self.vi1,
+            D1 = self.vd1,
+            PV2 = self.vpv2,
+            SV2 = self.vsv2,
+            OUT2 = self.vout2,
+            P2 = self.vp2,
+            I2 = self.vi2,
+            D2 = self.vd2
+        ).save()
 
     def getSecuencia(self):
         return(self.secuencia)
