@@ -19,10 +19,10 @@ class Tipocontrol(TemplateView):
         selectedFlujo = ''
         selectedNivel = ''
 
-        """ if int(sesion['numeroControles']) > 0:
+        if int(sesion['numeroControles']) > 0:
             estadoenviar = 'enabled'
         else:
-            estadoenviar = 'disabled' """
+            estadoenviar = 'disabled' 
         
         if sesion['cascada'] == 'botonOrange':
             selectedCascada = 'selected'
@@ -33,8 +33,8 @@ class Tipocontrol(TemplateView):
                 selectedNivel = 'selected'
 
         data = {
-            'estadoenviar': 'enabled', #estadoenviar,
-            'controladores': 2, #int(sesion['numeroControles']),
+            'estadoenviar': estadoenviar,
+            'controladores': int(sesion['numeroControles']),
             'selectedCascada': selectedCascada,
             'selectedFlujo': selectedFlujo,
             'selectedNivel': selectedNivel
@@ -47,27 +47,28 @@ class Tipocontrol(TemplateView):
         selectedCascada = ''
         selectedFlujo = ''
         selectedNivel = ''
+        print(request.POST)
 
-        """ if int(sesion['numeroControles']) > 0:
+        if int(sesion['numeroControles']) > 0:
             estadoenviar = 'enabled'
         else:
-            estadoenviar = 'disabled' """
+            estadoenviar = 'disabled' 
 
-        if request.POST['control'] == 'cascada':
+        if request.POST['tipocontrol'] == 'cascada':
             sesion['cascada'] = 'botonOrange'
         else:
             sesion['cascada'] = ''
         
-        if request.POST['control'] == 'cascada':
+        if request.POST['tipocontrol'] == 'cascada':
             selectedCascada = 'selected'
-        elif request.POST['control'] == 'nivel':
+        elif request.POST['tipocontrol'] == 'nivel':
             selectedNivel = 'selected'
-        elif request.POST['control'] == 'flujo':
+        elif request.POST['tipocontrol'] == 'flujo':
             selectedFlujo = 'selected'
 
         data = {
-            'estadoenviar': 'enabled', #estadoenviar,
-            'controladores': 2, #int(sesion['numeroControles']),
+            'estadoenviar': estadoenviar,
+            'controladores': int(sesion['numeroControles']),
             'selectedCascada': selectedCascada,
             'selectedFlujo': selectedFlujo,
             'selectedNivel': selectedNivel

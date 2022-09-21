@@ -75,5 +75,5 @@ def lecturagrafica(port, vel):
     fecha = datetime.now().isoformat()
     datoF.setRegistro(0, fecha, pv1, sv1, out1, p1, i1, d1, pv2, sv2, out2, p2, i2, d2)
     datoF.ingresarRegistro()
-
+        
     return [pv1, sv1, out1, p1, i1, d1, pv2, sv2, out2, p2, i2, d2]

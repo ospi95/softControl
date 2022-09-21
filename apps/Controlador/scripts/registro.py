@@ -18,37 +18,37 @@ class Registro():
     D2 = 0
 
     def setRegistro(self, sec, fh, vpv1, vsv1, vout1, vp1, vi1, vd1, vpv2, vsv2, vout2, vp2, vi2, vd2):
-        secuencia = sec
-        fecha = fh
-        PV1 = vpv1
-        SV1 = vsv1
-        OUT1 = vout1
-        P1 = vp1
-        I1 = vi1
-        D1 = vd1
-        PV2 = vpv2
-        SV2 = vsv2
-        OUT2 = vout2
-        P2 = vp2
-        I2 = vi2
-        D2 = vd2
+        self.secuencia = sec
+        self.fecha = fh
+        self.PV1 = vpv1
+        self.SV1 = vsv1
+        self.OUT1 = vout1
+        self.P1 = vp1
+        self.I1 = vi1
+        self.D1 = vd1
+        self.PV2 = vpv2
+        self.SV2 = vsv2
+        self.OUT2 = vout2
+        self.P2 = vp2
+        self.I2 = vi2
+        self.D2 = vd2
 
     def ingresarRegistro(self):
         Registros(
-            secuencia = self.sec,
-            fecha = self.fh,
-            PV1 = self.vpv1,
-            SV1 = self.vsv1,
-            OUT1 = self.vout1,
-            P1 = self.vp1,
-            I1 = self.vi1,
-            D1 = self.vd1,
-            PV2 = self.vpv2,
-            SV2 = self.vsv2,
-            OUT2 = self.vout2,
-            P2 = self.vp2,
-            I2 = self.vi2,
-            D2 = self.vd2
+            secuencia = self.secuencia,
+            fecha = self.fecha,
+            PV1 = self.PV1,
+            SV1 = self.SV1,
+            OUT1 = self.OUT1,
+            P1 = self.P1,
+            I1 = self.I1,
+            D1 = self.D1,
+            PV2 = self.PV2,
+            SV2 = self.SV2,
+            OUT2 = self.OUT2,
+            P2 = self.P2,
+            I2 = self.I2,
+            D2 = self.D2
         ).save()
 
     def getSecuencia(self):

@@ -8,11 +8,11 @@
 
     <form name="frmTipoControl" method="POST">
         <div class="containercontrol">
-            <section class="tipocontrol" id="tipocontrol">
+            <section class="elecontrol" id="elecontrol">
                 <br><br><br><br><br>
                 <h4>Seleccione el tipo de control a usar</h4>
                 <br>
-                <select class="control" id="control" style="width:100px" onchange="cambiarinfo()">
+                <select class="tipocontrol" name="tipocontrol" id="tipocontrol" style="width:100px" onchange="cambiarinfo()">
                     <option value="nivel" {{selectedNivel}}>Nivel</option>
                     <option value="flujo" {{selectedFlujo}}>Flujo</option>
                     {% if controladores == 2 %}
@@ -32,7 +32,7 @@
     <script>
 
         function cambiarinfo(){           
-            var select = document.getElementById("control");
+            var select = document.getElementById("tipocontrol");
             var options = document.getElementsByTagName("option");
 
             if (select.value == 'flujo') {
