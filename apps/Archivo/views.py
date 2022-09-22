@@ -7,8 +7,11 @@ import json
 from random import randint
 from django.urls import reverse_lazy
 from apps.Archivo.scripts.checked import *
+from apps.Archivo.scripts.filtrografica import filtrografica
 from apps.Archivo.scripts.rechecked import *
 from apps.Controlador.scripts.lecturagrafica import *
+from apps.Alarma.models import Alarmas
+import time
 
 # Create your views here.
 
@@ -44,6 +47,8 @@ class Grafica(TemplateView):
         data = checked(request)
         
         sesion['EstadoGrafica'] = data
+        data['cascada'] = str(sesion['cascada'])
+        data['lectura'] = '...En lectura' #str(sesion['salvando'])
 
         return render(request, self.template_name, data)
 
@@ -113,5 +118,31 @@ class GraficaFiltro(TemplateView):
 
     def get(self, request, *args, **kwargs):
         sesion = request.session
+        
+        return render(request, self.template_name)
+    
+    def post(self, request, *args, **kwargs):
+        sesion = request.session
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            
+            start_date = request.POST['opcion[start_date]']
+            end_date = request.POST['opcion[end_date]']
+
+            lista = filtrografica(request, start_date, end_date)
+
+            data = json.dumps(lista)
+
+            return HttpResponse(data, 'application/json')
+    
+class GraficaConfirmacionFiltro(TemplateView):
+    template_name = 'GraficaConfirmacionFiltro.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+
+    def get(self, request, *args, **kwargs):
 
         return render(request, self.template_name)

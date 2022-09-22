@@ -21,10 +21,11 @@ class Registros(models.Model):
     D2 = models.FloatField(default=None, verbose_name='Valor Derivativo 2')
 
     def __str__(self):
-        return str(self.secuencia)
+        
+        return 'FECHA: {} // PV1: {} // SV1: {} // OUT1: {} // P1: {} // I1: {} // D1: {} // PV2: {} // SV2: {} // OUT2: {} // P2: {} // I2: {} // D2: {}'.format(self.fecha, self.PV1, self.SV1, self.OUT1, self.P1, self.I1, self.D1, self.PV2, self.SV2, self.OUT2, self.P2, self.I2, self.D2)
 
     class Meta:
         verbose_name = 'Registros'
         verbose_name_plural = 'Registros'
         db_table = 'Registros'
-        ordering = ['secuencia']
+        ordering = ['fecha']

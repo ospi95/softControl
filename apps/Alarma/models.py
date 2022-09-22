@@ -16,4 +16,4 @@ class Alarmas(models.Model):
         verbose_name = 'Alarma'
         verbose_name_plural = 'Alarmas'
         db_table = 'Alarmas'
-        ordering = ['secuencia']
+        ordering = ['fecha']

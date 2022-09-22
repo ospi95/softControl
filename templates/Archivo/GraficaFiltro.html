@@ -6,34 +6,198 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Confirmacion de grafica</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <link rel="stylesheet" href="{% static 'css/menu.css' %}" type="text/css"/>
     <link rel="stylesheet" href="{% static 'css/styles2.css' %}" type="text/css"/>
     <link rel="stylesheet" href="{% static 'css/stylemonitor.css' %}" type="text/css"/>
-    <script src="{% static 'lib/daterangepicker-master/daterangepicker.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'lib/daterangepicker-master/daterangepicker.css' %}" type="text/css"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <body>
-    <div class="configuracion">
+    <div>
         <h1>
             CONFIRMAR LOS DATOS A GRAFICAR
         </h1>
         <label>Rango de fechas:
-            <input type="text" name="daterange" value="" />
+            <input type="text" name="daterange" value="09/01/2022 - 10/01/2022"/>
         </label>
-        <button class="send" onclick="location.href='../../Archivo/GraficaRun'">ACEPTAR</button></td>
     </div>
+        <figure class="highcharts-figure">
+            <div id="container"></div>
+            <input class="PV1" type="hidden" id="PV1" value={{valorPV1}} />
+            <input class="SV1" type="hidden" id="SV1" value={{valorSV1}} />
+            <input class="OUT1" type="hidden" id="OUT1" value={{valorOUT1}} />
+            <input class="P1" type="hidden" id="P1" value={{valorP1}} />
+            <input class="I1" type="hidden" id="I1" value={{valorI1}} />
+            <input class="D1" type="hidden" id="D1" value={{valorD1}} />
+            <input class="PV2" type="hidden" id="PV2" value={{valorPV2}} />
+            <input class="SV2" type="hidden" id="SV2" value={{valorSV2}} />
+            <input class="OUT2" type="hidden" id="OUT2" value={{valorOUT2}} />
+            <input class="P2" type="hidden" id="P2" value={{valorP2}} />
+            <input class="I2" type="hidden" id="I2" value={{valorI2}} />
+            <input class="D2" type="hidden" id="D2" value={{valorD2}} />
+        </figure>
+    </div>
+
 </body>
-<script>
+<script type="application/javascript">
     var $ = jQuery.noConflict()
+
+    var $ = jQuery.noConflict()
+    var date_range = null;
+    var date_now = new moment().format('MM-DD-YYYY');
+    
     $(function() {
-        $('input[name="daterange"]').daterangepicker({
-            opens: 'left'
-        }, function(start, end, label) {
-            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        $('input[name="daterange"]').daterangepicker(
+
+        ).on('apply.daterangepicker', function(ev, picker) {
+            date_range = picker;
+            generate();
+        }).on('cancel.daterangepicker', function(ev, picker) {
+            $(this).data('daterangepicker').setStartDate(date_now);
+            $(this).data('daterangepicker').setEndDate(date_now);
         });
     });
+
+    function generate(){
+        var parameters = {
+            'start_date': '2022-10-01',
+            'end_date': '2022-10-01'
+        }
+
+        if (date_range !== null){
+            parameters['start_date'] = date_range.startDate.format('YYYY-MM-DD')
+            parameters['end_date'] = date_range.endDate.format('YYYY-MM-DD')
+        }
+
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+            'opcion': parameters
+            },
+            dataType: 'json',
+            success: function (response){
+
+            },
+            error: function(error){
+                console.log(error);
+            }
+        }).done(function (response) {
+            Highcharts.chart('container', {
+            chart: {
+                type: 'spline',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+            },
+
+            time: {
+                useUTC: false
+            },
+
+            title: {
+                text: 'Grafica filtrada'
+            },
+
+            accessibility: {
+                announceNewData: {
+                    enabled: true,
+                    minAnnounceInterval: 15000,
+                    announcementFormatter: function (allSeries, newSeries, newPoint) {
+                        if (newPoint) {
+                            return 'New point added. Value: ' + newPoint.y;
+                        }
+                        return false;
+                    }
+                }
+            },
+
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Valores'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+
+            tooltip: {
+                headerFormat: '<b>{series.name}</b><br/>',
+                pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
+            },
+
+            legend: {
+                enabled: false
+            },
+
+            exporting: {
+                enabled: true
+            },
+
+            series: [{
+                name: 'PV1 (mA)',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        i;
+                    
+                    for (i = 0; i <= (response.date.length-1); i += 1) {
+                        data.push({
+                            x: response.date[i],
+                            y: response.PV1[i]
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'SV1 (mA)',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        i;
+                    
+                    for (i = 0; i <= (response.date.length-1); i += 1) {
+                        data.push({
+                            x: response.date[i],
+                            y: response.SV1[i]
+                        });
+                    }
+                    return data;
+                }())
+            }, {
+                name: 'OUT1 %',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        i;
+                    
+                    for (i = 0; i <= (response.date.length-1); i += 1) {
+                        data.push({
+                            x: response.date[i],
+                            y: response.OUT1[i]
+                        });
+                    }
+                    return data;
+                }())
+            }
+            ]
+        });
+        });
+    };
+    
+
 </script>
 </html>
