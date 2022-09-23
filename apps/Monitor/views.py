@@ -199,7 +199,8 @@ class Usuario(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': sesion['configcon']
+            'controlador': sesion['configcon'],
+            'textDescription' : 'probando'
         }
 
         return render(request, self.template_name, data)
@@ -220,16 +221,20 @@ class Usuario(TemplateView):
             print("postajax")
             return HttpResponse(data, 'application/json')
 
-        else:            
+        else:    
             direccion = int(request.POST['parametro'])
             valor = int(request.POST['valor'])
             escribirControl(request, direccion, valor)
             data = {
-            'controlador': sesion['configcon']
+                'controlador': sesion['configcon'],
+                'valor' : valor,
+                'textDescription' : request.POST['textDescription']             
             }
-            data = json.dumps(data)
-            print("postescribir")
-            return render(request,self.template_name)
+            print(data)           
+            return render(request,self.template_name,data)    
+            
+            
+
 
 #Vista del nivel del controlador de control para configurar los parametros de este nivel
 class Control(TemplateView):
