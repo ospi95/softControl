@@ -43,15 +43,51 @@
                 <br>
                 <input class="grafica" type="submit" value="Filtrar" onclick="javascript:Ventana('../../Archivo/GraficaConfirmacionFiltro')"></input><br>
                 <br>
+                <button class="grafica" type="button" onclick="ConfirmDelete()">Borrar</button><br>
             </section>
         </div>
     </form>
 
     <script language=javascript>
+        var $ = jQuery.noConflict()
         function Ventana(url){
         window.open(url, "Nueva Ventana", "width=1200, height=350")
         }
-    
+        
+        function ConfirmDelete(){
+            swal({
+                title: "¿Esta seguro?",
+                text: "De borrar los datos almacenados en la base de datos",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                    'opcion': 'Borrado'
+                    },
+                    dataType: 'json',
+                    success: function (response){
+
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+                swal("Los datos han sido borrados", {
+                icon: "success",
+                });
+            } else {
+                swal("No se ha eliminado ningun dato", {
+                icon: "error"
+                });
+            }
+            });
+        }
     </script>
     
 

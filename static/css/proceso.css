@@ -1,0 +1,108 @@
+.containerproceso{
+    position: center;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.containerproceso h2{
+    font-family: 'Oswald', sans-serif;
+    text-transform:uppercase;
+    text-decoration:none;
+    margin-top: 0;
+    margin-bottom: 7px;
+    color: #128003;
+    font-size: 18px;
+    text-align:center;
+}
+
+.containerproceso h1{
+    font-family: 'Oswald', sans-serif;
+    text-transform:uppercase;
+    text-decoration:none;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #128003;
+    font-size: 36px;
+    text-align:center;
+}
+
+.proceso {
+    width: 300px;
+    height: 380px;
+    position:fixed;
+    left: 38%;
+    text-align:center;
+}
+
+.infoproceso {
+    width: 900px;
+    height: 466px;
+    position:fixed;
+    left: 10%;
+    top:14%;
+    text-align:center;
+}
+
+.infoproceso img{
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.out {
+    position:fixed;
+    left: 40%;
+    top:49%;
+    text-align:center;
+}
+
+.pump {
+    font-family: 'Oswald', sans-serif;
+    text-transform:uppercase;
+    text-decoration:none;
+    margin-top: 25px;
+    margin-bottom: 0;
+    color: #128003;
+    font-size: 12px;
+}
+
+.flujo {
+    width: 90px;
+    height: 90px;
+    position:fixed;
+    left: 41.5%;
+    top:20%;
+    text-align:center;
+    border: 2px solid #428713;
+}
+
+.nivel {
+    width: 90px;
+    height: 90px;
+    position:fixed;
+    left: 45%;
+    top:82%;
+    text-align:center;
+    border: 2px solid #428713;
+}
+
+.cascada {
+    width: 150px;
+    height: 150px;
+    position:fixed;
+    left: 20%;
+    top:18%;
+    text-align:center;
+}
+
+.botonYellow{
+    padding: 11px 11px;
+    background-color: yellow;
+}
+
+.botonBlack{
+    padding: 11px 11px;
+    background-color: black;
+}

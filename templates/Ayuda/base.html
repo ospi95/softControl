@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="{% static 'css/styles2.css' %}" type="text/css"/>
     <link rel="stylesheet" href="{% static 'css/stylemonitor.css' %}" type="text/css"/>
     <link rel="stylesheet" href="{% static 'css/tipocontrol.css' %}" type="text/css"/>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     
 </head>
 
@@ -34,6 +38,7 @@
             <li><a href="">Ver</a>
                 <ul>
                     <li><a href="javascript:Ventana('../../Ayuda/Manual_Controlador')">Manual Controlador MC5X38</a></li>
+                    <li><a href="javascript:Ventana('../../Ayuda/PID')">Diagrama P&ID</a></li>
                 </ul>
             </li>
 
@@ -60,7 +65,7 @@
         <tr>
             <button class="send" onclick="location.href='../../Monitor/Monitor'">MONITOR</button></td>
             <button class="send" onclick="location.href='../../Archivo/Grafica'">GRAFICA</button></td>
-            <button class="send" onclick="location.href='../../Controlador/Proceso'">PROCESO</button></td>
+            <button class="send" onclick="javascript:Ventana('../../Controlador/Proceso')">PROCESO</button></td>
         </tr>
     </div>
 </div>

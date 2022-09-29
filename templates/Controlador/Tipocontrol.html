@@ -25,7 +25,7 @@
 
 
             <section class="infocontrol">
-                <img src="" width="500" height="300" id="info">
+                <img src="" width="500" height="380" id="info">
             </section>
         </div>
     </form>
@@ -36,9 +36,11 @@
             var options = document.getElementsByTagName("option");
 
             if (select.value == 'flujo') {
-                document.getElementById('info').src="{% static 'img\banner.jpg' %}"
+                document.getElementById('info').src="{% static 'img\Flujo.jpg' %}"
             } else if (select.value == 'nivel'){
-                document.getElementById('info').src="{% static 'img\descarga.jpg' %}"
+                document.getElementById('info').src="{% static 'img\Nivel.jpg' %}"
+            } else if (select.value == 'cascada'){
+                document.getElementById('info').src="{% static 'img\Cascada.jpg' %}"
             }
             
         }       

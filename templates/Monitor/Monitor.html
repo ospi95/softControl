@@ -7,24 +7,18 @@
         {% csrf_token %}
         <div class="containermonitor">
             <section class="columna1">
+                <br>
                 <h1>Controlador 1</h1>
-                <h4>PV</h4>
-                <input class="valores PV1" name="PV1" value="{{pv1}}" size="10" maxlength="10" disabled>
-
-                <h4>SV</h4>
-                <input class="valores SV1" name="SV1" value="{{sv1}}" size="10" maxlength="10" disabled>
-
-                <h4>OUT(%)</h4>
-                <input class="valores OUT1" name="OUT1" value="{{out1}}" size="10" maxlength="10" disabled>
+                <br><br>
+                <label class="pump">PV </label><input class="valores PV1" name="PV1" value="{{pv1}}" size="10" maxlength="10" disabled>
+                <br><br>
+                <label class="pump">SV </label><input class="valores SV1" name="SV1" value="{{sv1}}" size="10" maxlength="10" disabled>
+                <br><br>
+                <label class="pump">OUT(%) </label><input class="valores OUT1" name="OUT1" value="{{out1}}" size="10" maxlength="10" disabled>
 
                 <section class="manual">
                     <h1>MANUAL</h1>
                     <button class="{{manual1}}" name="botonmanual" disabled></button>
-                </section>
-
-                <section class="alarma">
-                    <h1>ALARMA</h1>
-                    <button class="{{alarma1}}" name="botonalarma" disabled></button>
                 </section>
 
                 <button class="configcon" type="submit" name="configcon1" onclick="javascript:window.open(location.href='../../Monitor/Usuario','','width=800,height=300,left=100,top=100,toolbar=yes');");">Configurar</button>
@@ -32,24 +26,18 @@
 
 
             <section class="columna2">
+                <br>
                 <h1>Controlador 2</h1>
-                <h4>PV</h4>
-                <input class="valores PV2" name="PV2" value="{{pv2}}" size="10" maxlength="10" disabled>
-
-                <h4>SV</h4>
-                <input class="valores SV2" name="SV2" value="{{sv2}}" size="10" maxlength="10" disabled>
-
-                <h4>OUT(%)</h4>
-                <input class="valores OUT2" name="OUT2" value="{{out2}}" size="10" maxlength="10" disabled>
+                <br><br>
+                <label class="pump">PV </label><input class="valores PV2" name="PV2" value="{{pv2}}" size="10" maxlength="10" disabled>
+                <br><br>
+                <label class="pump">SV </label><input class="valores SV2" name="SV2" value="{{sv2}}" size="10" maxlength="10" disabled>
+                <br><br>
+                <label class="pump">OUT(%) </label><input class="valores OUT2" name="OUT2" value="{{out2}}" size="10" maxlength="10" disabled>
 
                 <section class="manual">
                     <h1>MANUAL</h1>
                     <button class="{{manual2}}" name="botonmanual" disabled></button>
-                </section>
-
-                <section class="alarma">
-                    <h1>ALARMA</h1>
-                    <button class="{{alarma2}}" name="botonalarma" disabled></button>
                 </section>
 
                 <button class="configcon" type="submit" name="configcon2" onclick="javascript:window.open(location.href='../../Monitor/Usuario','','width=800,height=300,left=50,top=50,toolbar=yes');">Configurar</button>
@@ -63,13 +51,16 @@
                     <h1>CASCADA</h1>
                     <button class="{{cascada}}" name="botonalarma" disabled></button>
                 </section>
-                <br>
                 <h4>Velocidad de Bomba (Hz)</h4>
-                <label class="pump">SV </label><input class="valores BombaSV" name="Bomba" value="{{bombasv}}" size="10" maxlength="5">
-                <br><br>
-                <label class="pump">PV </label><input class="valores BombaPV" name="Bomba" value="{{bombapv}}" size="10" maxlength="5" disabled>
+                <label class="pump">SV </label><input class="valores BombaSV" name="BombaSV" value="{{bombasv}}" size="10" maxlength="5">
+                <br>
+                <label class="pump">PV </label><input class="valores BombaPV" name="BombaPV" value="{{bombapv}}" size="10" maxlength="5" disabled>
                 <br><br>
                 <button class="grafica" type="submit" name="velBomba">Confirmar</button>
+                <br><br>
+                <button class="grafica" type="submit" name="MarchaParo">Marcha</button>
+                <br><br>
+                <button class="grafica" type="submit" name="Reconocer">Reconocer Alarma</button>
                 
             </section>
         </div>
@@ -103,7 +94,7 @@
                 $(".BombaPV").val(response['bombapv']);
                 $(".BombaSV").val(response['bombasv']);
             });
-        }, 1000);
+        }, 1000000);
     </script>
 
 {% endblock %}

@@ -33,7 +33,6 @@ def configurar(request):
     sesion['control'] = json.dumps(ctr, default=controlEncoder)
     sesion['registro'] = json.dumps(dato, default=registroEncoder)
     sesion['controles'] = json.dumps(controles, default=controladoresEncoder)
-    # sesion['leer'] = lc
     sesion['curvas'] = ''
     sesion['cont'] = ''
     sesion['decimales1'] = '-1'
@@ -87,6 +86,6 @@ def configurar(request):
 
     if sesion['alarma2'] == '':
         sesion['alarma2'] = 'botonBlack'
-
+    
     if sesion['nivel'] == '':
         sesion['nivel'] = 'SI'

@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 from apps.Monitor.scripts.configurar import *
 from apps.Comunicacion.views import *
 from apps.Comunicacion.scripts.buscarpuertos import *
+from apps.Monitor.scripts.hide import validarHide
 from apps.Monitor.scripts.usuario import *
 from apps.Monitor.scripts.control import *
 from apps.Monitor.scripts.salida import *
@@ -25,7 +26,8 @@ class Home(TemplateView):
 
     def get(self, request, *args, **kwargs):
         sesion = request.session
-          
+        
+        sesion['numeroControles'] = 2
         sesion['controlarLecturaPuerto'] = 1
         sesion['sesion'] = 0
         sesion['salvando'] = ''
@@ -105,7 +107,7 @@ class Monitor(TemplateView):
         if str(sesion['cascada']) == '':
             sesion['cascada'] = 'botonNormal'
 
-        infoMonitor = lecturamonitor(port, vel)
+        """ infoMonitor = lecturamonitor(port, vel, request)
 
         data = {
             'controlador1': 1,
@@ -124,19 +126,15 @@ class Monitor(TemplateView):
             'out2': infoMonitor[5],
             'bombapv': 10,
             'bombasv': 5
-        }
+        } """
 
-        return render(request, self.template_name, data)
+        return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
         sesion = request.session
         port = str(sesion['puerto'])
         vel = int(sesion['velocidad'])
-        
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            infoMonitor = lecturamonitor(port, vel)
-            
-            lista = {
+        data = {
             'controlador1': 1,
             'controlador2': 2,
             'manual1': str(sesion['manual1']),
@@ -144,20 +142,39 @@ class Monitor(TemplateView):
             'alarma1': str(sesion['alarma1']),
             'alarma2': str(sesion['alarma2']),
             'cascada': str(sesion['cascada']),
-            'lectura': str(sesion['salvando']),
-            'pv1': infoMonitor[0],
-            'sv1': infoMonitor[1],
-            'out1': infoMonitor[2],
-            'pv2': infoMonitor[3],
-            'sv2': infoMonitor[4],
-            'out2': infoMonitor[5],
-            'bombapv': 20,
-            'bombasv': 30
-            }
+            'lectura': str(sesion['salvando'])
+        }
+        
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            infoMonitor = lecturamonitor(port, vel, request)
+            
+            data['PV1'] = infoMonitor[0]
+            data['sv1'] = infoMonitor[1]
+            data['out1'] = infoMonitor[2]
+            data['pv2'] = infoMonitor[3]
+            data['sv2'] = infoMonitor[4]
+            data['out2'] = infoMonitor[5]
+            data['bombapv'] = 20
+            data['bombasv'] = 30
 
-            data = json.dumps(lista)
+            data = json.dumps(data)
            
             return HttpResponse(data, 'application/json')
+        
+        elif 'velBomba' in request.POST:
+            print('Confimando velocidad de la bomba')
+
+            return render(request, self.template_name, data)
+
+        elif 'MarchaParo' in request.POST:
+            print('Encendiendo la bomba')
+
+            return render(request, self.template_name, data)
+        
+        elif 'Reconocer' in request.POST:
+            print('Reconociendo la bomba')
+
+            return render(request, self.template_name, data)
 
         else:
             if 'configcon1' in request.POST:
@@ -165,25 +182,16 @@ class Monitor(TemplateView):
             elif 'configcon2' in request.POST:
                 sesion['configcon'] = 2
 
-            infoMonitor = lecturamonitor(port, vel)
-            data = {
-                'controlador1': 1,
-                'controlador2': 2,
-                'manual1': str(sesion['manual1']),
-                'manual2': str(sesion['manual2']),
-                'alarma1': str(sesion['alarma1']),
-                'alarma2': str(sesion['alarma2']),
-                'cascada': str(sesion['cascada']),
-                'lectura': str(sesion['salvando']),
-                'pv1': infoMonitor[0],
-                'sv1':  infoMonitor[1],
-                'out1':  infoMonitor[2],
-                'pv2': infoMonitor[3],
-                'sv2': infoMonitor[4],
-                'out2': infoMonitor[5],
-                'bombapv': 20,
-                'bombasv': 30
-            }
+            infoMonitor = lecturamonitor(port, vel, request)
+
+            data['PV1'] = infoMonitor[0]
+            data['sv1'] = infoMonitor[1]
+            data['out1'] = infoMonitor[2]
+            data['pv2'] = infoMonitor[3]
+            data['sv2'] = infoMonitor[4]
+            data['out2'] = infoMonitor[5]
+            data['bombapv'] = 20
+            data['bombasv'] = 30
 
             return render(request, self.template_name, data)
 
@@ -233,9 +241,6 @@ class Usuario(TemplateView):
             print(data)           
             return render(request,self.template_name,data)    
             
-            
-
-
 #Vista del nivel del controlador de control para configurar los parametros de este nivel
 class Control(TemplateView):
     template_name = 'Control.html'
@@ -443,9 +448,11 @@ class Hide(TemplateView):
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
-            #valor = validarControl(request, dir1)
+            valor = validarHide(request, dir1)
             lista = {
-                'valor': 'funciona', #valor[0],
+                'valor': valor[0],
+                'losp': valor[1],
+                'hisp': valor[2]
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')

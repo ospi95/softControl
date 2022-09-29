@@ -41,25 +41,25 @@ class Control:
                 if id1 != 999:
                     aux1 = lc.leerDireccion(puerto, vel, id1, 5)
 
-                    if id1 == 99999:
+                    if aux1 == 99999:
                         sesion['manual1'] = 'botonBlack'
-                    elif id1 == 0:
+                    elif aux1 == 'no':
                         sesion['manual1'] = 'botonBlack'
-                    elif id1 == 1:
+                    elif aux1 == 1:
                         sesion['manual1'] = 'botonYellow'
-                    elif id1 == 2:
+                    elif aux1 == 2:
                         sesion['manual1'] = 'botonYellow'
 
                 if id2 != 999:
                     aux1 = lc.leerDireccion(puerto, vel, id1, 5)
-                    if id2 == 99999:\
-                        sesion['manual2'] = 'botonBlack'
-                    elif id2 == 0:
-                        sesion['manual2'] = 'botonBlack'
-                    elif id2 == 1:
-                        sesion['manual2'] = 'botonYellow'
-                    elif id2 == 2:
-                        sesion['manual2'] = 'botonYellow'
+                    if aux1 == 99999:
+                        sesion['manual1'] = 'botonBlack'
+                    elif aux1 == 'no':
+                        sesion['manual1'] = 'botonBlack'
+                    elif aux1 == 1:
+                        sesion['manual1'] = 'botonYellow'
+                    elif aux1 == 2:
+                        sesion['manual1'] = 'botonYellow'
 
                 datoF = lc.leer(puerto, vel, id1, id2)
                 sesion['dato'] = json.dumps(datoF, default=registroEncoder)
@@ -92,7 +92,7 @@ class Control:
                 if id1 != 999:
                     aux1 = lc.leerDireccion(puerto, vel, id1, 5)
                     
-                    if aux1 == 0:
+                    if aux1 == 'no':
                         sesion['manual1'] = 'botonBlack'
                     else:
                         sesion['manual1'] = 'botonYellow'
@@ -100,7 +100,7 @@ class Control:
                 if id2 != 999:
                     aux1 = lc.leerDireccion(puerto, vel, id1, 5)
                     
-                    if aux1 == 0:
+                    if aux1 == 'no':
                         sesion['manual2'] = 'botonBlack'
                     else:
                         sesion['manual2'] = 'botonYellow'

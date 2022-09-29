@@ -1,10 +1,72 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Proceso</title>
+    <link rel="stylesheet" href="{% static 'css/proceso.css' %}" type="text/css"/>
 </head>
 <body>
-<h1>Proceso</h1>
+    <div class="containerproceso">
+        <section class="proceso">
+            <h1>PROCESO</h1>
+        </section>
+        <section class="infoproceso">
+            <img src="{% static 'img\Proceso.jpg' %}" width="500" height="380" id="info">
+        </section>
+        <section class="out">
+            <label class="pump">OUT%</label><br>
+            <input name="out" value="{{out}}" disabled size="1" text-align="center" ></input>
+        </section>
+        <section class="flujo">
+            <h2>FLUJO</h2>
+            <label class="pump">SV2</label><input name="sv2" value="{{sv2}}" disabled size="1" text-align="center"></input>
+            <br>
+            <label class="pump">PV2</label><input name="pv2" value="{{pv2}}" disabled size="1" text-align="center"></input>
+        </section>
+
+        <section class="nivel">
+            <h2>NIVEL</h2>
+            <label class="pump">SV1</label><input name="sv1" value="{{sv1}}" disabled size="1" text-align="center"></input>
+            <br>
+            <label class="pump">PV1</label><input name="pv1" value="{{pv1}}" disabled size="1" text-align="center"></input>
+        </section>
+
+        <section class="cascada">
+            <h2>{{lectura}}</h2>
+            <h2>CASCADA</h2>
+            <button class="{{cascada}}" name="botonalarma" disabled></button>
+        </section>
+        
+    </div>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><!-- jQuery base library needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <script>
+        var $ = jQuery.noConflict()
+        setInterval(function () {
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: {
+                'opcion': 'Recargando'
+                },
+                dataType: 'json',
+                success: function (response){
+                    
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            }).done(function (response) {
+                $(".pv1").val(response['pv1']);
+                $(".sv1").val(response['sv1']);
+                $(".pv2").val(response['pv2']);
+                $(".sv2").val(response['sv2']);
+                $(".out").val(response['out']);
+            });
+        }, 2000);
+    </script>
 </body>
 </html>

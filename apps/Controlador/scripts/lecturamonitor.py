@@ -1,7 +1,8 @@
 import math
 from pymodbus.client.sync import ModbusSerialClient
 
-def lecturamonitor(port, vel):
+def lecturamonitor(port, vel, request):
+    sesion = request.session
 
     client = ModbusSerialClient(
             method="rtu",
@@ -56,5 +57,12 @@ def lecturamonitor(port, vel):
     pv2 = pv2 / d
 
     client.close()
+
+    sesion['pv1'] = pv1
+    sesion['sv1'] = sv1
+    sesion['out1'] = out1
+    sesion['pv2'] = pv2
+    sesion['sv2'] = sv2
+    sesion['out2'] = out2
 
     return [pv1, sv1, out1, pv2, sv2, out2]

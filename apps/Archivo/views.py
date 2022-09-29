@@ -44,11 +44,24 @@ class Grafica(TemplateView):
     def post(self, request, *args, **kwargs):
         sesion = request.session
 
-        data = checked(request)
-        
-        sesion['EstadoGrafica'] = data
-        data['cascada'] = str(sesion['cascada'])
-        data['lectura'] = '...En lectura' #str(sesion['salvando'])
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            
+            datos = Registros.objects.all()
+            datos.delete()
+
+            lista = {
+                'opcion': 'Confirmado de borrado'
+            }
+
+            data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        else:
+            data = checked(request)
+    
+            sesion['EstadoGrafica'] = data
+            data['cascada'] = str(sesion['cascada'])
+            data['lectura'] = '...En lectura' #str(sesion['salvando'])
 
         return render(request, self.template_name, data)
 

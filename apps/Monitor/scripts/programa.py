@@ -53,3 +53,5 @@ def validarPrograma(request, dir1):
             valorActualString = str(valorActual)
     else :
         valorActualString = valorActual 
+    
+    return [valorActualString, losp, hisp]
