@@ -45,7 +45,7 @@ class Home(TemplateView):
         sesion['alarma1'] = ''
         sesion['alarma2'] = ''
         sesion['nivel'] = ''
-
+        sesion['tipocontrol'] = ''
         return render(request, self.template_name)
 
 #Vista de pantalla principal donde se carga la configuración del sistema
@@ -106,8 +106,8 @@ class Monitor(TemplateView):
 
         if str(sesion['cascada']) == '':
             sesion['cascada'] = 'botonNormal'
-
-        """ infoMonitor = lecturamonitor(port, vel, request)
+        
+        infoMonitor = lecturamonitor(port, vel, request)
 
         data = {
             'controlador1': 1,
@@ -126,9 +126,9 @@ class Monitor(TemplateView):
             'out2': infoMonitor[5],
             'bombapv': 10,
             'bombasv': 5
-        } """
-
-        return render(request, self.template_name)
+        } 
+        
+        return render(request, self.template_name,data)
 
     def post(self, request, *args, **kwargs):
         sesion = request.session
@@ -148,7 +148,7 @@ class Monitor(TemplateView):
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             infoMonitor = lecturamonitor(port, vel, request)
             
-            data['PV1'] = infoMonitor[0]
+            data['pv1'] = infoMonitor[0]
             data['sv1'] = infoMonitor[1]
             data['out1'] = infoMonitor[2]
             data['pv2'] = infoMonitor[3]
@@ -156,7 +156,7 @@ class Monitor(TemplateView):
             data['out2'] = infoMonitor[5]
             data['bombapv'] = 20
             data['bombasv'] = 30
-
+            
             data = json.dumps(data)
            
             return HttpResponse(data, 'application/json')
@@ -184,7 +184,7 @@ class Monitor(TemplateView):
 
             infoMonitor = lecturamonitor(port, vel, request)
 
-            data['PV1'] = infoMonitor[0]
+            data['pv1'] = infoMonitor[0]
             data['sv1'] = infoMonitor[1]
             data['out1'] = infoMonitor[2]
             data['pv2'] = infoMonitor[3]

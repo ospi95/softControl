@@ -18,7 +18,7 @@
 
                 <section class="manual">
                     <h1>MANUAL</h1>
-                    <button class="{{manual1}}" name="botonmanual" disabled></button>
+                    <button class="{{manual1}}" name="botonmanual1" disabled></button>
                 </section>
 
                 <button class="configcon" type="submit" name="configcon1" onclick="javascript:window.open(location.href='../../Monitor/Usuario','','width=800,height=300,left=100,top=100,toolbar=yes');");">Configurar</button>
@@ -91,10 +91,9 @@
                 $(".PV2").val(response['pv2']);
                 $(".SV2").val(response['sv2']);
                 $(".OUT2").val(response['out2']);
-                $(".BombaPV").val(response['bombapv']);
-                $(".BombaSV").val(response['bombasv']);
+                
             });
-        }, 1000000);
+        }, 1000);
     </script>
 
 {% endblock %}
