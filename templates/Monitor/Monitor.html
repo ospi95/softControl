@@ -51,16 +51,6 @@
                     <h1>CASCADA</h1>
                     <button class="{{cascada}}" name="botonalarma" disabled></button>
                 </section>
-                <h4>Velocidad de Bomba (Hz)</h4>
-                <label class="pump">SV </label><input class="valores BombaSV" name="BombaSV" value="{{bombasv}}" size="10" maxlength="5">
-                <br>
-                <label class="pump">PV </label><input class="valores BombaPV" name="BombaPV" value="{{bombapv}}" size="10" maxlength="5" disabled>
-                <br><br>
-                <button class="grafica" type="submit" name="velBomba">Confirmar</button>
-                <br><br>
-                <button class="grafica" type="submit" name="MarchaParo">Marcha</button>
-                <br><br>
-                <button class="grafica" type="submit" name="Reconocer">Reconocer Alarma</button>
                 
             </section>
         </div>
@@ -93,7 +83,7 @@
                 $(".OUT2").val(response['out2']);
                 
             });
-        }, 1000);
+        }, 100000);
     </script>
 
 {% endblock %}

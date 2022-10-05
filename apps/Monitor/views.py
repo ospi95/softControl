@@ -27,7 +27,6 @@ class Home(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         
-        sesion['numeroControles'] = 2
         sesion['controlarLecturaPuerto'] = 1
         sesion['sesion'] = 0
         sesion['salvando'] = ''
@@ -46,6 +45,8 @@ class Home(TemplateView):
         sesion['alarma2'] = ''
         sesion['nivel'] = ''
         sesion['tipocontrol'] = ''
+        sesion['confcontrolador'] = True
+        
         return render(request, self.template_name)
 
 #Vista de pantalla principal donde se carga la configuración del sistema
@@ -57,14 +58,11 @@ class Principal(TemplateView):
         sesion = request.session
         sesion['controlarLecturaPuerto'] = 1
         
-                
-        
         if sesion['sesion'] == 0:
             configurar(request)
             sesion['sesion'] = 1
 
         puertos = buscarPuertos()
-
         data = {
             'puertos': puertos
         }
@@ -124,8 +122,6 @@ class Monitor(TemplateView):
             'pv2': infoMonitor[3],
             'sv2': infoMonitor[4],
             'out2': infoMonitor[5],
-            'bombapv': 10,
-            'bombasv': 5
         } 
         
         return render(request, self.template_name,data)
@@ -145,7 +141,7 @@ class Monitor(TemplateView):
             'lectura': str(sesion['salvando'])
         }
         
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and sesion['confcontrolador']:
             infoMonitor = lecturamonitor(port, vel, request)
             
             data['pv1'] = infoMonitor[0]
@@ -154,27 +150,10 @@ class Monitor(TemplateView):
             data['pv2'] = infoMonitor[3]
             data['sv2'] = infoMonitor[4]
             data['out2'] = infoMonitor[5]
-            data['bombapv'] = 20
-            data['bombasv'] = 30
             
             data = json.dumps(data)
            
             return HttpResponse(data, 'application/json')
-        
-        elif 'velBomba' in request.POST:
-            print('Confimando velocidad de la bomba')
-
-            return render(request, self.template_name, data)
-
-        elif 'MarchaParo' in request.POST:
-            print('Encendiendo la bomba')
-
-            return render(request, self.template_name, data)
-        
-        elif 'Reconocer' in request.POST:
-            print('Reconociendo la bomba')
-
-            return render(request, self.template_name, data)
 
         else:
             if 'configcon1' in request.POST:
@@ -190,8 +169,6 @@ class Monitor(TemplateView):
             data['pv2'] = infoMonitor[3]
             data['sv2'] = infoMonitor[4]
             data['out2'] = infoMonitor[5]
-            data['bombapv'] = 20
-            data['bombasv'] = 30
 
             return render(request, self.template_name, data)
 
@@ -206,9 +183,13 @@ class Usuario(TemplateView):
 
     def get(self, request, *args, **kwargs):
         sesion = request.session
+        sesion['confcontrolador'] = False
+        valor = validarUsuario(request, 2)
+
         data = {
             'controlador': sesion['configcon'],
-            'textDescription' : 'probando'
+            'textDescription' : 'Descripción: Punto de consigna. \nRango: 4 ~ 20',
+            'valor': valor[0]
         }
 
         return render(request, self.template_name, data)
@@ -219,14 +200,14 @@ class Usuario(TemplateView):
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             dir1 = int(request.POST['opcion'])
             valor = validarUsuario(request, dir1)
-            print(valor)
+            
             lista = {
                 'valor': valor[0],
                 'losp': valor[1],
                 'hisp': valor[2]
             }
             data = json.dumps(lista)
-            print("postajax")
+            
             return HttpResponse(data, 'application/json')
 
         else:    
@@ -238,7 +219,7 @@ class Usuario(TemplateView):
                 'valor' : valor,
                 'textDescription' : request.POST['textDescription']             
             }
-            print(data)           
+                    
             return render(request,self.template_name,data)    
             
 #Vista del nivel del controlador de control para configurar los parametros de este nivel

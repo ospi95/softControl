@@ -85,6 +85,10 @@ class Proceso(TemplateView):
 
     template_name = 'Proceso.html'
 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+        
     def get(self, request, *args, **kwargs):
         sesion = request.session
 
@@ -93,16 +97,16 @@ class Proceso(TemplateView):
         elif sesion['tipocontrol'] == 'flujo':
             out = sesion['out2']
         else:
-            out = sesion['out1']
+            out = 100 #sesion['out1']
 
         data = {
-            'pv1': sesion['pv1'],
-            'sv1': sesion['sv1'],
-            'pv2': sesion['pv2'],
-            'sv2': sesion['sv2'],
+            'pv1': 11.30, #sesion['pv1'],
+            'sv1': 11.00, #sesion['sv1'],
+            'pv2': 9.00, #sesion['pv2'],
+            'sv2': 4.00, #sesion['sv2'],
             'out': out,
             'cascada': str(sesion['cascada']),
-            'lectura': str(sesion['salvando'])
+            'lectura': 'En Lectura...' #str(sesion['salvando'])
         }
 
         return render(request, self.template_name, data)
