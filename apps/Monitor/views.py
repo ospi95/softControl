@@ -16,7 +16,6 @@ from apps.Monitor.scripts.comunicaciones import *
 from apps.Monitor.scripts.programa import *
 from apps.Monitor.scripts.escribircontrol import *
 from apps.Controlador.scripts.lecturamonitor import *
-import jsonpickle
 
 # Create your views here.
 
