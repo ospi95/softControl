@@ -27,7 +27,7 @@ def escribirControl(request, direccion, valor):
     result = client.read_holding_registers(address=83, count=1, unit=id1)
     d = int(math.pow(10, result.registers[0]))
     client.close()
-    valor = valor*d
+    valor = int(valor*d)
     ec.escribir(puerto, vel, id, direccion, valor)
 
     if salvando == 'En Lectura...':

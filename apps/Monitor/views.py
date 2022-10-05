@@ -211,7 +211,8 @@ class Usuario(TemplateView):
 
         else:    
             direccion = int(request.POST['parametro'])
-            valor = int(request.POST['valor'])
+            valor = float(request.POST['valor'])
+            print(type(valor), valor)
             escribirControl(request, direccion, valor)
             data = {
                 'controlador': sesion['configcon'],
@@ -249,8 +250,9 @@ class Control(TemplateView):
             return HttpResponse(data, 'application/json')
 
         else:
+            valor = int(request.POST['valor'])
             direccion = int(request.POST['parametro'])
-            escribirControl(request, direccion)
+            escribirControl(request, direccion, valor)
             data = {
             'controlador': sesion['configcon']
             }
@@ -285,8 +287,9 @@ class Salida(TemplateView):
             return HttpResponse(data, 'application/json')
 
         else:
+            valor = int(request.POST['valor'])
             direccion = int(request.POST['parametro'])
-            escribirControl(request, direccion)
+            escribirControl(request, direccion, valor)
             data = {
             'controlador': sesion['configcon']
             }
@@ -324,8 +327,9 @@ class Entrada(TemplateView):
             return HttpResponse(data, 'application/json')
 
         else:
+            valor = int(request.POST['valor'])
             direccion = int(request.POST['parametro'])
-            escribirControl(request, direccion)
+            escribirControl(request, direccion, valor)
             data = {
             'controlador': sesion['configcon']
             }
@@ -362,8 +366,9 @@ class Comunicacion(TemplateView):
             return HttpResponse(data, 'application/json')
 
         else:
+            valor = int(request.POST['valor'])
             direccion = int(request.POST['parametro'])
-            escribirControl(request, direccion)
+            escribirControl(request, direccion, valor)
             data = {
             'controlador': sesion['configcon']
             }
@@ -400,8 +405,9 @@ class Programa(TemplateView):
             return HttpResponse(data, 'application/json')
 
         else:
+            valor = int(request.POST['valor'])
             direccion = int(request.POST['parametro'])
-            escribirControl(request, direccion)
+            escribirControl(request, direccion, valor)
             data = {
             'controlador': sesion['configcon']
             }
@@ -438,6 +444,7 @@ class Hide(TemplateView):
             return HttpResponse(data, 'application/json')
 
         else:
+            valor = int(request.POST['valor'])
             direccion = int(request.POST['parametro'])
-            escribirControl(request, direccion)
+            escribirControl(request, direccion, valor)
             return render(request, self.template_name)
