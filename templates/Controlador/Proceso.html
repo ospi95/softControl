@@ -16,26 +16,26 @@
         </section>
         <section class="out">
             <label class="pump">OUT%</label><br>
-            <input name="out" value="{{out}}" disabled size="1" text-align="center" ></input>
+            <input id="out" value="{{out}}" disabled size="1" text-align="center" ></input>
         </section>
         <section class="flujo">
             <h2>FLUJO</h2>
-            <label class="pump">SV2</label><input name="sv2" value="{{sv2}}" disabled size="1" text-align="center"></input>
+            <label class="pump">SV2</label><input id="sv2" value="{{sv2}}" disabled size="1" text-align="center"></input>
             <br>
-            <label class="pump">PV2</label><input name="pv2" value="{{pv2}}" disabled size="1" text-align="center"></input>
+            <label class="pump">PV2</label><input id="pv2" value="{{pv2}}" disabled size="1" text-align="center"></input>
         </section>
 
         <section class="nivel">
             <h2>NIVEL</h2>
-            <label class="pump">SV1</label><input name="sv1" value="{{sv1}}" disabled size="1" text-align="center"></input>
+            <label class="pump">SV1</label><input id="sv1" value="{{sv1}}" disabled size="1" text-align="center"></input>
             <br>
-            <label class="pump">PV1</label><input name="pv1" value="{{pv1}}" disabled size="1" text-align="center"></input>
+            <label class="pump">PV1</label><input id="pv1" value="{{pv1}}" disabled size="1" text-align="center"></input>
         </section>
 
         <section class="cascada">
             <h2>{{lectura}}</h2>
             <h2>CASCADA</h2>
-            <button class="{{cascada}}" name="botonalarma" disabled></button>
+            <button class="{{cascada}}" id="botonalarma" disabled></button>
         </section>
         
     </div>
@@ -60,11 +60,12 @@
                     console.log(error);
                 }
             }).done(function (response) {
-                $(".pv1").val(response['pv1']);
-                $(".sv1").val(response['sv1']);
-                $(".pv2").val(response['pv2']);
-                $(".sv2").val(response['sv2']);
-                $(".out").val(response['out']);
+                $("#pv1").val(response['pv1']);
+                $("#sv1").val(response['sv1']);
+                $("#pv2").val(response['pv2']);
+                $("#sv2").val(response['sv2']);
+                $("#out").val(response['out']);
+                console.log(response['sv2'])
             });
         }, 2000);
     </script>

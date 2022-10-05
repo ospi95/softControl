@@ -140,9 +140,9 @@ class Monitor(TemplateView):
             'lectura': str(sesion['salvando'])
         }
         
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and sesion['confcontrolador']:
-            infoMonitor = lecturamonitor(port, vel, request)
-            
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and sesion.get('confcontrolador') :
+            print(sesion.get('confcontrolador'))
+            infoMonitor = lecturamonitor(port, vel, request)                        
             data['pv1'] = infoMonitor[0]
             data['sv1'] = infoMonitor[1]
             data['out1'] = infoMonitor[2]
@@ -155,19 +155,18 @@ class Monitor(TemplateView):
             return HttpResponse(data, 'application/json')
 
         else:
+            sesion['confcontrolador'] = False
             if 'configcon1' in request.POST:
                 sesion['configcon'] = 1
             elif 'configcon2' in request.POST:
                 sesion['configcon'] = 2
 
-            infoMonitor = lecturamonitor(port, vel, request)
-
-            data['pv1'] = infoMonitor[0]
-            data['sv1'] = infoMonitor[1]
-            data['out1'] = infoMonitor[2]
-            data['pv2'] = infoMonitor[3]
-            data['sv2'] = infoMonitor[4]
-            data['out2'] = infoMonitor[5]
+            data['pv1'] = sesion['pv1']
+            data['sv1'] = sesion['sv1']
+            data['out1'] = sesion['out1']
+            data['pv2'] = sesion['pv2']
+            data['sv2'] = sesion['sv2']
+            data['out2'] = sesion['out2']
 
             return render(request, self.template_name, data)
 
@@ -182,13 +181,11 @@ class Usuario(TemplateView):
 
     def get(self, request, *args, **kwargs):
         sesion = request.session
-        sesion['confcontrolador'] = False
-        valor = validarUsuario(request, 2)
-
+        
         data = {
             'controlador': sesion['configcon'],
             'textDescription' : 'Descripción: Punto de consigna. \nRango: 4 ~ 20',
-            'valor': valor[0]
+            'valor': 20
         }
 
         return render(request, self.template_name, data)

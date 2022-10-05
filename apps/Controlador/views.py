@@ -112,10 +112,10 @@ class Proceso(TemplateView):
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
-        sesion = request.sessioN
+        sesion = request.session
         
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            
+            print("ajax")
             if sesion['tipocontrol'] == 'flujo':
                 out = sesion['out2']
             elif sesion['tipocontrol'] == 'flujo':
@@ -123,7 +123,7 @@ class Proceso(TemplateView):
             else:
                 out = sesion['out1']
 
-            data = {
+            lista = {
                 'pv1': sesion['pv1'],
                 'sv1': sesion['sv1'],
                 'pv2': sesion['pv2'],
@@ -132,8 +132,8 @@ class Proceso(TemplateView):
                 'cascada': str(sesion['cascada']),
                 'lectura': str(sesion['salvando'])
             }
-
-            data = json.dumps(data)
+            
+            data = json.dumps(lista)
            
             return HttpResponse(data, 'application/json')
 
