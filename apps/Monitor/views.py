@@ -105,7 +105,7 @@ class Monitor(TemplateView):
         if str(sesion['cascada']) == '':
             sesion['cascada'] = 'botonNormal'
         
-        #infoMonitor = lecturamonitor(port, vel, request)
+        infoMonitor = lecturamonitor(port, vel, request)
 
         data = {
             'controlador1': 1,
@@ -116,12 +116,12 @@ class Monitor(TemplateView):
             'alarma2': str(sesion['alarma2']),
             'cascada': str(sesion['cascada']),
             'lectura': str(sesion['salvando']),
-            'pv1': 10, #infoMonitor[0],
-            'sv1': 11, #infoMonitor[1],
-            'out1': 0, #infoMonitor[2],
-            'pv2': 5, #infoMonitor[3],
-            'sv2': 6, #infoMonitor[4],
-            'out2': 20, #infoMonitor[5],
+            'pv1': infoMonitor[0],
+            'sv1': infoMonitor[1],
+            'out1': infoMonitor[2],
+            'pv2': infoMonitor[3],
+            'sv2': infoMonitor[4],
+            'out2': infoMonitor[5],
         } 
         
         return render(request, self.template_name,data)
@@ -142,14 +142,14 @@ class Monitor(TemplateView):
         }
         
         if (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (sesion.get('confcontrolador')) :
-            print('AJAX')
-            #infoMonitor = lecturamonitor(port, vel, request)                        
-            data['pv1'] = 3, #infoMonitor[0]
-            data['sv1'] = 4, #infoMonitor[1]
-            data['out1'] = 100, #infoMonitor[2]
-            data['pv2'] = 9, #infoMonitor[3]
-            data['sv2'] = 10, #infoMonitor[4]
-            data['out2'] = 0, #infoMonitor[5]
+            
+            infoMonitor = lecturamonitor(port, vel, request)                        
+            data['pv1'] = infoMonitor[0]
+            data['sv1'] = infoMonitor[1]
+            data['out1'] = infoMonitor[2]
+            data['pv2'] = infoMonitor[3]
+            data['sv2'] = infoMonitor[4]
+            data['out2'] = infoMonitor[5]
             
             data = json.dumps(data)
            

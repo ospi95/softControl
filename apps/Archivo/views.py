@@ -30,7 +30,7 @@ class Grafica(TemplateView):
         
         data = {
             'cascada': str(sesion['cascada']),
-            'lectura': '...En lectura' #str(sesion['salvando'])
+            'lectura': str(sesion['salvando'])
         }
 
         return render(request, self.template_name, data)
@@ -56,7 +56,7 @@ class Grafica(TemplateView):
     
             sesion['EstadoGrafica'] = data
             data['cascada'] = str(sesion['cascada'])
-            data['lectura'] = '...En lectura' #str(sesion['salvando'])
+            data['lectura'] = str(sesion['salvando'])
 
         return render(request, self.template_name, data)
 
