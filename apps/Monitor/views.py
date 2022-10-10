@@ -88,7 +88,7 @@ class Monitor(TemplateView):
         sesion = request.session
         port = str(sesion['puerto'])
         vel = int(sesion['velocidad'])
-        sesion['confcontrolador'] = True
+        #sesion['confcontrolador'] = True
 
         if str(sesion['manual1']) == '':
             sesion['manual1'] = 'botonNormal'
@@ -142,7 +142,8 @@ class Monitor(TemplateView):
         }
         
         if (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (sesion.get('confcontrolador')) :
-            
+            print("AJAX")
+            print(sesion.get('confcontrolador'))
             infoMonitor = lecturamonitor(port, vel, request)                        
             data['pv1'] = infoMonitor[0]
             data['sv1'] = infoMonitor[1]
@@ -156,8 +157,9 @@ class Monitor(TemplateView):
             return HttpResponse(data, 'application/json')
 
         else:
-            print('POST')
+            print('POST')            
             sesion['confcontrolador'] = False
+            print(sesion.get('confcontrolador'))
             if 'configcon1' in request.POST:
                 sesion['configcon'] = 1
             elif 'configcon2' in request.POST:
@@ -271,7 +273,7 @@ class Control(TemplateView):
             return HttpResponse(data, 'application/json')
 
         else:
-            valor = int(request.POST['valor'])
+            valor = float(request.POST['valor'])
             direccion = int(request.POST['parametro'])
             escribirControl(request, direccion, valor)
             data = {

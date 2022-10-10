@@ -29,7 +29,7 @@ def escribirControl(request, direccion, valor):
     elif direccion == 24:
         valor = 0
     elif (direccion == 2) or (direccion == 256):
-        valor = valor / decimales
+        valor = valor * decimales
     elif direccion == 15:
         residuo = valor % 60
         parteEntera = (valor-residuo)/60
@@ -89,30 +89,28 @@ def escribirControl(request, direccion, valor):
                 valor = valor
         elif (al3f == 11) or (al3f == 12) or (al3f == 13):
             valor = valor
-        elif direccion == 25:
-            valorActual = valorActual * 10
-        elif direccion == 26:
-            valor = valor
-        elif (direccion == 27):
-            valor = valor
-        elif (direccion == 28) or (direccion == 29) or (direccion == 38) (direccion == 45):
-            valorActual = valorActual * 10
-        elif (direccion == 30) or (direccion == 37):
-            valorActual = valorActual * 10
-        elif (direccion == 31) or (direccion == 39):
-            valorActual = valorActual * 10
-        elif direccion == 40:
-            valor = valor
-        elif direccion == 42:
-            valor = valor
-        elif direccion == 43:
-            valor = valor
-        elif (direccion == 44) or (direccion == 46) or (direccion == 47):
-            valor = valor
+    elif direccion == 25:
+        valor = valor * 10
+    elif direccion == 26:
+        valor = valor
+    elif (direccion == 27):
+        valor = valor
+    elif (direccion == 28) or (direccion == 29) or (direccion == 38) (direccion == 45):
+        valor = valor * 10
+    elif (direccion == 30) or (direccion == 37):
+        valor = valor * 10
+    elif (direccion == 31) or (direccion == 39):
+        valor = valor * 10
+    elif direccion == 40:
+        valor = valor
+    elif direccion == 42:
+        valor = valor
+    elif direccion == 43:
+        valor = valor
+    elif (direccion == 44) or (direccion == 46) or (direccion == 47):
+        valor = valor
 
-
-
-    ec.escribir(puerto, vel, id, direccion, valor)
+    ec.escribir(puerto, vel, id, direccion, int(valor))
 
     if salvando == 'En Lectura...':
         ctr.read(puerto, vel, id1, id2, request)
