@@ -15,11 +15,6 @@ import time
 
 # Create your views here.
 
-class Exportar(TemplateView):
-
-    template_name = 'Exportar.html'
-
-
 class Grafica(TemplateView):
 
     template_name = 'Grafica.html'
@@ -65,7 +60,6 @@ class Grafica(TemplateView):
 
         return render(request, self.template_name, data)
 
-
 class Graficarun(TemplateView):
     template_name = 'Graficarun.html'
 
@@ -87,7 +81,7 @@ class Graficarun(TemplateView):
         port = str(sesion['puerto'])
         vel = int(sesion['velocidad'])
 
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (sesion.get('confcontrolador')):
             graficando = lecturagrafica(port, vel)
             
             lista = {
@@ -106,7 +100,10 @@ class Graficarun(TemplateView):
             }
             data = json.dumps(lista)
             return HttpResponse(data, 'application/json')
+        
+        else:
 
+            return render(request, self.template_name)
 
 class GraficaConfirmacion(TemplateView):
     template_name = 'GraficaConfirmacion.html'

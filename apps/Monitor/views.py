@@ -88,6 +88,7 @@ class Monitor(TemplateView):
         sesion = request.session
         port = str(sesion['puerto'])
         vel = int(sesion['velocidad'])
+        sesion['confcontrolador'] = True
 
         if str(sesion['manual1']) == '':
             sesion['manual1'] = 'botonNormal'
@@ -104,7 +105,7 @@ class Monitor(TemplateView):
         if str(sesion['cascada']) == '':
             sesion['cascada'] = 'botonNormal'
         
-        infoMonitor = lecturamonitor(port, vel, request)
+        #infoMonitor = lecturamonitor(port, vel, request)
 
         data = {
             'controlador1': 1,
@@ -115,12 +116,12 @@ class Monitor(TemplateView):
             'alarma2': str(sesion['alarma2']),
             'cascada': str(sesion['cascada']),
             'lectura': str(sesion['salvando']),
-            'pv1': infoMonitor[0],
-            'sv1': infoMonitor[1],
-            'out1': infoMonitor[2],
-            'pv2': infoMonitor[3],
-            'sv2': infoMonitor[4],
-            'out2': infoMonitor[5],
+            'pv1': 10, #infoMonitor[0],
+            'sv1': 11, #infoMonitor[1],
+            'out1': 0, #infoMonitor[2],
+            'pv2': 5, #infoMonitor[3],
+            'sv2': 6, #infoMonitor[4],
+            'out2': 20, #infoMonitor[5],
         } 
         
         return render(request, self.template_name,data)
@@ -140,33 +141,34 @@ class Monitor(TemplateView):
             'lectura': str(sesion['salvando'])
         }
         
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and sesion.get('confcontrolador') :
-            print(sesion.get('confcontrolador'))
-            infoMonitor = lecturamonitor(port, vel, request)                        
-            data['pv1'] = infoMonitor[0]
-            data['sv1'] = infoMonitor[1]
-            data['out1'] = infoMonitor[2]
-            data['pv2'] = infoMonitor[3]
-            data['sv2'] = infoMonitor[4]
-            data['out2'] = infoMonitor[5]
+        if (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (sesion.get('confcontrolador')) :
+            print('AJAX')
+            #infoMonitor = lecturamonitor(port, vel, request)                        
+            data['pv1'] = 3, #infoMonitor[0]
+            data['sv1'] = 4, #infoMonitor[1]
+            data['out1'] = 100, #infoMonitor[2]
+            data['pv2'] = 9, #infoMonitor[3]
+            data['sv2'] = 10, #infoMonitor[4]
+            data['out2'] = 0, #infoMonitor[5]
             
             data = json.dumps(data)
            
             return HttpResponse(data, 'application/json')
 
         else:
+            print('POST')
             sesion['confcontrolador'] = False
             if 'configcon1' in request.POST:
                 sesion['configcon'] = 1
             elif 'configcon2' in request.POST:
                 sesion['configcon'] = 2
 
-            data['pv1'] = sesion['pv1']
-            data['sv1'] = sesion['sv1']
-            data['out1'] = sesion['out1']
-            data['pv2'] = sesion['pv2']
-            data['sv2'] = sesion['sv2']
-            data['out2'] = sesion['out2']
+            data['pv1'] = sesion.get('pv1','')
+            data['sv1'] = sesion.get('sv1','')
+            data['out1'] = sesion.get('out1','')
+            data['pv2'] = sesion.get('pv2','')
+            data['sv2'] = sesion.get('sv2','')
+            data['out2'] = sesion.get('out2','')
 
             return render(request, self.template_name, data)
 
@@ -183,9 +185,9 @@ class Usuario(TemplateView):
         sesion = request.session
         
         data = {
-            'controlador': sesion['configcon'],
+            'controlador': sesion.get('configcon', 1),
             'textDescription' : 'Descripción: Punto de consigna. \nRango: 4 ~ 20',
-            'valor': 20
+            'valor': ''
         }
 
         return render(request, self.template_name, data)
@@ -193,7 +195,8 @@ class Usuario(TemplateView):
 
     def post(self, request, *args, **kwargs):
         sesion = request.session
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'opciones'):
+            
             dir1 = int(request.POST['opcion'])
             valor = validarUsuario(request, dir1)
             
@@ -206,14 +209,24 @@ class Usuario(TemplateView):
             
             return HttpResponse(data, 'application/json')
 
-        else:    
+        elif (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'salir'):
+            
+            sesion['confcontrolador'] = True
+            data = {
+                'respuesta': 'Correcto'
+            }
+            data = json.dumps(data)
+            return HttpResponse(data, 'application/json')
+
+        else:
+               
             direccion = int(request.POST['parametro'])
             valor = float(request.POST['valor'])
-            print(type(valor), valor)
+            
             escribirControl(request, direccion, valor)
             data = {
                 'controlador': sesion['configcon'],
-                'valor' : valor,
+                'valor': valor,
                 'textDescription' : request.POST['textDescription']             
             }
                     
@@ -230,20 +243,31 @@ class Control(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': sesion['configcon']
+            'controlador': sesion.get('configcon', 1),
+            'textDescription' : 'Descripción: Banda proporcional para la salida 1.\nRango: 0.0~3000',
+            'valor': ''
         }
 
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
         sesion = request.session
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'opciones'):
             dir1 = int(request.POST['opcion'])
             valor = validarControl(request, dir1)
             lista = {
                 'valor': valor[0]
             }
             data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        elif (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'salir'):
+            
+            sesion['confcontrolador'] = True
+            data = {
+                'respuesta': 'Correcto'
+            }
+            data = json.dumps(data)
             return HttpResponse(data, 'application/json')
 
         else:
@@ -266,7 +290,9 @@ class Salida(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': sesion['configcon']
+            'controlador': sesion.get('configcon', 1),
+            'textDescription' : 'Descripción: Tipo de alarma 1.\nRango: 0~13, ver tabla 1 del manual de usuario del controlador',
+            'valor': ''
         }
 
         return render(request, self.template_name, data)
@@ -274,13 +300,22 @@ class Salida(TemplateView):
     def post(self, request, *args, **kwargs):
         sesion = request.session
 
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'opciones'):
             dir1 = int(request.POST['opcion'])
             valor = validarSalida(request, dir1)
             lista = {
                 'valor': valor[0]
             }
             data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        elif (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'salir'):
+            
+            sesion['confcontrolador'] = True
+            data = {
+                'respuesta': 'Correcto'
+            }
+            data = json.dumps(data)
             return HttpResponse(data, 'application/json')
 
         else:
@@ -303,14 +338,17 @@ class Entrada(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': sesion['configcon']
+            'controlador': sesion.get('configcon', 1),
+            'textDescription' : 'Descripción: Selecciona el tipo de entrada 1.\nRango: ver manual, tabla 4 del manual de usuario del controlador.\nNota: Para enviar el dato al controlador escriba 0 si la entrada es termocupla tipo K en el rango 1 (K1), 1 si la entrada es termocupla tipo K en el rango 2 y así sucesivamente según el orden en que aparece en la tabla 4 del manual de usuario del controlador, donde el valor para Lin es 24.',
+            'valor': ''
         }
 
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
         sesion = request.session
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+
+        if (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'opciones'):
             dir1 = int(request.POST['opcion'])
             valor = validarEntrada(request, dir1)
             lista = {
@@ -321,6 +359,15 @@ class Entrada(TemplateView):
                 'limhisp': valor[4]
             }
             data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        elif (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'salir'):
+            
+            sesion['confcontrolador'] = True
+            data = {
+                'respuesta': 'Correcto'
+            }
+            data = json.dumps(data)
             return HttpResponse(data, 'application/json')
 
         else:
@@ -343,7 +390,9 @@ class Comunicacion(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': sesion['configcon']
+            'controlador': sesion.get('configcon', 1),
+            'textDescription' : 'Descripción: Velocidad de comunicación\nRango: 2.4K / 4.8K / 9.6K / 19.2K / 38.4K\nNota: Para enviar el dato al controlador escriba 0 para 2.4K, 1 para 4.8K, 2 para 9.6K, 3 para 19.2K ó 4 para 38.4K',
+            'valor': ''
         }
 
         return render(request, self.template_name, data)
@@ -351,7 +400,7 @@ class Comunicacion(TemplateView):
     def post(self, request, *args, **kwargs):
         sesion = request.session
 
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'opciones'):
             dir1 = int(request.POST['opcion'])
             valor = validarComunicacion(request, dir1)
             lista = {
@@ -360,6 +409,15 @@ class Comunicacion(TemplateView):
                 'hisp': valor[2]
             }
             data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        elif (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'salir'):
+            
+            sesion['confcontrolador'] = True
+            data = {
+                'respuesta': 'Correcto'
+            }
+            data = json.dumps(data)
             return HttpResponse(data, 'application/json')
 
         else:
@@ -382,7 +440,9 @@ class Programa(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': sesion['configcon']
+            'controlador': sesion.get('configcon', 1),
+            'textDescription' : 'Descripción: Monitorea en que segmento va el programa.\nRango: 1~8.\nNota: Solo de lectura',
+            'valor': ''
         }
 
         return render(request, self.template_name, data)
@@ -390,7 +450,7 @@ class Programa(TemplateView):
     def post(self, request, *args, **kwargs):
         sesion = request.session
 
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'opciones'):
             dir1 = int(request.POST['opcion'])
             valor = validarPrograma(request, dir1)
             lista = {
@@ -399,6 +459,15 @@ class Programa(TemplateView):
                 'hisp': valor[2]
             }
             data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        elif (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'salir'):
+            
+            sesion['confcontrolador'] = True
+            data = {
+                'respuesta': 'Correcto'
+            }
+            data = json.dumps(data)
             return HttpResponse(data, 'application/json')
 
         else:
@@ -421,15 +490,17 @@ class Hide(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
         data = {
-            'controlador': sesion['configcon']
+            'controlador': sesion.get('configcon', 1),
+            'textDescription' : 'Descripción: Muestra el parámetro con respecto a esta posición.\nRango: non~t2of.\nNota: no puede estar el mismo parámeto en diferentes posiciones, para cambiar el valor actual tenga en cuenta:\n0 = non; 1 = OutL; 2 = At; 3 = mAn; 4 = AL1S; 5 = AL1L; 6 = AL1U;\n7 = AL2S; 8 = AL2L; 9 = AL2U; 10 = AL3S; 11 = AL3L; 12 = AL3U;\n13 = SoAk; 14 = rAmp; 15 = PvoF; 16 = Pvrr; 17 = SvoF; 18 = Ct;\n19 = HbA; 20 = LbA; 21 = Lbd; 22 = SSY; 23 = SOut; 24 = StmE;\n25 = ruCY; 26 = t1SS; 27 = t1on; 28 = t1ES; 29 = t1oF; 30 = t2SS;\n31 = t2on; 32 = t2ES; 33 = t2oF;.',
+            'valor': ''
         }
 
         return render(request, self.template_name, data)
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
+        sesion = request.session
 
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'opciones'):
             dir1 = int(request.POST['opcion'])
             valor = validarHide(request, dir1)
             lista = {
@@ -438,6 +509,15 @@ class Hide(TemplateView):
                 'hisp': valor[2]
             }
             data = json.dumps(lista)
+            return HttpResponse(data, 'application/json')
+
+        elif (request.headers.get('x-requested-with') == 'XMLHttpRequest') and (request.POST['action'] == 'salir'):
+            
+            sesion['confcontrolador'] = True
+            data = {
+                'respuesta': 'Correcto'
+            }
+            data = json.dumps(data)
             return HttpResponse(data, 'application/json')
 
         else:

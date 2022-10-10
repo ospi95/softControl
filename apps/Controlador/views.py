@@ -92,21 +92,21 @@ class Proceso(TemplateView):
     def get(self, request, *args, **kwargs):
         sesion = request.session
 
-        if sesion['tipocontrol'] == 'flujo':
-            out = sesion['out2']
+        if sesion['tipocontrol'] == 'cascada':
+            out = sesion.get('out2', '')
         elif sesion['tipocontrol'] == 'flujo':
-            out = sesion['out2']
+            out = sesion.get('out2', '')
         else:
-            out = 100 #sesion['out1']
+            out = sesion.get('out1', '')
 
         data = {
-            'pv1': 11.30, #sesion['pv1'],
-            'sv1': 11.00, #sesion['sv1'],
-            'pv2': 9.00, #sesion['pv2'],
-            'sv2': 4.00, #sesion['sv2'],
+            'pv1': sesion.get('pv1', ''),
+            'sv1': sesion.get('sv1', ''),
+            'pv2': sesion.get('pv2', ''),
+            'sv2': sesion.get('sv2', ''),
             'out': out,
             'cascada': str(sesion['cascada']),
-            'lectura': 'En Lectura...' #str(sesion['salvando'])
+            'lectura': str(sesion.get('salvando', '...Sin lectura'))
         }
 
         return render(request, self.template_name, data)
@@ -115,22 +115,21 @@ class Proceso(TemplateView):
         sesion = request.session
         
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            print("ajax")
-            if sesion['tipocontrol'] == 'flujo':
-                out = sesion['out2']
+            if sesion['tipocontrol'] == 'cascada':
+                out = sesion.get('out2', '')
             elif sesion['tipocontrol'] == 'flujo':
-                out = sesion['out2']
+                out = sesion.get('out2', '')
             else:
-                out = sesion['out1']
+                out = sesion.get('out1', '')
 
             lista = {
-                'pv1': sesion['pv1'],
-                'sv1': sesion['sv1'],
-                'pv2': sesion['pv2'],
-                'sv2': sesion['sv2'],
+                'pv1': sesion.get('pv1', ''),
+                'sv1': sesion.get('sv1', ''),
+                'pv2': sesion.get('pv2', ''),
+                'sv2': sesion.get('sv2', ''),
                 'out': out,
                 'cascada': str(sesion['cascada']),
-                'lectura': str(sesion['salvando'])
+                'lectura': str(sesion.get('salvando', '...Sin lectura'))
             }
             
             data = json.dumps(lista)

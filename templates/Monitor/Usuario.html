@@ -61,7 +61,7 @@
 
             <div class="botons">
                 <button class="send" type="submit">Escribir</button>
-                <button class="send" onClick="javascript:window.close();">Salir</button>
+                <button class="send" id="salir" name="salir" type="button">Salir</button>
                 <input class="LoSP" type="hidden" id="LoSP" value="">
                 <input class="HiSP" type="hidden" id="HiSP" value="">
             </div>
@@ -75,6 +75,7 @@
         var $ = jQuery.noConflict()
         let textoArea = document.querySelector(".textdesc");
         let opciones = document.querySelector(".parametro");
+        let salir = document.querySelector("#salir");
         const descripcion = [];
 
         descripcion[0] = "";
@@ -87,7 +88,8 @@
                     url: window.location.pathname,
                     type: 'POST',
                     data: {
-                    'opcion': opcion
+                    'opcion': opcion,
+                    'action': 'opciones'
                     },
                     dataType: 'json',
                     success: function (response){
@@ -133,7 +135,32 @@
             document.getElementById("textDescription").value = descripcion[opcion];
         });
         document.getElementById("textDescription").value = descripcion[0];
+        
+        salir.addEventListener("click", () => {
+            function salir() {
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                    'opcion': 'saliendo',
+                    'action': 'salir'
+                    },
+                    dataType: 'json',
+                    success: function (response){
+                        
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                }).done(function (data) {
+                    window.close()
+                });
+            }
 
+            $(document).ready(function (){
+                 salir();
+            });
+        });
     </script>
 
 

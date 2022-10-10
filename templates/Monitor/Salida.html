@@ -65,7 +65,7 @@
 
             <div class="botons">
                 <button class="send" type="submit">Escribir</button>
-                <button class="send" onClick="javascript:window.close();">Salir</button>
+                <button class="send" id="salir" name="salir" type="button">Salir</button>
             </div>
 
         </div>
@@ -134,6 +134,32 @@
             document.getElementById("textDescription").value = descripcion[opcion];
         });
         document.getElementById("textDescription").value = descripcion[0];
+
+        salir.addEventListener("click", () => {
+            function salir() {
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                    'opcion': 'saliendo',
+                    'action': 'salir'
+                    },
+                    dataType: 'json',
+                    success: function (response){
+                        
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                }).done(function (data) {
+                    window.close()
+                });
+            }
+
+            $(document).ready(function (){
+                 salir();
+            });
+        });
 
     </script>
 
